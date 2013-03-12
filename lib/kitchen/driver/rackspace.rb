@@ -32,7 +32,6 @@ module Kitchen
       default_config :image_id,         '8a3a9f96-b997-46fd-b7a8-a9e740796ffd'
       default_config :flavor_id,        '2'
       default_config :name,             nil
-      default_config :ssh_key,          File.expand_path('~/.ssh/id_dsa')
       default_config :public_key_path,  File.expand_path('~/.ssh/id_dsa.pub')
       default_config :username,         'root'
       default_config :port,             '22'
@@ -46,9 +45,9 @@ module Kitchen
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
-        server.wait_for { print '.'; ready? } ; print '(server ready)'
+        server.wait_for { ready? } ; puts "(server ready)"
         state[:hostname] = server.public_ip_address
-        wait_for_sshd(state[:hostname]) ; print "(ssh ready)\n"
+        wait_for_sshd(state[:hostname]) ; puts "(ssh ready)"
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
       end
@@ -79,7 +78,6 @@ module Kitchen
           :name             => config[:name],
           :image_id         => config[:image_id],
           :flavor_id        => config[:flavor_id],
-          :private_key_path => config[:ssh_key],
           :public_key_path  => config[:public_key_path]
         )
       end

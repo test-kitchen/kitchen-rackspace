@@ -35,7 +35,6 @@ Additional, optional settings can be provided:
     image_id: [SERVER IMAGE ID]
     flavor_id: [SERVER FLAVOR ID]
     name: [A UNIQUE SERVER NAME]
-    ssh_key: [PATH TO YOUR PRIVATE SSH KEY]
     public_key_path: [PATH TO YOUR PUBLIC SSH KEY]
 
 ## Contributing
