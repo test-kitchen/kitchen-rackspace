@@ -28,20 +28,16 @@ module Kitchen
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class Rackspace < Kitchen::Driver::SSHBase
-      default_config :version,          'v2'
-      default_config :image_id,         '8a3a9f96-b997-46fd-b7a8-a9e740796ffd'
-      default_config :flavor_id,        '2'
-      default_config :name,             nil
-      default_config :public_key_path,  File.expand_path('~/.ssh/id_dsa.pub')
-      default_config :username,         'root'
-      default_config :port,             '22'
+      default_config :version, 'v2'
+      default_config :image_id, '8a3a9f96-b997-46fd-b7a8-a9e740796ffd'
+      default_config :flavor_id, '2'
+      default_config :name, nil
+      default_config :public_key_path, File.expand_path('~/.ssh/id_dsa.pub')
+      default_config :username, 'root'
+      default_config :port, '22'
 
       def create(state)
-        if not config[:name]
-          # Generate what should be a unique server name
-          config[:name] = "#{instance.name}-#{Etc.getlogin}-" +
-            "#{Socket.gethostname}-#{Array.new(8){rand(36).to_s(36)}.join}"
-        end
+        config[:name] ||= generate_name(instance.name)
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
@@ -80,6 +76,12 @@ module Kitchen
           :flavor_id        => config[:flavor_id],
           :public_key_path  => config[:public_key_path]
         )
+      end
+
+      def generate_name(base)
+        # Generate what should be a unique server name
+        rand_str = Array.new(8) { rand(36).to_s(36) }.join
+        "#{base}-#{Etc.getlogin}-#{Socket.gethostname}-#{rand_str}"
       end
     end
   end
