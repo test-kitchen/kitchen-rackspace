@@ -31,13 +31,14 @@ Provide, at a minimum, the required driver options in your `.kitchen.yml` file:
       rackspace_api_key: [YOUR RACKSPACE CLOUD API KEY]
       require_chef_omnibus: latest (if you'll be using Chef)
 
-By default, the driver will spawn a 512MB Ubuntu 12.10 instance.
-Additional, optional settings can be provided:
+By default, the driver will spawn a 512MB Ubuntu 12.10 instance in your default
+Rackspace region. Additional, optional settings can be provided:
 
     image_id: [SERVER IMAGE ID]
     flavor_id: [SERVER FLAVOR ID]
     name: [A UNIQUE SERVER NAME]
     public_key_path: [PATH TO YOUR PUBLIC SSH KEY]
+    rackspace_region: [A VALID RACKSPACE DC/REGION]
 
 ## Contributing
 
