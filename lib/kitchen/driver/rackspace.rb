@@ -35,6 +35,7 @@ module Kitchen
       default_config :public_key_path, File.expand_path('~/.ssh/id_dsa.pub')
       default_config :username, 'root'
       default_config :port, '22'
+      default_config :rackspace_region, nil
 
       def create(state)
         config[:name] ||= generate_name(instance.name)
@@ -61,12 +62,16 @@ module Kitchen
       private
 
       def compute
-        Fog::Compute.new(
+        server_def = {
           :provider           => "Rackspace",
           :version            => config[:version],
           :rackspace_username => config[:rackspace_username],
           :rackspace_api_key  => config[:rackspace_api_key]
-        )
+        }
+        if config[:rackspace_region]
+          server_def[:rackspace_region] = config[:rackspace_region]
+        end
+        Fog::Compute.new(server_def)
       end
 
       def create_server
