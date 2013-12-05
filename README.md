@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/RoboticCheese/kitchen-rackspace.png?branch=master)](https://travis-ci.org/RoboticCheese/kitchen-rackspace) [![Code Climate](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace.png)](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace)
+[![Gem Version](https://badge.fury.io/rb/kitchen-rackspace.png)](http://badge.fury.io/rb/kitchen-rackspace)
+[![Build Status](https://travis-ci.org/RoboticCheese/kitchen-rackspace.png?branch=master)](https://travis-ci.org/RoboticCheese/kitchen-rackspace)
+[![Code Climate](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace.png)](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace)
+[![Dependency Status](https://gemnasium.com/RoboticCheese/kitchen-rackspace.png)](https://gemnasium.com/RoboticCheese/kitchen-rackspace)
 
 # Kitchen::Rackspace
 
