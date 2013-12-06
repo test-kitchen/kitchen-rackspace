@@ -29,7 +29,7 @@ module Kitchen
     # @author Jonathan Hartman <j@p4nt5.com>
     class Rackspace < Kitchen::Driver::SSHBase
       default_config :version, 'v2'
-      default_config :image_id, '8a3a9f96-b997-46fd-b7a8-a9e740796ffd'
+      default_config :image_id, 'd45ed9c5-d6fc-4c9d-89ea-1b3ae1c83999'
       default_config :flavor_id, '2'
       default_config :server_name, nil
       default_config :public_key_path, File.expand_path('~/.ssh/id_dsa.pub')

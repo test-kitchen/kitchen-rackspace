@@ -45,7 +45,7 @@ describe Kitchen::Driver::Rackspace do
       end
 
       it 'defaults to a Ubuntu 12.10 image ID' do
-        expect(driver[:image_id]).to eq('8a3a9f96-b997-46fd-b7a8-a9e740796ffd')
+        expect(driver[:image_id]).to eq('d45ed9c5-d6fc-4c9d-89ea-1b3ae1c83999')
       end
 
       it 'defaults to the smallest flavor size' do
