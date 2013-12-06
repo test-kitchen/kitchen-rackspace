@@ -31,14 +31,14 @@ module Kitchen
       default_config :version, 'v2'
       default_config :image_id, '8a3a9f96-b997-46fd-b7a8-a9e740796ffd'
       default_config :flavor_id, '2'
-      default_config :name, nil
+      default_config :server_name, nil
       default_config :public_key_path, File.expand_path('~/.ssh/id_dsa.pub')
       default_config :username, 'root'
       default_config :port, '22'
       default_config :rackspace_region, nil
 
       def create(state)
-        config[:name] ||= generate_name(instance.name)
+        config[:server_name] ||= generate_name(instance.name)
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
@@ -76,7 +76,7 @@ module Kitchen
 
       def create_server
         compute.servers.bootstrap(
-          :name             => config[:name],
+          :name             => config[:server_name],
           :image_id         => config[:image_id],
           :flavor_id        => config[:flavor_id],
           :public_key_path  => config[:public_key_path]
