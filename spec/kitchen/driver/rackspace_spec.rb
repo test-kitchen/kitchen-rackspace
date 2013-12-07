@@ -45,7 +45,7 @@ describe Kitchen::Driver::Rackspace do
       end
 
       it 'defaults to a Ubuntu 12.10 image ID' do
-        expect(driver[:image_id]).to eq('8a3a9f96-b997-46fd-b7a8-a9e740796ffd')
+        expect(driver[:image_id]).to eq('d45ed9c5-d6fc-4c9d-89ea-1b3ae1c83999')
       end
 
       it 'defaults to the smallest flavor size' do
@@ -63,7 +63,7 @@ describe Kitchen::Driver::Rackspace do
       end
 
       it 'defaults to no server name' do
-        expect(driver[:name]).to eq(nil)
+        expect(driver[:server_name]).to eq(nil)
       end
 
       it 'defaults to no region' do
@@ -79,7 +79,7 @@ describe Kitchen::Driver::Rackspace do
           :public_key_path => '/tmp',
           :username => 'admin',
           :port => '2222',
-          :name => 'puppy',
+          :server_name => 'puppy',
           :rackspace_region => 'ord'
         }
       end
@@ -117,7 +117,7 @@ describe Kitchen::Driver::Rackspace do
 
       it 'generates a server name in the absence of one' do
         driver.create(state)
-        expect(driver[:name]).to eq('a_monkey!')
+        expect(driver[:server_name]).to eq('a_monkey!')
       end
 
       it 'gets a proper server ID' do
@@ -224,13 +224,18 @@ describe Kitchen::Driver::Rackspace do
   describe '#create_server' do
     let(:config) do
       {
-        :name => 'hello',
+        :server_name => 'hello',
         :image_id => 'there',
         :flavor_id => 'captain',
         :public_key_path => 'tarpals'
       }
     end
-    before(:each) { @config = config.dup }
+    before(:each) do
+      @expected = config.merge(:name => config[:server_name])
+      @expected.delete_if do |k, v|
+        k == :server_name
+      end
+    end
     let(:servers) do
       s = double('servers')
       s.stub(:bootstrap) { |arg| arg }
@@ -245,7 +250,7 @@ describe Kitchen::Driver::Rackspace do
     end
 
     it 'creates the server using a compute connection' do
-      expect(driver.send(:create_server)).to eq(@config)
+      expect(driver.send(:create_server)).to eq(@expected)
     end
   end
 
