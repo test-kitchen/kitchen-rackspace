@@ -28,9 +28,10 @@ describe Kitchen::Driver::Rackspace do
   let(:logger) { Logger.new(logged_output) }
   let(:config) { Hash.new }
   let(:state) { Hash.new }
+  let(:platform_name) { 'ubuntu' }
 
   let(:instance) do
-    stub(:name => 'potatoes', :logger => logger, :to_str => 'instance')
+    double(:name => 'potatoes', :logger => logger, :to_str => 'instance', :platform => double(:name => platform_name))
   end
 
   let(:driver) do
@@ -39,23 +40,25 @@ describe Kitchen::Driver::Rackspace do
     d
   end
 
+  before(:each) do
+    ENV['RACKSPACE_USERNAME'] = 'user'
+    ENV['RACKSPACE_API_KEY'] = 'key'
+  end
+
   describe '#initialize'do
     context 'default options' do
       it 'defaults to v2 cloud' do
         expect(driver[:version]).to eq('v2')
       end
 
-      it 'defaults to a Ubuntu 12.10 image ID' do
-        expect(driver[:image_id]).to eq('d45ed9c5-d6fc-4c9d-89ea-1b3ae1c83999')
-      end
-
       it 'defaults to the smallest flavor size' do
-        expect(driver[:flavor_id]).to eq('2')
+        expect(driver[:flavor_id]).to eq('performance1-1')
       end
 
-      it 'defaults to local user\'s SSH public key' do
-        expect(driver[:public_key_path]).to eq(File.expand_path(
-          '~/.ssh/id_dsa.pub'))
+      it "defaults to local user's SSH public key" do
+        path = File.expand_path('~/.ssh/id_rsa.pub')
+        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(driver[:public_key_path]).to eq(path)
       end
 
       it 'defaults to SSH with root user on port 22' do
@@ -63,32 +66,55 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:port]).to eq('22')
       end
 
-      it 'defaults to no server name' do
-        expect(driver[:server_name]).to eq(nil)
+      it 'defaults to a random server name' do
+        expect(driver[:server_name]).to be_a(String)
       end
 
       it 'defaults to no region' do
         expect(driver[:rackspace_region]).to eq(nil)
       end
+
+      it 'defaults to username from $RACKSPACE_USERNAME' do
+        expect(driver[:rackspace_username]).to eq('user')
+      end
+
+      it 'defaults to API key from $RACKSPACE_API_KEY' do
+        expect(driver[:rackspace_api_key]).to eq('key')
+      end
+    end
+
+    context 'name is ubuntu-12.04' do
+      let(:platform_name) { 'ubuntu-12.04' }
+
+      it 'defaults to the correct image ID' do
+        expect(driver[:image_id]).to eq('80fbcb55-b206-41f9-9bc2-2dd7aac6c061')
+      end
+    end
+
+    context 'name is centos-6.4' do
+      let(:platform_name) { 'centos-6.4' }
+
+      it 'defaults to the correct image ID' do
+        expect(driver[:image_id]).to eq('f70ed7c7-b42e-4d77-83d8-40fa29825b85')
+      end
     end
 
     context 'overridden options' do
-      let(:config) do
-        {
-          :image_id => '22',
-          :flavor_id => '33',
-          :public_key_path => '/tmp',
-          :username => 'admin',
-          :port => '2222',
-          :server_name => 'puppy',
-          :rackspace_region => 'ord'
-        }
-      end
+      config = {
+        :image_id => '22',
+        :flavor_id => '33',
+        :public_key_path => '/tmp',
+        :username => 'admin',
+        :port => '2222',
+        :server_name => 'puppy',
+        :rackspace_region => 'ord'
+      }
 
-      it 'uses all the overridden options' do
-        drv = driver
-        config.each do |k, v|
-          expect(drv[k]).to eq(v)
+      let(:config) { config }
+
+      config.each do |key, value|
+        it "it uses the overridden #{key} option" do
+          expect(driver[key]).to eq(value)
         end
       end
     end
@@ -96,13 +122,13 @@ describe Kitchen::Driver::Rackspace do
 
   describe '#create' do
     let(:server) do
-      stub(:id => 'test123', :wait_for => true,
+      double(:id => 'test123', :wait_for => true,
         :public_ip_address => '1.2.3.4')
     end
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
-      d.stub(:generate_name).with('potatoes').and_return('a_monkey!')
+      d.stub(:default_name).and_return('a_monkey!')
       d.stub(:create_server).and_return(server)
       d.stub(:wait_for_sshd).with('1.2.3.4').and_return(true)
       d
@@ -137,9 +163,9 @@ describe Kitchen::Driver::Rackspace do
     let(:server_id) { '12345' }
     let(:hostname) { 'example.com' }
     let(:state) { { :server_id => server_id, :hostname => hostname } }
-    let(:server) { stub(:nil? => false, :destroy => true) }
-    let(:servers) { stub(:get => server) }
-    let(:compute) { stub(:servers => servers) }
+    let(:server) { double(:nil? => false, :destroy => true) }
+    let(:servers) { double(:get => server) }
+    let(:compute) { double(:servers => servers) }
 
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
@@ -173,7 +199,7 @@ describe Kitchen::Driver::Rackspace do
         s.stub(:get).with('12345').and_return(nil)
         s
       end
-      let(:compute) { stub(:servers => servers) }
+      let(:compute) { double(:servers => servers) }
       let(:driver) do
         d = Kitchen::Driver::Rackspace.new(config)
         d.instance = instance
@@ -206,7 +232,7 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'no username provided' do
-      let(:config) { { :rackspace_api_key => '1234' } }
+      let(:config) { { :rackspace_username => nil, :rackspace_api_key => '1234' } }
 
       it 'raises an error' do
         expect { driver.send(:compute) }.to raise_error(ArgumentError)
@@ -214,7 +240,7 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'no API key provided' do
-      let(:config) { { :rackspace_username => 'monkey' } }
+      let(:config) { { :rackspace_username => 'monkey', :rackspace_api_key => nil } }
 
       it 'raises an error' do
         expect { driver.send(:compute) }.to raise_error(ArgumentError)
@@ -242,7 +268,7 @@ describe Kitchen::Driver::Rackspace do
       s.stub(:bootstrap) { |arg| arg }
       s
     end
-    let(:compute) { stub(:servers => servers) }
+    let(:compute) { double(:servers => servers) }
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
@@ -255,15 +281,15 @@ describe Kitchen::Driver::Rackspace do
     end
   end
 
-  describe '#generate_name' do
+  describe '#default_name' do
     before(:each) do
       Etc.stub(:getlogin).and_return('user')
       Socket.stub(:gethostname).and_return('host')
     end
 
     it 'generates a name' do
-      expect(driver.send(:generate_name, 'monkey')).to match(
-        /^monkey-user-host-/)
+      expect(driver.default_name).to match(
+        /^potatoes-user-host-/)
     end
   end
 end
