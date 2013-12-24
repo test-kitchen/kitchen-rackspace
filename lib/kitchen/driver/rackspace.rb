@@ -29,16 +29,42 @@ module Kitchen
     # @author Jonathan Hartman <j@p4nt5.com>
     class Rackspace < Kitchen::Driver::SSHBase
       default_config :version, 'v2'
-      default_config :image_id, 'd45ed9c5-d6fc-4c9d-89ea-1b3ae1c83999'
-      default_config :flavor_id, '2'
-      default_config :server_name, nil
-      default_config :public_key_path, File.expand_path('~/.ssh/id_dsa.pub')
+      default_config :flavor_id, 'performance1-1'
       default_config :username, 'root'
       default_config :port, '22'
       default_config :rackspace_region, nil
 
+      default_config :image_id do |driver|
+        driver.default_image
+      end
+
+      default_config :server_name do |driver|
+        driver.default_name
+      end
+
+      default_config :public_key_path do |driver|
+        [
+          File.expand_path('~/.ssh/id_rsa.pub'),
+          File.expand_path('~/.ssh/id_dsa.pub'),
+          File.expand_path('~/.ssh/identity.pub'),
+          File.expand_path('~/.ssh/id_ecdsa.pub'),
+        ].find {|path| File.exists?(path) }
+      end
+
+      default_config :rackspace_username do |driver|
+        ENV['RACKSPACE_USERNAME']
+      end
+
+      default_config :rackspace_api_key do |driver|
+        ENV['RACKSPACE_API_KEY']
+      end
+
+      required_config :rackspace_username
+      required_config :rackspace_api_key
+      required_config :image_id
+      required_config :public_key_path
+
       def create(state)
-        config[:server_name] ||= generate_name(instance.name)
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
@@ -57,6 +83,16 @@ module Kitchen
         info("Rackspace instance <#{state[:server_id]}> destroyed.")
         state.delete(:server_id)
         state.delete(:hostname)
+      end
+
+      def default_image
+        images[instance.platform.name]
+      end
+
+      def default_name
+        # Generate what should be a unique server name
+        rand_str = Array.new(8) { rand(36).to_s(36) }.join
+        "#{instance.name}-#{Etc.getlogin}-#{Socket.gethostname}-#{rand_str}"
       end
 
       private
@@ -83,10 +119,11 @@ module Kitchen
         )
       end
 
-      def generate_name(base)
-        # Generate what should be a unique server name
-        rand_str = Array.new(8) { rand(36).to_s(36) }.join
-        "#{base}-#{Etc.getlogin}-#{Socket.gethostname}-#{rand_str}"
+      def images
+        @images ||= begin
+          json_file = File.expand_path(File.join(%w{.. .. .. .. data images.json}), __FILE__)
+          JSON.load(IO.read(json_file))
+        end
       end
     end
   end
