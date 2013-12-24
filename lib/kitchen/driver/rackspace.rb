@@ -48,7 +48,7 @@ module Kitchen
           File.expand_path('~/.ssh/id_dsa.pub'),
           File.expand_path('~/.ssh/identity.pub'),
           File.expand_path('~/.ssh/id_ecdsa.pub'),
-        ].find {|path| File.exists?(path) }
+        ].find { |path| File.exists?(path) }
       end
 
       default_config :rackspace_username do |driver|
@@ -121,7 +121,10 @@ module Kitchen
 
       def images
         @images ||= begin
-          json_file = File.expand_path(File.join(%w{.. .. .. .. data images.json}), __FILE__)
+          json_file = File.expand_path(
+            File.join(%w{.. .. .. .. data images.json}),
+            __FILE__
+          )
           JSON.load(IO.read(json_file))
         end
       end

@@ -31,7 +31,12 @@ describe Kitchen::Driver::Rackspace do
   let(:platform_name) { 'ubuntu' }
 
   let(:instance) do
-    double(:name => 'potatoes', :logger => logger, :to_str => 'instance', :platform => double(:name => platform_name))
+    double(
+      :name => 'potatoes',
+      :logger => logger,
+      :to_str => 'instance',
+      :platform => double(:name => platform_name)
+    )
   end
 
   let(:driver) do
@@ -249,7 +254,9 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'no username provided' do
-      let(:config) { { :rackspace_username => nil, :rackspace_api_key => '1234' } }
+      let(:config) do
+        { :rackspace_username => nil, :rackspace_api_key => '1234' }
+      end
 
       it 'raises an error' do
         expect { driver.send(:compute) }.to raise_error(ArgumentError)
@@ -257,7 +264,9 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'no API key provided' do
-      let(:config) { { :rackspace_username => 'monkey', :rackspace_api_key => nil } }
+      let(:config) do
+        { :rackspace_username => 'monkey', :rackspace_api_key => nil }
+      end
 
       it 'raises an error' do
         expect { driver.send(:compute) }.to raise_error(ArgumentError)
