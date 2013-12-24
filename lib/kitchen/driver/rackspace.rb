@@ -52,11 +52,11 @@ module Kitchen
       end
 
       default_config :rackspace_username do |driver|
-        ENV['RACKSPACE_USERNAME']
+        ENV['RACKSPACE_USERNAME'] || ENV['OS_USERNAME']
       end
 
       default_config :rackspace_api_key do |driver|
-        ENV['RACKSPACE_API_KEY']
+        ENV['RACKSPACE_API_KEY'] || ENV['OS_PASSWORD']
       end
 
       required_config :rackspace_username

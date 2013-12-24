@@ -118,6 +118,23 @@ describe Kitchen::Driver::Rackspace do
         end
       end
     end
+
+    context 'OpenStack environment variables' do
+      before(:each) do
+        ENV.delete('RACKSPACE_USERNAME')
+        ENV.delete('RACKSPACE_API_KEY')
+        ENV['OS_USERNAME'] = 'os_user'
+        ENV['OS_PASSWORD'] = 'os_pass'
+      end
+
+      it 'gets to username from $OS_USERNAME' do
+        expect(driver[:rackspace_username]).to eq('os_user')
+      end
+
+      it 'gets to API key from $OS_PASSWORD' do
+        expect(driver[:rackspace_api_key]).to eq('os_pass')
+      end
+    end
   end
 
   describe '#create' do
