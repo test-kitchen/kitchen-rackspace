@@ -1,0 +1,17 @@
+{
+  "ubuntu-10.04": "aab63bcf-89aa-440f-b0c7-c7a1c611914b",
+  "ubuntu-12.04": "80fbcb55-b206-41f9-9bc2-2dd7aac6c061",
+  "ubuntu-13.04": "4b54f5a0-137f-4751-8e7c-fe707185e531",
+  "ubuntu-13.10": "df27d481-63a5-40ca-8920-3d132ed643d9",
+  "centos-5.9": "59c037c1-70ec-41e4-aa17-73a9b0cb6b16",
+  "centos-5.10": "9522c27d-51d9-44ee-8eb3-fb7b14fd4042",
+  "centos-5": "9522c27d-51d9-44ee-8eb3-fb7b14fd4042",
+  "centos-6.4": "f70ed7c7-b42e-4d77-83d8-40fa29825b85",
+  "centos-6": "f70ed7c7-b42e-4d77-83d8-40fa29825b85",
+  "debian-6": "695ca76e-fc0d-4e36-82e0-8ed66480a999",
+  "debian-7": "857d7d36-34f3-409f-8435-693e8797be8b",
+  "fedora-18": "896caae3-82f1-4b03-beaa-75fbdde27969",
+  "fedora-19": "8500226f-b193-4471-9eff-9cba8440bfc8",
+  "gentoo": "73764eb8-3c1c-42a9-8fff-71f6beefc6a7",
+  "freebsd-9.2": "fb624ffd-81c2-4217-8cd5-da32d32e85c4"
+}
