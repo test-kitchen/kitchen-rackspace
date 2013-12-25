@@ -1,5 +1,17 @@
 # ?.?.? / ????-??-??
 
+### New Features
+
+* PR [#17][] - Support the common TK platform name style, e.g. `centos-6`,
+via [@coderanger][]
+* PR [#17][] - Support environment variables for username and API key, via
+[@coderanger][]
+
+### Improvements
+
+* PR [#17][] - Change default flavor to lowest performance flavor for faster
+boot times, via [@coderanger][]
+
 # 0.3.0 / 2013-12-07
 
 ### Improvements
@@ -26,9 +38,11 @@
 
 * Initial release! Woo!
 
+[#17]: https://github.com/RoboticCheese/kitchen-rackspace/pull/17
 [#15]: https://github.com/RoboticCheese/kitchen-rackspace/pull/15
 [#9]: https://github.com/RoboticCheese/kitchen-rackspace/pull/9
 [#8]: https://github.com/RoboticCheese/kitchen-rackspace/pull/8
 [#7]: https://github.com/RoboticCheese/kitchen-rackspace/pull/7
 
+[@coderanger]: https://github.com/coderanger
 [@claco]: https://github.com/claco
