@@ -1,8 +1,8 @@
 [![Gem Version](https://badge.fury.io/rb/kitchen-rackspace.png)](http://badge.fury.io/rb/kitchen-rackspace)
-[![Build Status](https://travis-ci.org/RoboticCheese/kitchen-rackspace.png?branch=master)](https://travis-ci.org/RoboticCheese/kitchen-rackspace)
-[![Code Climate](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace.png)](https://codeclimate.com/github/RoboticCheese/kitchen-rackspace)
-[![Coverage Status](https://coveralls.io/repos/RoboticCheese/kitchen-rackspace/badge.png)](https://coveralls.io/r/RoboticCheese/kitchen-rackspace)
-[![Dependency Status](https://gemnasium.com/RoboticCheese/kitchen-rackspace.png)](https://gemnasium.com/RoboticCheese/kitchen-rackspace)
+[![Build Status](https://travis-ci.org/test-kitchen/kitchen-rackspace.png?branch=master)](https://travis-ci.org/test-kitchen/kitchen-rackspace)
+[![Code Climate](https://codeclimate.com/github/test-kitchen/kitchen-rackspace.png)](https://codeclimate.com/github/test-kitchen/kitchen-rackspace)
+[![Coverage Status](https://coveralls.io/repos/test-kitchen/kitchen-rackspace/badge.png)](https://coveralls.io/r/test-kitchen/kitchen-rackspace)
+[![Dependency Status](https://gemnasium.com/test-kitchen/kitchen-rackspace.png)](https://gemnasium.com/test-kitchen/kitchen-rackspace)
 
 # Kitchen::Rackspace
 

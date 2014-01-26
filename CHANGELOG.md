@@ -38,11 +38,11 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
-[#17]: https://github.com/RoboticCheese/kitchen-rackspace/pull/17
-[#15]: https://github.com/RoboticCheese/kitchen-rackspace/pull/15
-[#9]: https://github.com/RoboticCheese/kitchen-rackspace/pull/9
-[#8]: https://github.com/RoboticCheese/kitchen-rackspace/pull/8
-[#7]: https://github.com/RoboticCheese/kitchen-rackspace/pull/7
+[#17]: https://github.com/test-kitchen/kitchen-rackspace/pull/17
+[#15]: https://github.com/test-kitchen/kitchen-rackspace/pull/15
+[#9]: https://github.com/test-kitchen/kitchen-rackspace/pull/9
+[#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
+[#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
 [@coderanger]: https://github.com/coderanger
 [@claco]: https://github.com/claco
