@@ -2,7 +2,7 @@
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
-# Copyright (C) 2013, Jonathan Hartman
+# Copyright (C) 2013-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 module Kitchen
   module Driver
     # Version string for Rackspace Kitchen driver
-    RACKSPACE_VERSION = '0.3.1.dev'
+    RACKSPACE_VERSION = '0.4.0'
   end
 end
 
