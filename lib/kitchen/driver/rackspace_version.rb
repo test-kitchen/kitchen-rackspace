@@ -19,7 +19,7 @@
 module Kitchen
   module Driver
     # Version string for Rackspace Kitchen driver
-    RACKSPACE_VERSION = '0.4.0'
+    RACKSPACE_VERSION = '0.4.1.dev'
   end
 end
 
