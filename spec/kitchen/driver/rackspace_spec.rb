@@ -88,19 +88,20 @@ describe Kitchen::Driver::Rackspace do
       end
     end
 
-    context 'name is ubuntu-12.04' do
-      let(:platform_name) { 'ubuntu-12.04' }
+    {
+      'ubuntu-12.04' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
+      'ubuntu-12' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
+      'ubuntu' => '5cc098a5-7286-4b96-b3a2-49f4c4f82537',
+      'centos-5.10' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
+      'centos-5' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
+      'centos' => '042395fc-728c-4763-86f9-9b0cacb00701'
+    }.each do |platform, id|
+      context "name is #{platform}" do
+        let(:platform_name) { platform }
 
-      it 'defaults to the correct image ID' do
-        expect(driver[:image_id]).to eq('80fbcb55-b206-41f9-9bc2-2dd7aac6c061')
-      end
-    end
-
-    context 'name is centos-6.4' do
-      let(:platform_name) { 'centos-6.4' }
-
-      it 'defaults to the correct image ID' do
-        expect(driver[:image_id]).to eq('f70ed7c7-b42e-4d77-83d8-40fa29825b85')
+        it 'defaults to the correct image ID' do
+          expect(driver[:image_id]).to eq(id)
+        end
       end
     end
 
