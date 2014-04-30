@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -42,20 +42,20 @@ module Kitchen
         driver.default_name
       end
 
-      default_config :public_key_path do |driver|
+      default_config :public_key_path do
         [
           File.expand_path('~/.ssh/id_rsa.pub'),
           File.expand_path('~/.ssh/id_dsa.pub'),
           File.expand_path('~/.ssh/identity.pub'),
-          File.expand_path('~/.ssh/id_ecdsa.pub'),
-        ].find { |path| File.exists?(path) }
+          File.expand_path('~/.ssh/id_ecdsa.pub')
+        ].find { |path| File.exist?(path) }
       end
 
-      default_config :rackspace_username do |driver|
+      default_config :rackspace_username do
         ENV['RACKSPACE_USERNAME'] || ENV['OS_USERNAME']
       end
 
-      default_config :rackspace_api_key do |driver|
+      default_config :rackspace_api_key do
         ENV['RACKSPACE_API_KEY'] || ENV['OS_PASSWORD']
       end
 
@@ -68,9 +68,11 @@ module Kitchen
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
-        server.wait_for { ready? } ; puts "(server ready)"
+        server.wait_for { ready? }
+        puts '(server ready)'
         state[:hostname] = server.public_ip_address
-        wait_for_sshd(state[:hostname]) ; puts "(ssh ready)"
+        wait_for_sshd(state[:hostname])
+        puts '(ssh ready)'
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
       end
@@ -99,10 +101,10 @@ module Kitchen
 
       def compute
         server_def = {
-          :provider           => "Rackspace",
-          :version            => config[:version],
-          :rackspace_username => config[:rackspace_username],
-          :rackspace_api_key  => config[:rackspace_api_key]
+          provider:           'Rackspace',
+          version:            config[:version],
+          rackspace_username: config[:rackspace_username],
+          rackspace_api_key:  config[:rackspace_api_key]
         }
         if config[:rackspace_region]
           server_def[:rackspace_region] = config[:rackspace_region]
@@ -112,17 +114,17 @@ module Kitchen
 
       def create_server
         compute.servers.bootstrap(
-          :name             => config[:server_name],
-          :image_id         => config[:image_id],
-          :flavor_id        => config[:flavor_id],
-          :public_key_path  => config[:public_key_path]
+          name:            config[:server_name],
+          image_id:        config[:image_id],
+          flavor_id:       config[:flavor_id],
+          public_key_path: config[:public_key_path]
         )
       end
 
       def images
         @images ||= begin
           json_file = File.expand_path(
-            File.join(%w{.. .. .. .. data images.json}),
+            File.join(%w(.. .. .. .. data images.json)),
             __FILE__
           )
           JSON.load(IO.read(json_file))
@@ -131,5 +133,3 @@ module Kitchen
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby
