@@ -2,6 +2,7 @@
 
 ### Improvements
 
+* PR [#23][] - Switch to PVHVM images, where available
 * PR [#22][] - Update all the images with new IDs
 * PR [#21][] - Add Ubunutu 14.04 to the list of known images; via [@pezholio][]
 
@@ -45,6 +46,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#23]: https://github.com/test-kitchen/kitchen-rackspace/pull/23
 [#22]: https://github.com/test-kitchen/kitchen-rackspace/pull/22
 [#21]: https://github.com/test-kitchen/kitchen-rackspace/pull/21
 [#17]: https://github.com/test-kitchen/kitchen-rackspace/pull/17

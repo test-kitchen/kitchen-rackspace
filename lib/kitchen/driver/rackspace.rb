@@ -32,7 +32,7 @@ module Kitchen
       default_config :flavor_id, 'performance1-1'
       default_config :username, 'root'
       default_config :port, '22'
-      default_config :rackspace_region, nil
+      default_config :rackspace_region, 'dfw'
 
       default_config :image_id do |driver|
         driver.default_image

@@ -75,8 +75,8 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:server_name]).to be_a(String)
       end
 
-      it 'defaults to no region' do
-        expect(driver[:rackspace_region]).to eq(nil)
+      it 'defaults to the DFW region' do
+        expect(driver[:rackspace_region]).to eq('dfw')
       end
 
       it 'defaults to username from $RACKSPACE_USERNAME' do
@@ -89,12 +89,12 @@ describe Kitchen::Driver::Rackspace do
     end
 
     platforms = {
-      'ubuntu-12.04' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
-      'ubuntu-12' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
-      'ubuntu' => '5cc098a5-7286-4b96-b3a2-49f4c4f82537',
+      'ubuntu-12.04' => 'a4286a42-137c-46ce-a796-dbd2b12a078c',
+      'ubuntu-12' => 'a4286a42-137c-46ce-a796-dbd2b12a078c',
+      'ubuntu' => 'bb02b1a3-bc77-4d17-ab5b-421d89850fca',
       'centos-5.10' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
       'centos-5' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
-      'centos' => '042395fc-728c-4763-86f9-9b0cacb00701'
+      'centos' => '592c879e-f37d-43e6-8b54-8c2d97cf04d4'
     }
     platforms.each do |platform, id|
       context "name is #{platform}" do
