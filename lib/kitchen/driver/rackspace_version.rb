@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -17,10 +17,10 @@
 # limitations under the License.
 
 module Kitchen
+  # Version string for Rackspace Kitchen driver
+  #
+  # @author Jonathan Hartman <j@p4nt5.com>
   module Driver
-    # Version string for Rackspace Kitchen driver
     RACKSPACE_VERSION = '0.4.1.dev'
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

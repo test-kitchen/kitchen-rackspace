@@ -1,5 +1,10 @@
 # ?.?.? / ????-??-??
 
+### Improvements
+
+* PR [#22][] - Update all the images with new IDs
+* PR [#21][] - Add Ubunutu 14.04 to the list of known images; via [@pezholio][]
+
 # 0.4.0 / 2014-01-27
 
 ### New Features
@@ -40,11 +45,14 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#22]: https://github.com/test-kitchen/kitchen-rackspace/pull/22
+[#21]: https://github.com/test-kitchen/kitchen-rackspace/pull/21
 [#17]: https://github.com/test-kitchen/kitchen-rackspace/pull/17
 [#15]: https://github.com/test-kitchen/kitchen-rackspace/pull/15
 [#9]: https://github.com/test-kitchen/kitchen-rackspace/pull/9
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@pezholio]: https://github.com/pezholio
 [@coderanger]: https://github.com/coderanger
 [@claco]: https://github.com/claco

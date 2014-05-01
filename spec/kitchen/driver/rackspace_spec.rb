@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -32,10 +32,10 @@ describe Kitchen::Driver::Rackspace do
 
   let(:instance) do
     double(
-      :name => 'potatoes',
-      :logger => logger,
-      :to_str => 'instance',
-      :platform => double(:name => platform_name)
+      name: 'potatoes',
+      logger: logger,
+      to_str: 'instance',
+      platform: double(name: platform_name)
     )
   end
 
@@ -62,7 +62,7 @@ describe Kitchen::Driver::Rackspace do
 
       it "defaults to local user's SSH public key" do
         path = File.expand_path('~/.ssh/id_rsa.pub')
-        expect(File).to receive(:exists?).with(path).and_return(true)
+        expect(File).to receive(:exist?).with(path).and_return(true)
         expect(driver[:public_key_path]).to eq(path)
       end
 
@@ -88,31 +88,33 @@ describe Kitchen::Driver::Rackspace do
       end
     end
 
-    context 'name is ubuntu-12.04' do
-      let(:platform_name) { 'ubuntu-12.04' }
+    platforms = {
+      'ubuntu-12.04' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
+      'ubuntu-12' => 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a',
+      'ubuntu' => '5cc098a5-7286-4b96-b3a2-49f4c4f82537',
+      'centos-5.10' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
+      'centos-5' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
+      'centos' => '042395fc-728c-4763-86f9-9b0cacb00701'
+    }
+    platforms.each do |platform, id|
+      context "name is #{platform}" do
+        let(:platform_name) { platform }
 
-      it 'defaults to the correct image ID' do
-        expect(driver[:image_id]).to eq('80fbcb55-b206-41f9-9bc2-2dd7aac6c061')
-      end
-    end
-
-    context 'name is centos-6.4' do
-      let(:platform_name) { 'centos-6.4' }
-
-      it 'defaults to the correct image ID' do
-        expect(driver[:image_id]).to eq('f70ed7c7-b42e-4d77-83d8-40fa29825b85')
+        it 'defaults to the correct image ID' do
+          expect(driver[:image_id]).to eq(id)
+        end
       end
     end
 
     context 'overridden options' do
       config = {
-        :image_id => '22',
-        :flavor_id => '33',
-        :public_key_path => '/tmp',
-        :username => 'admin',
-        :port => '2222',
-        :server_name => 'puppy',
-        :rackspace_region => 'ord'
+        image_id: '22',
+        flavor_id: '33',
+        public_key_path: '/tmp',
+        username: 'admin',
+        port: '2222',
+        server_name: 'puppy',
+        rackspace_region: 'ord'
       }
 
       let(:config) { config }
@@ -144,8 +146,8 @@ describe Kitchen::Driver::Rackspace do
 
   describe '#create' do
     let(:server) do
-      double(:id => 'test123', :wait_for => true,
-        :public_ip_address => '1.2.3.4')
+      double(id: 'test123', wait_for: true,
+             public_ip_address: '1.2.3.4')
     end
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
@@ -159,8 +161,8 @@ describe Kitchen::Driver::Rackspace do
     context 'username and API key only provided' do
       let(:config) do
         {
-          :rackspace_username => 'hello',
-          :rackspace_api_key => 'world'
+          rackspace_username: 'hello',
+          rackspace_api_key: 'world'
         }
       end
 
@@ -184,10 +186,10 @@ describe Kitchen::Driver::Rackspace do
   describe '#destroy' do
     let(:server_id) { '12345' }
     let(:hostname) { 'example.com' }
-    let(:state) { { :server_id => server_id, :hostname => hostname } }
-    let(:server) { double(:nil? => false, :destroy => true) }
-    let(:servers) { double(:get => server) }
-    let(:compute) { double(:servers => servers) }
+    let(:state) { { server_id: server_id, hostname: hostname } }
+    let(:server) { double(nil?: false, destroy: true) }
+    let(:servers) { double(get: server) }
+    let(:compute) { double(servers: servers) }
 
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
@@ -221,7 +223,7 @@ describe Kitchen::Driver::Rackspace do
         s.stub(:get).with('12345').and_return(nil)
         s
       end
-      let(:compute) { double(:servers => servers) }
+      let(:compute) { double(servers: servers) }
       let(:driver) do
         d = Kitchen::Driver::Rackspace.new(config)
         d.instance = instance
@@ -239,23 +241,23 @@ describe Kitchen::Driver::Rackspace do
   describe '#compute' do
     let(:config) do
       {
-        :rackspace_username => 'monkey',
-        :rackspace_api_key => 'potato',
-        :rackspace_region => 'ord'
+        rackspace_username: 'monkey',
+        rackspace_api_key: 'potato',
+        rackspace_region: 'ord'
       }
     end
 
     context 'all requirements provided' do
       it 'creates a new compute connection' do
         Fog::Compute.stub(:new) { |arg| arg }
-        res = config.merge({ :provider => 'Rackspace', :version => 'v2' })
+        res = config.merge(provider: 'Rackspace', version: 'v2')
         expect(driver.send(:compute)).to eq(res)
       end
     end
 
     context 'no username provided' do
       let(:config) do
-        { :rackspace_username => nil, :rackspace_api_key => '1234' }
+        { rackspace_username: nil, rackspace_api_key: '1234' }
       end
 
       it 'raises an error' do
@@ -265,7 +267,7 @@ describe Kitchen::Driver::Rackspace do
 
     context 'no API key provided' do
       let(:config) do
-        { :rackspace_username => 'monkey', :rackspace_api_key => nil }
+        { rackspace_username: 'monkey', rackspace_api_key: nil }
       end
 
       it 'raises an error' do
@@ -277,15 +279,15 @@ describe Kitchen::Driver::Rackspace do
   describe '#create_server' do
     let(:config) do
       {
-        :server_name => 'hello',
-        :image_id => 'there',
-        :flavor_id => 'captain',
-        :public_key_path => 'tarpals'
+        server_name: 'hello',
+        image_id: 'there',
+        flavor_id: 'captain',
+        public_key_path: 'tarpals'
       }
     end
     before(:each) do
-      @expected = config.merge(:name => config[:server_name])
-      @expected.delete_if do |k, v|
+      @expected = config.merge(name: config[:server_name])
+      @expected.delete_if do |k, _|
         k == :server_name
       end
     end
@@ -294,7 +296,7 @@ describe Kitchen::Driver::Rackspace do
       s.stub(:bootstrap) { |arg| arg }
       s
     end
-    let(:compute) { double(:servers => servers) }
+    let(:compute) { double(servers: servers) }
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
@@ -319,5 +321,3 @@ describe Kitchen::Driver::Rackspace do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby
