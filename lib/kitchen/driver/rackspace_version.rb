@@ -21,6 +21,6 @@ module Kitchen
   #
   # @author Jonathan Hartman <j@p4nt5.com>
   module Driver
-    RACKSPACE_VERSION = '0.4.1.dev'
+    RACKSPACE_VERSION = '0.5.0'
   end
 end
