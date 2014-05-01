@@ -75,8 +75,8 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:server_name]).to be_a(String)
       end
 
-      it 'defaults to no region' do
-        expect(driver[:rackspace_region]).to eq(nil)
+      it 'defaults to the DFW region' do
+        expect(driver[:rackspace_region]).to eq('dfw')
       end
 
       it 'defaults to username from $RACKSPACE_USERNAME' do
