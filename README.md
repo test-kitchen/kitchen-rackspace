@@ -6,7 +6,7 @@
 
 # Kitchen::Rackspace
 
-A Rackspace Cloud Servers driver for Test Kitchen 1.0!
+A Rackspace Cloud Servers driver for Test Kitchen!
 
 Shamelessly copied from [Fletcher Nichol](https://github.com/fnichol)'s
 awesome work on an [EC2 driver](https://github.com/opscode/kitchen-ec2).
