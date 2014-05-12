@@ -114,7 +114,8 @@ describe Kitchen::Driver::Rackspace do
         username: 'admin',
         port: '2222',
         server_name: 'puppy',
-        rackspace_region: 'ord'
+        rackspace_region: 'ord',
+        wait_for: 1200
       }
 
       let(:config) { config }

@@ -33,6 +33,7 @@ module Kitchen
       default_config :username, 'root'
       default_config :port, '22'
       default_config :rackspace_region, 'dfw'
+      default_config :wait_for, 600
 
       default_config :image_id do |driver|
         driver.default_image
