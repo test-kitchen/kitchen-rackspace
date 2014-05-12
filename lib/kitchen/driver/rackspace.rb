@@ -65,6 +65,11 @@ module Kitchen
       required_config :image_id
       required_config :public_key_path
 
+      def initialize(config)
+        Fog.timeout = config[:wait_for].to_i
+        super
+      end
+
       def create(state)
         server = create_server
         state[:server_id] = server.id
