@@ -1,8 +1,13 @@
+# ?.?.? / ????-??-??
+
 # 0.6.0 / 2014-05-13
+
+### New Features
 
 * PR [#25][] - Allow overridding of Fog's default timeout; via [@pezholio][]
 
 ### Improvements
+
 * PR [#24][] - Error out immediately when trying to install in Ruby 1.8
 
 # 0.5.0 / 2014-05-01
