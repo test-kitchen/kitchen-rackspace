@@ -45,6 +45,7 @@ for your specified platform. Additional, optional overrides can be provided:
     server_name: [A UNIQUE SERVER NAME]
     public_key_path: [PATH TO YOUR PUBLIC SSH KEY]
     rackspace_region: [A VALID RACKSPACE DC/REGION]
+    wait_for: [NUM OF SECONDS TO WAIT BEFORE TIMING OUT, DEFAULT 600]
 
 You also have the option of providing some configs via environment variables:
 
