@@ -33,6 +33,7 @@ module Kitchen
       default_config :username, 'root'
       default_config :port, '22'
       default_config :rackspace_region, 'dfw'
+      default_config :wait_for, 600
 
       default_config :image_id do |driver|
         driver.default_image
@@ -63,6 +64,11 @@ module Kitchen
       required_config :rackspace_api_key
       required_config :image_id
       required_config :public_key_path
+
+      def initialize(config)
+        Fog.timeout = config[:wait_for].to_i
+        super
+      end
 
       def create(state)
         server = create_server

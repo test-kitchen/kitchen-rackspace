@@ -86,6 +86,10 @@ describe Kitchen::Driver::Rackspace do
       it 'defaults to API key from $RACKSPACE_API_KEY' do
         expect(driver[:rackspace_api_key]).to eq('key')
       end
+
+      it 'defaults to wait_for timeout of 600 seconds' do
+        expect(driver[:wait_for]).to eq(600)
+      end
     end
 
     platforms = {
@@ -114,7 +118,8 @@ describe Kitchen::Driver::Rackspace do
         username: 'admin',
         port: '2222',
         server_name: 'puppy',
-        rackspace_region: 'ord'
+        rackspace_region: 'ord',
+        wait_for: 1200
       }
 
       let(:config) { config }
@@ -123,6 +128,10 @@ describe Kitchen::Driver::Rackspace do
         it "it uses the overridden #{key} option" do
           expect(driver[key]).to eq(value)
         end
+      end
+
+      it 'sets the new wait_for variable' do
+        expect(Fog.timeout).to eq(1200)
       end
     end
 
@@ -150,6 +159,7 @@ describe Kitchen::Driver::Rackspace do
              public_ip_address: '1.2.3.4')
     end
     let(:driver) do
+      config[:wait_for] = '1200'
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
       d.stub(:default_name).and_return('a_monkey!')
@@ -162,7 +172,8 @@ describe Kitchen::Driver::Rackspace do
       let(:config) do
         {
           rackspace_username: 'hello',
-          rackspace_api_key: 'world'
+          rackspace_api_key: 'world',
+          wait_for: 1200
         }
       end
 
