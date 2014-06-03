@@ -168,9 +168,9 @@ describe Kitchen::Driver::Rackspace do
       config[:wait_for] = '1200'
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
-      d.stub(:default_name).and_return('a_monkey!')
-      d.stub(:create_server).and_return(server)
-      d.stub(:wait_for_sshd).with('1.2.3.4').and_return(true)
+      allow(d).to receive(:default_name).and_return('a_monkey!')
+      allow(d).to receive(:create_server).and_return(server)
+      allow(d).to receive(:wait_for_sshd).with('1.2.3.4').and_return(true)
       d
     end
 
@@ -211,14 +211,14 @@ describe Kitchen::Driver::Rackspace do
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
-      d.stub(:compute).and_return(compute)
+      allow(d).to receive(:compute).and_return(compute)
       d
     end
 
     context 'a live server that needs to be destroyed' do
       it 'destroys the server' do
-        state.should_receive(:delete).with(:server_id)
-        state.should_receive(:delete).with(:hostname)
+        expect(state).to receive(:delete).with(:server_id)
+        expect(state).to receive(:delete).with(:hostname)
         driver.destroy(state)
       end
     end
@@ -227,9 +227,9 @@ describe Kitchen::Driver::Rackspace do
       let(:state) { Hash.new }
 
       it 'does nothing' do
-        driver.stub(:compute)
-        driver.should_not_receive(:compute)
-        state.should_not_receive(:delete)
+        allow(driver).to receive(:compute)
+        expect(driver).to_not receive(:compute)
+        expect(state).to_not receive(:delete)
         driver.destroy(state)
       end
     end
@@ -237,14 +237,14 @@ describe Kitchen::Driver::Rackspace do
     context 'a server that was already destroyed' do
       let(:servers) do
         s = double('servers')
-        s.stub(:get).with('12345').and_return(nil)
+        allow(s).to receive(:get).with('12345').and_return(nil)
         s
       end
       let(:compute) { double(servers: servers) }
       let(:driver) do
         d = Kitchen::Driver::Rackspace.new(config)
         d.instance = instance
-        d.stub(:compute).and_return(compute)
+        allow(d).to receive(:compute).and_return(compute)
         d
       end
 
@@ -266,7 +266,7 @@ describe Kitchen::Driver::Rackspace do
 
     context 'all requirements provided' do
       it 'creates a new compute connection' do
-        Fog::Compute.stub(:new) { |arg| arg }
+        allow(Fog::Compute).to receive(:new) { |arg| arg }
         res = config.merge(provider: 'Rackspace', version: 'v2')
         expect(driver.send(:compute)).to eq(res)
       end
@@ -310,14 +310,14 @@ describe Kitchen::Driver::Rackspace do
     end
     let(:servers) do
       s = double('servers')
-      s.stub(:bootstrap) { |arg| arg }
+      allow(s).to receive(:bootstrap) { |arg| arg }
       s
     end
     let(:compute) { double(servers: servers) }
     let(:driver) do
       d = Kitchen::Driver::Rackspace.new(config)
       d.instance = instance
-      d.stub(:compute).and_return(compute)
+      allow(d).to receive(:compute).and_return(compute)
       d
     end
 
@@ -328,8 +328,8 @@ describe Kitchen::Driver::Rackspace do
 
   describe '#default_name' do
     before(:each) do
-      Etc.stub(:getlogin).and_return('user')
-      Socket.stub(:gethostname).and_return('host')
+      allow(Etc).to receive(:getlogin).and_return('user')
+      allow(Socket).to receive(:gethostname).and_return('host')
     end
 
     it 'generates a name' do
