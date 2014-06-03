@@ -7,7 +7,7 @@ require 'rspec/core/rake_task'
 
 Cane::RakeTask.new
 
-Rubocop::RakeTask.new do |task|
+RuboCop::RakeTask.new do |task|
   task.patterns = %w(**/*.rb)
 end
 
