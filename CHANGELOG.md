@@ -1,4 +1,8 @@
-# ?.?.? / ????-??-??
+# 0.6.1 / 2014-06-03
+
+### Bug Fixes
+
+* PR [#26][] - Fix issue with builds failing due to a timeout set at 0
 
 # 0.6.0 / 2014-05-13
 
@@ -58,6 +62,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#26]: https://github.com/test-kitchen/kitchen-rackspace/pull/26
 [#25]: https://github.com/test-kitchen/kitchen-rackspace/pull/25
 [#24]: https://github.com/test-kitchen/kitchen-rackspace/pull/24
 [#23]: https://github.com/test-kitchen/kitchen-rackspace/pull/23

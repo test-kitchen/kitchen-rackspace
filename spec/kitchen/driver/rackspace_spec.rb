@@ -51,6 +51,10 @@ describe Kitchen::Driver::Rackspace do
   end
 
   describe '#initialize'do
+    before(:each) do
+      allow(Fog).to receive(:timeout=)
+    end
+
     context 'default options' do
       it 'defaults to v2 cloud' do
         expect(driver[:version]).to eq('v2')
@@ -89,6 +93,7 @@ describe Kitchen::Driver::Rackspace do
 
       it 'defaults to wait_for timeout of 600 seconds' do
         expect(driver[:wait_for]).to eq(600)
+        expect(Fog).to have_received(:timeout=).with(600)
       end
     end
 
@@ -131,7 +136,8 @@ describe Kitchen::Driver::Rackspace do
       end
 
       it 'sets the new wait_for variable' do
-        expect(Fog.timeout).to eq(1200)
+        expect(driver[:wait_for]).to eq(1200)
+        expect(Fog).to have_received(:timeout=).with(1200)
       end
     end
 

@@ -66,8 +66,8 @@ module Kitchen
       required_config :public_key_path
 
       def initialize(config)
-        Fog.timeout = config[:wait_for].to_i
         super
+        Fog.timeout = config[:wait_for].to_i
       end
 
       def create(state)
