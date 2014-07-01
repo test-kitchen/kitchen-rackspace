@@ -80,8 +80,7 @@ module Kitchen
         puts '(server ready)'
         state[:hostname] = server.public_ip_address
 
-        # allow driver config to bypass SSH tcp check -- because
-        # it doesn't respect ssh_config values that might be required
+        # allow driver config to bypass SSH tcp check
         wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
         sleep(config[:ssh_sleep]) if config[:no_ssh_tcp_check]
 
