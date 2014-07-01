@@ -34,6 +34,8 @@ module Kitchen
       default_config :port, '22'
       default_config :rackspace_region, 'dfw'
       default_config :wait_for, 600
+      default_config :ssh_sleep, 120
+      default_config :no_ssh_tcp_check, false
 
       default_config :image_id do |driver|
         driver.default_image
@@ -77,7 +79,12 @@ module Kitchen
         server.wait_for { ready? }
         puts '(server ready)'
         state[:hostname] = server.public_ip_address
-        wait_for_sshd(state[:hostname])
+
+        # allow driver config to bypass SSH tcp check -- because
+        # it doesn't respect ssh_config values that might be required
+        wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
+        sleep(config[:ssh_sleep]) if config[:no_ssh_tcp_check]
+
         puts '(ssh ready)'
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
