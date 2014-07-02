@@ -82,7 +82,6 @@ module Kitchen
 
         wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
         sleep(config[:ssh_sleep]) if config[:no_ssh_tcp_check]
-
         puts '(ssh ready)'
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
