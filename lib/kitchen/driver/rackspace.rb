@@ -76,7 +76,8 @@ module Kitchen
         server = create_server
         state[:server_id] = server.id
         info("Rackspace instance <#{state[:server_id]}> created.")
-        server.wait_for { ready? } ; puts '(server ready)'
+        server.wait_for { ready? }
+        puts '(server ready)'
         state[:hostname] = server.public_ip_address
 
         wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
