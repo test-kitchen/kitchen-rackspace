@@ -33,7 +33,7 @@ Provide, at a minimum, the required driver options in your `.kitchen.yml` file:
       name: rackspace
       rackspace_username: [YOUR RACKSPACE CLOUD USERNAME]
       rackspace_api_key: [YOUR RACKSPACE CLOUD API KEY]
-      require_chef_omnibus: latest (if you'll be using Chef)
+      require_chef_omnibus: [e.g. 'latest' if you'll be using Chef]
     platforms:
       - name: [A PLATFORM NAME, e.g. 'centos-6']
 
@@ -46,11 +46,20 @@ for your specified platform. Additional, optional overrides can be provided:
     public_key_path: [PATH TO YOUR PUBLIC SSH KEY]
     rackspace_region: [A VALID RACKSPACE DC/REGION]
     wait_for: [NUM OF SECONDS TO WAIT BEFORE TIMING OUT, DEFAULT 600]
+    no_ssh_tcp_check: [DEFAULTS TO false, SKIPS TCP CHECK WHEN true]
+    ssh_sleep: [NUM OF SECONDS TO SLEEP IF no_ssh_tcp_check IS SET]
 
 You also have the option of providing some configs via environment variables:
 
     export RACKSPACE_USERNAME="user"   # (or OS_USERNAME)
     export RACKSPACE_API_KEY="api_key" # (or OS_PASSWORD)
+
+Some configs are also derived based on your .ssh directory, specifically the
+`public_key_path` setting is derived by searching for:
+- `~/.ssh/id_rsa.pub`
+- `~/.ssh/id_dsa.pub`
+- `~/.ssh/identity.pub`
+- `~/.ssh/id_ecdsa.pub`
 
 ## Contributing
 
