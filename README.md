@@ -33,7 +33,7 @@ Provide, at a minimum, the required driver options in your `.kitchen.yml` file:
       name: rackspace
       rackspace_username: [YOUR RACKSPACE CLOUD USERNAME]
       rackspace_api_key: [YOUR RACKSPACE CLOUD API KEY]
-      require_chef_omnibus: [e.g. 'latest' if you'll be using Chef]
+      require_chef_omnibus: [e.g. 'true' or a version number if you need Chef]
     platforms:
       - name: [A PLATFORM NAME, e.g. 'centos-6']
 
