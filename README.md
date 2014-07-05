@@ -48,6 +48,7 @@ for your specified platform. Additional, optional overrides can be provided:
     wait_for: [NUM OF SECONDS TO WAIT BEFORE TIMING OUT, DEFAULT 600]
     no_ssh_tcp_check: [DEFAULTS TO false, SKIPS TCP CHECK WHEN true]
     no_ssh_tcp_check_sleep: [NUM OF SECONDS TO SLEEP IF no_ssh_tcp_check IS SET]
+    networks: [LIST OF RACKSPACE NETWORK UUIDS, DEFAULT PUBLICNET AND SERVICE NET]
 
 You also have the option of providing some configs via environment variables:
 
