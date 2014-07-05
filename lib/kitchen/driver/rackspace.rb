@@ -146,16 +146,12 @@ module Kitchen
       end
 
       def rackspace_networks
-        default_rackspace_networks = [
+        nets = [
           '00000000-0000-0000-0000-000000000000',
           '11111111-1111-1111-1111-111111111111'
         ]
 
-        if config[:networks] == default_rackspace_networks
-          default_rackspace_networks
-        else
-          default_rackspace_networks + config[:networks] 
-        end
+        config[:networks] == nets ? nets : nets + config[:networks]
       end
     end
   end

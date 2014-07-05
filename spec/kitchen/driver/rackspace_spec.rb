@@ -29,7 +29,7 @@ describe Kitchen::Driver::Rackspace do
   let(:config) { Hash.new }
   let(:state) { Hash.new }
   let(:platform_name) { 'ubuntu' }
-  let(:default_rackspace_networks) do 
+  let(:default_rackspace_networks) do
     [
       '00000000-0000-0000-0000-000000000000',
       '11111111-1111-1111-1111-111111111111'
@@ -349,8 +349,8 @@ describe Kitchen::Driver::Rackspace do
                public_ip_address: '1.2.3.4')
       end
       let(:hostname) { 'example.com' }
-      let(:servers_double) { double("servers", :bootstrap => server) }
-      let(:compute_double) { double(Fog::Compute, :servers => servers_double) }
+      let(:servers_double) { double('servers', bootstrap: server) }
+      let(:compute_double) { double(Fog::Compute, servers: servers_double) }
       let(:state) { { server_id: server_id, hostname: hostname } }
       let(:driver) do
         d = Kitchen::Driver::Rackspace.new(config)
@@ -359,7 +359,7 @@ describe Kitchen::Driver::Rackspace do
         allow(Fog::Compute).to receive(:new).and_return(compute_double)
         d
       end
-      let(:user_specified_network) { "bob_dole" }
+      let(:user_specified_network) { 'bob_dole' }
       let(:config) do
         {
           rackspace_username: 'monkey',
@@ -368,7 +368,7 @@ describe Kitchen::Driver::Rackspace do
           networks: [user_specified_network]
         }
       end
-      it 'has the user specified network, in addition to the default Rackspace networks' do
+      it 'has the user specified network, plus default Rackspace networks' do
         driver.create(state)
         expect(servers_double).to have_received(:bootstrap) do |arg|
           expect(arg[:networks][2]).to eq user_specified_network
