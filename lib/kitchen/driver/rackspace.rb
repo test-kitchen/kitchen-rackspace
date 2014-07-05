@@ -126,7 +126,6 @@ module Kitchen
       end
 
       def create_server
-        puts "YO MOTHAFUCKER NETWORKS ARE #{@default_rackspace_networks}"
         compute.servers.bootstrap(
           name:            config[:server_name],
           image_id:        config[:image_id],
