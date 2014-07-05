@@ -60,6 +60,13 @@ module Kitchen
         ENV['RACKSPACE_API_KEY'] || ENV['OS_PASSWORD']
       end
 
+      default_config :networks do
+        [
+          '00000000-0000-0000-0000-000000000000',
+          '11111111-1111-1111-1111-111111111111'
+        ]
+      end
+
       required_config :rackspace_username
       required_config :rackspace_api_key
       required_config :image_id
@@ -119,11 +126,13 @@ module Kitchen
       end
 
       def create_server
+        puts "YO MOTHAFUCKER NETWORKS ARE #{@default_rackspace_networks}"
         compute.servers.bootstrap(
           name:            config[:server_name],
           image_id:        config[:image_id],
           flavor_id:       config[:flavor_id],
-          public_key_path: config[:public_key_path]
+          public_key_path: config[:public_key_path],
+          networks:        rackspace_networks
         )
       end
 
@@ -134,6 +143,19 @@ module Kitchen
             __FILE__
           )
           JSON.load(IO.read(json_file))
+        end
+      end
+
+      def rackspace_networks
+        default_rackspace_networks = [
+          '00000000-0000-0000-0000-000000000000',
+          '11111111-1111-1111-1111-111111111111'
+        ]
+
+        if config[:networks] == default_rackspace_networks
+          default_rackspace_networks
+        else
+          default_rackspace_networks + config[:networks] 
         end
       end
     end
