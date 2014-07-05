@@ -29,6 +29,12 @@ describe Kitchen::Driver::Rackspace do
   let(:config) { Hash.new }
   let(:state) { Hash.new }
   let(:platform_name) { 'ubuntu' }
+  let(:default_rackspace_networks) do
+    [
+      '00000000-0000-0000-0000-000000000000',
+      '11111111-1111-1111-1111-111111111111'
+    ]
+  end
 
   let(:instance) do
     double(
@@ -54,6 +60,11 @@ describe Kitchen::Driver::Rackspace do
     before(:each) do
       allow(Fog).to receive(:timeout=)
     end
+
+    default_networks = [
+      '00000000-0000-0000-0000-000000000000',
+      '11111111-1111-1111-1111-111111111111'
+    ]
 
     context 'default options' do
       it 'defaults to v2 cloud' do
@@ -94,6 +105,10 @@ describe Kitchen::Driver::Rackspace do
       it 'defaults to wait_for timeout of 600 seconds' do
         expect(driver[:wait_for]).to eq(600)
         expect(Fog).to have_received(:timeout=).with(600)
+      end
+
+      it 'defaults to the standard Rackspace networks' do
+        expect(driver[:networks]).to eq(default_networks)
       end
     end
 
@@ -198,6 +213,7 @@ describe Kitchen::Driver::Rackspace do
         expect(state[:hostname]).to eq('1.2.3.4')
       end
     end
+
   end
 
   describe '#destroy' do
@@ -299,7 +315,8 @@ describe Kitchen::Driver::Rackspace do
         server_name: 'hello',
         image_id: 'there',
         flavor_id: 'captain',
-        public_key_path: 'tarpals'
+        public_key_path: 'tarpals',
+        networks: default_rackspace_networks
       }
     end
     before(:each) do
@@ -323,6 +340,40 @@ describe Kitchen::Driver::Rackspace do
 
     it 'creates the server using a compute connection' do
       expect(driver.send(:create_server)).to eq(@expected)
+    end
+
+    context 'additional networks specified' do
+      let(:server_id) { '12345' }
+      let(:server) do
+        double(id: 'test123', wait_for: true,
+               public_ip_address: '1.2.3.4')
+      end
+      let(:hostname) { 'example.com' }
+      let(:servers_double) { double('servers', bootstrap: server) }
+      let(:compute_double) { double(Fog::Compute, servers: servers_double) }
+      let(:state) { { server_id: server_id, hostname: hostname } }
+      let(:driver) do
+        d = Kitchen::Driver::Rackspace.new(config)
+        allow(d).to receive(:wait_for_sshd).with('1.2.3.4').and_return(true)
+        d.instance = instance
+        allow(Fog::Compute).to receive(:new).and_return(compute_double)
+        d
+      end
+      let(:user_specified_network) { 'bob_dole' }
+      let(:config) do
+        {
+          rackspace_username: 'monkey',
+          rackspace_api_key: 'potato',
+          rackspace_region: 'ord',
+          networks: [user_specified_network]
+        }
+      end
+      it 'has the user specified network, plus default Rackspace networks' do
+        driver.create(state)
+        expect(servers_double).to have_received(:bootstrap) do |arg|
+          expect(arg[:networks][2]).to eq user_specified_network
+        end
+      end
     end
   end
 
