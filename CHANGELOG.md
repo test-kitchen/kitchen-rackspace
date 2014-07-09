@@ -2,6 +2,7 @@
 
 ### New Features
 
+* PR [#31][] - Support attaching to custom networks, via [@kanerogers][]
 * PR [#29][] - Support using a sleep instead of TCP check in cases where new
 servers might fail the TCP; via [@martinb3][]
 
@@ -69,6 +70,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#31]: https://github.com/test-kitchen/kitchen-rackspace/pull/31
 [#29]: https://github.com/test-kitchen/kitchen-rackspace/pull/29
 [#26]: https://github.com/test-kitchen/kitchen-rackspace/pull/26
 [#25]: https://github.com/test-kitchen/kitchen-rackspace/pull/25
@@ -82,6 +84,7 @@ boot times, via [@coderanger][]
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@kanerogers]: https://github.com/kanerogers
 [@martinb3]: https://github.com/martinb3
 [@pezholio]: https://github.com/pezholio
 [@coderanger]: https://github.com/coderanger
