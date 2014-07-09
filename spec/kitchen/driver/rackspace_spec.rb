@@ -29,12 +29,7 @@ describe Kitchen::Driver::Rackspace do
   let(:config) { Hash.new }
   let(:state) { Hash.new }
   let(:platform_name) { 'ubuntu' }
-  let(:default_rackspace_networks) do
-    [
-      '00000000-0000-0000-0000-000000000000',
-      '11111111-1111-1111-1111-111111111111'
-    ]
-  end
+  let(:default_networks) { nil }
 
   let(:instance) do
     double(
@@ -60,11 +55,6 @@ describe Kitchen::Driver::Rackspace do
     before(:each) do
       allow(Fog).to receive(:timeout=)
     end
-
-    default_networks = [
-      '00000000-0000-0000-0000-000000000000',
-      '11111111-1111-1111-1111-111111111111'
-    ]
 
     context 'default options' do
       it 'defaults to v2 cloud' do
@@ -330,7 +320,7 @@ describe Kitchen::Driver::Rackspace do
         image_id: 'there',
         flavor_id: 'captain',
         public_key_path: 'tarpals',
-        networks: default_rackspace_networks
+        networks: default_networks
       }
     end
     before(:each) do
@@ -424,6 +414,27 @@ describe Kitchen::Driver::Rackspace do
         expect(driver).to_not receive(:wait_for_sshd)
         expect(driver).to receive(:sleep)
         driver.send(:tcp_check, state)
+      end
+    end
+  end
+
+  describe '#networks' do
+    context 'the default Rackspace networks' do
+      it 'returns nil so Fog will use the defaults' do
+        expect(driver.send(:networks)).to eq(nil)
+      end
+    end
+
+    context 'a custom Rackspace network' do
+      let(:config) { { networks: %w(abcdefg) } }
+
+      it 'returns the base networks plus the custom one' do
+        expected = %w(
+          00000000-0000-0000-0000-000000000000
+          11111111-1111-1111-1111-111111111111
+          abcdefg
+        )
+        expect(driver.send(:networks)).to eq(expected)
       end
     end
   end
