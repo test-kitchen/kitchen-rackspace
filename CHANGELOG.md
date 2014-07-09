@@ -1,5 +1,10 @@
 # ?.?.? / ????-??-??
 
+### New Features
+
+* PR [#29][] - Support using a sleep instead of TCP check in cases where new
+servers might fail the TCP; via [@martinb3][]
+
 # 0.6.1 / 2014-06-03
 
 ### Bug Fixes
@@ -64,6 +69,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#29]: https://github.com/test-kitchen/kitchen-rackspace/pull/29
 [#26]: https://github.com/test-kitchen/kitchen-rackspace/pull/26
 [#25]: https://github.com/test-kitchen/kitchen-rackspace/pull/25
 [#24]: https://github.com/test-kitchen/kitchen-rackspace/pull/24
@@ -76,6 +82,7 @@ boot times, via [@coderanger][]
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@martinb3]: https://github.com/martinb3
 [@pezholio]: https://github.com/pezholio
 [@coderanger]: https://github.com/coderanger
 [@claco]: https://github.com/claco
