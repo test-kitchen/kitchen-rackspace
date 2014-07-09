@@ -95,6 +95,14 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:wait_for]).to eq(600)
         expect(Fog).to have_received(:timeout=).with(600)
       end
+
+      it 'defaults the SSH TCP bypassing to false' do
+        expect(driver[:no_ssh_tcp_check]).to eq(false)
+      end
+
+      it 'defaults the TCP bypass sleep time to 120 seconds' do
+        expect(driver[:no_ssh_tcp_check_sleep]).to eq(120)
+      end
     end
 
     platforms = {
@@ -161,7 +169,8 @@ describe Kitchen::Driver::Rackspace do
 
   describe '#create' do
     let(:server) do
-      double(id: 'test123', wait_for: true,
+      double(id: 'test123',
+             wait_for: true,
              public_ip_address: '1.2.3.4')
     end
     let(:driver) do
@@ -170,7 +179,7 @@ describe Kitchen::Driver::Rackspace do
       d.instance = instance
       allow(d).to receive(:default_name).and_return('a_monkey!')
       allow(d).to receive(:create_server).and_return(server)
-      allow(d).to receive(:wait_for_sshd).with('1.2.3.4').and_return(true)
+      allow(d).to receive(:tcp_check).and_return(true)
       d
     end
 
@@ -196,6 +205,11 @@ describe Kitchen::Driver::Rackspace do
       it 'gets a proper hostname (IP)' do
         driver.create(state)
         expect(state[:hostname]).to eq('1.2.3.4')
+      end
+
+      it 'calls tcp_check' do
+        expect(driver).to receive(:tcp_check)
+        driver.create(state)
       end
     end
   end
@@ -335,6 +349,31 @@ describe Kitchen::Driver::Rackspace do
     it 'generates a name' do
       expect(driver.default_name).to match(
         /^potatoes-user-host-/)
+    end
+  end
+
+  describe '#tcp_check' do
+    before(:each) do
+      allow_any_instance_of(described_class).to receive(:wait_for_sshd)
+      allow_any_instance_of(described_class).to receive(:sleep)
+    end
+
+    context 'the default non-skipping behavior' do
+      it "uses Kitchen's own SSH check" do
+        expect(driver).to receive(:wait_for_sshd)
+        expect(driver).to_not receive(:sleep)
+        driver.send(:tcp_check, state)
+      end
+    end
+
+    context 'a config set to wait instead of TCP check' do
+      let(:config) { { no_ssh_tcp_check: true } }
+
+      it 'uses a sleep instead of a port check' do
+        expect(driver).to_not receive(:wait_for_sshd)
+        expect(driver).to receive(:sleep)
+        driver.send(:tcp_check, state)
+      end
     end
   end
 end
