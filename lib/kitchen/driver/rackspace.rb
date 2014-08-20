@@ -36,6 +36,7 @@ module Kitchen
       default_config :wait_for, 600
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
+      default_config :rackconnect_wait, false
       default_config(:image_id) { |driver| driver.default_image }
       default_config(:server_name) { |driver| driver.default_name }
       default_config :networks, nil
@@ -73,6 +74,7 @@ module Kitchen
         info("Rackspace instance <#{state[:server_id]}> created.")
         server.wait_for { ready? }
         puts '(server ready)'
+        rackconnect_check(server) if config[:rackconnect_wait]
         state[:hostname] = server.public_ip_address
         tcp_check(state)
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
@@ -116,6 +118,8 @@ module Kitchen
         [:image_id, :flavor_id, :public_key_path].each do |opt|
           server_def[opt] = config[opt]
         end
+        # see @note on bootstrap def about rackconnect
+        server_def[:no_passwd_lock] = true if config[:rackconnect_wait]
         compute.servers.bootstrap(server_def)
       end
 
@@ -132,6 +136,13 @@ module Kitchen
         wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
         sleep(config[:no_ssh_tcp_check_sleep]) if config[:no_ssh_tcp_check]
         puts '(ssh ready)'
+      end
+
+      def rackconnect_check(server)
+        server.wait_for \
+          { metadata.all['rackconnect_automation_status'] == 'DEPLOYED' }
+        puts '(rackconnect automation complete)'
+        server.update # refresh accessIPv4 with new IP
       end
 
       def networks
