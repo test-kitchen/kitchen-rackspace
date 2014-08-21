@@ -1,4 +1,8 @@
-# ?.?.? / ????-??-??
+# 0.8.0 / 2014-08-20
+
+### New Features
+
+* PR [#35][] - Add option to wait on RackConnect, via [@martinb3][]
 
 # 0.7.0 / 2014-07-09
 
@@ -72,6 +76,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#35]: https://github.com/test-kitchen/kitchen-rackspace/pull/35
 [#31]: https://github.com/test-kitchen/kitchen-rackspace/pull/31
 [#29]: https://github.com/test-kitchen/kitchen-rackspace/pull/29
 [#26]: https://github.com/test-kitchen/kitchen-rackspace/pull/26
