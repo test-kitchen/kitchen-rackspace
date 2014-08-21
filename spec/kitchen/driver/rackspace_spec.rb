@@ -108,6 +108,10 @@ describe Kitchen::Driver::Rackspace do
       it 'defaults to the standard Rackspace networks' do
         expect(driver[:networks]).to eq(default_networks)
       end
+
+      it 'defaults to not waiting for rackconnect' do
+        expect(driver[:rackconnect_wait]).to eq(false)
+      end
     end
 
     platforms = {
@@ -137,7 +141,8 @@ describe Kitchen::Driver::Rackspace do
         port: '2222',
         server_name: 'puppy',
         rackspace_region: 'ord',
-        wait_for: 1200
+        wait_for: 1200,
+        rackconnect_wait: true
       }
 
       let(:config) { config }
