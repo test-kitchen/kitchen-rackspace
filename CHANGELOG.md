@@ -1,5 +1,10 @@
 # ?.?.? / ????-??-??
 
+### Improvements
+
+* PR [#37][] - Update image ID list
+* PR [#36][] - Add CentOS 7 to the recognized images, via [@hhoover][]
+
 # 0.8.0 / 2014-08-20
 
 ### New Features
@@ -78,6 +83,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#37]: https://github.com/test-kitchen/kitchen-rackspace/pull/37
+[#36]: https://github.com/test-kitchen/kitchen-rackspace/pull/36
 [#35]: https://github.com/test-kitchen/kitchen-rackspace/pull/35
 [#31]: https://github.com/test-kitchen/kitchen-rackspace/pull/31
 [#29]: https://github.com/test-kitchen/kitchen-rackspace/pull/29
@@ -93,6 +100,7 @@ boot times, via [@coderanger][]
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@hhoover]: https://github.com/hhoover
 [@kanerogers]: https://github.com/kanerogers
 [@martinb3]: https://github.com/martinb3
 [@pezholio]: https://github.com/pezholio
