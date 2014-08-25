@@ -7,6 +7,8 @@
   "centos-6.5": "592c879e-f37d-43e6-8b54-8c2d97cf04d4",
   "centos-5": "9522c27d-51d9-44ee-8eb3-fb7b14fd4042",
   "centos-5.10": "9522c27d-51d9-44ee-8eb3-fb7b14fd4042",
+  "centos-7": "76016123-eed4-4666-aea9-651fd26ee13c",
+  "centos-7.0": "76016123-eed4-4666-aea9-651fd26ee13c",
   "debian": "77e32de8-3304-44f3-b230-436d95fceb19",
   "debian-7": "77e32de8-3304-44f3-b230-436d95fceb19",
   "debian-6": "695ca76e-fc0d-4e36-82e0-8ed66480a999",
