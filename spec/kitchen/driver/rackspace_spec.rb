@@ -115,12 +115,12 @@ describe Kitchen::Driver::Rackspace do
     end
 
     platforms = {
-      'ubuntu-12.04' => 'a4286a42-137c-46ce-a796-dbd2b12a078c',
-      'ubuntu-12' => 'a4286a42-137c-46ce-a796-dbd2b12a078c',
-      'ubuntu' => 'bb02b1a3-bc77-4d17-ab5b-421d89850fca',
-      'centos-5.10' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
-      'centos-5' => '9522c27d-51d9-44ee-8eb3-fb7b14fd4042',
-      'centos' => '592c879e-f37d-43e6-8b54-8c2d97cf04d4'
+      'ubuntu-12.04' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
+      'ubuntu-12' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
+      'ubuntu' => '255df5fb-e3d4-45a3-9a07-c976debf7c14',
+      'centos-5.10' => '60ee430b-32e1-4a2f-9b1b-b8a3a002df24',
+      'centos-5' => '60ee430b-32e1-4a2f-9b1b-b8a3a002df24',
+      'centos' => '76016123-eed4-4666-aea9-651fd26ee13c'
     }
     platforms.each do |platform, id|
       context "name is #{platform}" do
