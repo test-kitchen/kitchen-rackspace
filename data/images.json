@@ -15,6 +15,7 @@
   "coreos-alpha": "49d299c1-aacc-40b7-9ac0-df4132b385b3",
   "debian": "daf03129-fce1-436c-8971-f8504e446fa4",
   "debian-7": "daf03129-fce1-436c-8971-f8504e446fa4",
+  "debian-7.6": "daf03129-fce1-436c-8971-f8504e446fa4",
   "debian-6": "695ca76e-fc0d-4e36-82e0-8ed66480a999",
   "debian-6.06": "695ca76e-fc0d-4e36-82e0-8ed66480a999",
   "debian-testing": "ed2dd345-b0a5-42aa-b061-a153c91e2c6d",
