@@ -118,8 +118,8 @@ describe Kitchen::Driver::Rackspace do
       'ubuntu-12.04' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
       'ubuntu-12' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
       'ubuntu' => '255df5fb-e3d4-45a3-9a07-c976debf7c14',
-      'centos-5.10' => '60ee430b-32e1-4a2f-9b1b-b8a3a002df24',
-      'centos-5' => '60ee430b-32e1-4a2f-9b1b-b8a3a002df24',
+      'centos-5.10' => '1078244e-5906-4faf-b88a-a4202889dc00',
+      'centos-5' => '1078244e-5906-4faf-b88a-a4202889dc00',
       'centos' => '76016123-eed4-4666-aea9-651fd26ee13c'
     }
     platforms.each do |platform, id|
