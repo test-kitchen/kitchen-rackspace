@@ -1,4 +1,9 @@
-# ?.?.? / ????-??-??
+# 0.10.0 / 2014-08-28
+
+### Improvements
+
+* PR [#39][] - Update image ID list
+* PR [#38][] - Recognize `debian-7.6` image name, via [@martinb3][]
 
 # 0.9.0 / 2014-08-25
 
@@ -85,6 +90,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#39]: https://github.com/test-kitchen/kitchen-rackspace/pull/39
+[#38]: https://github.com/test-kitchen/kitchen-rackspace/pull/38
 [#37]: https://github.com/test-kitchen/kitchen-rackspace/pull/37
 [#36]: https://github.com/test-kitchen/kitchen-rackspace/pull/36
 [#35]: https://github.com/test-kitchen/kitchen-rackspace/pull/35
