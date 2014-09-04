@@ -1,5 +1,8 @@
 # ?.?.? / ????-??-??
 
+* PR [#40][] - Port the server name generator from the OpenStack/DigitalOcean
+drivers, with all its bug fixes.
+
 # 0.10.0 / 2014-08-28
 
 ### Improvements
@@ -92,6 +95,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#40]: https://github.com/test-kitchen/kitchen-rackspace/pull/40
 [#39]: https://github.com/test-kitchen/kitchen-rackspace/pull/39
 [#38]: https://github.com/test-kitchen/kitchen-rackspace/pull/38
 [#37]: https://github.com/test-kitchen/kitchen-rackspace/pull/37
