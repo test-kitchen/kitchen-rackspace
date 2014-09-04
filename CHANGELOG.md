@@ -1,7 +1,9 @@
 # ?.?.? / ????-??-??
 
+### Improvements
+
 * PR [#40][] - Port the server name generator from the OpenStack/DigitalOcean
-drivers, with all its bug fixes.
+drivers, with all its bug fixes; update image IDs
 
 # 0.10.0 / 2014-08-28
 

@@ -121,7 +121,7 @@ describe Kitchen::Driver::Rackspace do
       'ubuntu' => '255df5fb-e3d4-45a3-9a07-c976debf7c14',
       'centos-5.10' => '1078244e-5906-4faf-b88a-a4202889dc00',
       'centos-5' => '1078244e-5906-4faf-b88a-a4202889dc00',
-      'centos' => '76016123-eed4-4666-aea9-651fd26ee13c'
+      'centos' => '4da79ffd-46f0-4f7c-9ade-490f04cc8994'
     }
     platforms.each do |platform, id|
       context "name is #{platform}" do
