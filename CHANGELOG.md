@@ -1,4 +1,9 @@
-# ?.?.? / ????-??-??
+# 0.12.0 / 2014-09-10
+
+### New Features
+
+* PR [#41][] - Support optionally using ServiceNet for SSH access, via
+[@steve-jansen][]
 
 # 0.11.0 / 2014-09-04
 
@@ -99,6 +104,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#41]: https://github.com/test-kitchen/kitchen-rackspace/pull/41
 [#40]: https://github.com/test-kitchen/kitchen-rackspace/pull/40
 [#39]: https://github.com/test-kitchen/kitchen-rackspace/pull/39
 [#38]: https://github.com/test-kitchen/kitchen-rackspace/pull/38
@@ -119,6 +125,7 @@ boot times, via [@coderanger][]
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@steve-jansen]: https://github.com/steve-jansen
 [@hhoover]: https://github.com/hhoover
 [@kanerogers]: https://github.com/kanerogers
 [@martinb3]: https://github.com/martinb3

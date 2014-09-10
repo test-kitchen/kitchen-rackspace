@@ -70,6 +70,6 @@ Some configs are also derived based on your .ssh directory, specifically the
 2. `bundle install`
 3. Create your feature branch (`git checkout -b my-new-feature`)
 4. `bundle exec rake` must pass
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
