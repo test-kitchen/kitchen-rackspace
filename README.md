@@ -42,7 +42,7 @@ for your specified platform. Additional, optional overrides can be provided:
 
     image_id: [SERVER IMAGE ID]
     flavor_id: [SERVER FLAVOR ID]
-    server_name: [A UNIQUE SERVER NAME]
+    server_name: [A FRIENDLY SERVER NAME]
     public_key_path: [PATH TO YOUR PUBLIC SSH KEY]
     rackspace_region: [A VALID RACKSPACE DC/REGION]
     wait_for: [NUM OF SECONDS TO WAIT BEFORE TIMING OUT, DEFAULT 600]
@@ -66,7 +66,9 @@ Some configs are also derived based on your .ssh directory, specifically the
 ## Contributing
 
 1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
+2. `bundle install`
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. `bundle exec rake` must pass
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
