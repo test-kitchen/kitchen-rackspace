@@ -37,6 +37,7 @@ module Kitchen
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
       default_config :rackconnect_wait, false
+      default_config :servicenet, false
       default_config(:image_id) { |driver| driver.default_image }
       default_config(:server_name) { |driver| driver.default_name }
       default_config :networks, nil
@@ -75,7 +76,7 @@ module Kitchen
         server.wait_for { ready? }
         puts '(server ready)'
         rackconnect_check(server) if config[:rackconnect_wait]
-        state[:hostname] = server.public_ip_address
+        state[:hostname] = hostname(server)
         tcp_check(state)
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
@@ -154,6 +155,14 @@ module Kitchen
           { metadata.all['rackconnect_automation_status'] == 'DEPLOYED' }
         puts '(rackconnect automation complete)'
         server.update # refresh accessIPv4 with new IP
+      end
+
+      def hostname(server)
+        if config[:servicenet] == false
+          server.public_ip_address
+        else
+          server.private_ip_address
+        end
       end
 
       def networks

@@ -113,6 +113,10 @@ describe Kitchen::Driver::Rackspace do
       it 'defaults to not waiting for rackconnect' do
         expect(driver[:rackconnect_wait]).to eq(false)
       end
+
+      it 'defaults to the public ip address' do
+        expect(driver[:servicenet]).to eq(false)
+      end
     end
 
     platforms = {
@@ -143,7 +147,8 @@ describe Kitchen::Driver::Rackspace do
         server_name: 'puppy',
         rackspace_region: 'ord',
         wait_for: 1200,
-        rackconnect_wait: true
+        rackconnect_wait: true,
+        use_private_ip_address: true
       }
 
       let(:config) { config }
@@ -223,7 +228,108 @@ describe Kitchen::Driver::Rackspace do
         driver.create(state)
       end
     end
+  end
 
+  describe '#create and rackconnect_wait' do
+    let(:server) do
+      double(id: 'test123',
+             wait_for: true,
+             public_ip_address: '1.2.3.4',
+             private_ip_address: '10.9.8.7',
+             update: nil)
+    end
+    let(:driver) do
+      d = Kitchen::Driver::Rackspace.new(config)
+      d.instance = instance
+      allow(d).to receive(:default_name).and_return('a_monkey!')
+      allow(d).to receive(:create_server).and_return(server)
+      allow(d).to receive(:tcp_check).and_return(true)
+      d
+    end
+
+    context 'username and API key only provided' do
+      let(:config) do
+        {
+          rackspace_username: 'hello',
+          rackspace_api_key: 'world',
+          wait_for: 1200,
+          rackconnect_wait: true
+        }
+      end
+
+      it 'generates a server name in the absence of one' do
+        driver.create(state)
+        expect(driver[:server_name]).to eq('a_monkey!')
+      end
+
+      it 'gets a proper server ID' do
+        driver.create(state)
+        expect(state[:server_id]).to eq('test123')
+      end
+
+      it 'gets a proper hostname (IP)' do
+        driver.create(state)
+        expect(state[:hostname]).to eq('1.2.3.4')
+      end
+
+      it 'calls tcp_check' do
+        expect(driver).to receive(:tcp_check)
+        driver.create(state)
+      end
+
+      it 'calls rackconnect_check ' do
+        expect(driver).to receive(:rackconnect_check)
+        driver.create(state)
+      end
+
+      it 'rackconnect_check waits for rackconnect_automation' do
+        expect(server).to receive(:wait_for)
+        driver.send(:rackconnect_check, server)
+      end
+    end
+  end
+
+  describe '#create and use_private_ip_address' do
+    let(:server) do
+      double(id: 'test123',
+             wait_for: true,
+             public_ip_address: '1.2.3.4',
+             private_ip_address: '10.9.8.7')
+    end
+    let(:driver) do
+      d = Kitchen::Driver::Rackspace.new(config)
+      d.instance = instance
+      allow(d).to receive(:default_name).and_return('a_monkey!')
+      allow(d).to receive(:create_server).and_return(server)
+      allow(d).to receive(:tcp_check).and_return(true)
+      d
+    end
+
+    context 'username and API key only provided' do
+      let(:config) do
+        {
+          rackspace_username: 'hello',
+          rackspace_api_key: 'world',
+          wait_for: 1200,
+          servicenet: true
+        }
+      end
+
+      it 'generates a server name in the absence of one' do
+        driver.create(state)
+        expect(driver[:server_name]).to eq('a_monkey!')
+      end
+
+      it 'gets a proper server ID' do
+        driver.create(state)
+        expect(state[:server_id]).to eq('test123')
+      end
+
+      it 'gets a private ip as the hostname' do
+        driver.create(state)
+        expect(state[:hostname]).to eq('10.9.8.7')
+      end
+    end
   end
 
   describe '#destroy' do
