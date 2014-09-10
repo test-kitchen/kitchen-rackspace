@@ -50,6 +50,7 @@ for your specified platform. Additional, optional overrides can be provided:
     no_ssh_tcp_check_sleep: [NUM OF SECONDS TO SLEEP IF no_ssh_tcp_check IS SET]
     networks: [LIST OF RACKSPACE NETWORK UUIDS, DEFAULT PUBLICNET AND SERVICE NET]
     rackconnect_wait: ['true' IF USING RACKCONNECT TO WAIT FOR IT TO COMPLETE]
+    servicenet: ['true' IF USING THE SERVICENET IP ADDRESS TO CONNECT]
 
 You also have the option of providing some configs via environment variables:
 
