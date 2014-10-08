@@ -1,4 +1,10 @@
-# ?.?.? / ????-??-??
+# 0.13.0 / 2014-10-08
+
+### Improvements
+
+* PR [#43][] - Update all image IDs, bump Arch to 2014.10, Gentoo to 14.4,
+Vyatta to 6.7
+* PR [#42][] - Update CentOS 7 image ID; via [@marcoamorales][]
 
 # 0.12.0 / 2014-09-10
 
@@ -106,6 +112,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#43]: https://github.com/test-kitchen/kitchen-rackspace/pull/43
+[#42]: https://github.com/test-kitchen/kitchen-rackspace/pull/42
 [#41]: https://github.com/test-kitchen/kitchen-rackspace/pull/41
 [#40]: https://github.com/test-kitchen/kitchen-rackspace/pull/40
 [#39]: https://github.com/test-kitchen/kitchen-rackspace/pull/39
@@ -127,6 +135,7 @@ boot times, via [@coderanger][]
 [#8]: https://github.com/test-kitchen/kitchen-rackspace/pull/8
 [#7]: https://github.com/test-kitchen/kitchen-rackspace/pull/7
 
+[@marcoamorales]: https://github.com/marcoamorales
 [@steve-jansen]: https://github.com/steve-jansen
 [@hhoover]: https://github.com/hhoover
 [@kanerogers]: https://github.com/kanerogers
