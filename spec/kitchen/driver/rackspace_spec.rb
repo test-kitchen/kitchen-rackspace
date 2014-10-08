@@ -120,12 +120,12 @@ describe Kitchen::Driver::Rackspace do
     end
 
     platforms = {
-      'ubuntu-12.04' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
-      'ubuntu-12' => '928e709d-35f0-47eb-b296-d18e1b0a76b7',
-      'ubuntu' => '255df5fb-e3d4-45a3-9a07-c976debf7c14',
-      'centos-5.10' => '1078244e-5906-4faf-b88a-a4202889dc00',
-      'centos-5' => '1078244e-5906-4faf-b88a-a4202889dc00',
-      'centos' => '4da79ffd-46f0-4f7c-9ade-490f04cc8994'
+      'ubuntu-12.04' => 'ea322e55-0a03-48d6-b812-d9cf77fd05e7',
+      'ubuntu-12' => 'ea322e55-0a03-48d6-b812-d9cf77fd05e7',
+      'ubuntu' => 'cc6e0096-84f9-4beb-a21e-d80a11a769d8',
+      'centos-5.10' => '77bfb55e-2ea0-4181-9ba5-28bbd6ce7adc',
+      'centos-5' => '77bfb55e-2ea0-4181-9ba5-28bbd6ce7adc',
+      'centos' => '08d36361-5f64-4bc8-85ee-1a64a8ec8fd5'
     }
     platforms.each do |platform, id|
       context "name is #{platform}" do
@@ -226,6 +226,20 @@ describe Kitchen::Driver::Rackspace do
       it 'calls tcp_check' do
         expect(driver).to receive(:tcp_check)
         driver.create(state)
+      end
+    end
+
+    context 'a Fog error' do
+      let(:driver) do
+        d = Kitchen::Driver::Rackspace.new(config)
+        allow(d).to receive(:create_server).and_raise(Fog::Errors::Error,
+                                                      'Uhoh')
+        d
+      end
+
+      it 're-raises the error' do
+        expect { driver.create(state) }.to raise_error(Kitchen::ActionFailed,
+                                                       'Uhoh')
       end
     end
   end
