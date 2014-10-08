@@ -228,6 +228,20 @@ describe Kitchen::Driver::Rackspace do
         driver.create(state)
       end
     end
+
+    context 'a Fog error' do
+      let(:driver) do
+        d = Kitchen::Driver::Rackspace.new(config)
+        allow(d).to receive(:create_server).and_raise(Fog::Errors::Error,
+                                                      'Uhoh')
+        d
+      end
+
+      it 're-raises the error' do
+        expect { driver.create(state) }.to raise_error(Kitchen::ActionFailed,
+                                                       'Uhoh')
+      end
+    end
   end
 
   describe '#create and rackconnect_wait' do
