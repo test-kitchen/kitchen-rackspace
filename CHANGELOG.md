@@ -1,5 +1,9 @@
 # ?.?.? / ????-??-??
 
+* PR [#45][] - Add Ubuntu 14.10 and Fedora 21
+* PR [#44][] - Update all image IDs, add CentOS/Red Hat 5.11 and Red Hat 6.6,
+update Vyatta to 6.7R4; via [@martinb3][]
+
 # 0.13.0 / 2014-10-08
 
 ### Improvements
@@ -114,6 +118,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#45]: https://github.com/test-kitchen/kitchen-rackspace/pull/45
+[#44]: https://github.com/test-kitchen/kitchen-rackspace/pull/44
 [#43]: https://github.com/test-kitchen/kitchen-rackspace/pull/43
 [#42]: https://github.com/test-kitchen/kitchen-rackspace/pull/42
 [#41]: https://github.com/test-kitchen/kitchen-rackspace/pull/41

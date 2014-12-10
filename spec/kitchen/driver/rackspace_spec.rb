@@ -122,7 +122,7 @@ describe Kitchen::Driver::Rackspace do
     platforms = {
       'ubuntu-12.04' => 'a3da5530-71c6-4405-b64f-fd2da99d303c',
       'ubuntu-12' => 'a3da5530-71c6-4405-b64f-fd2da99d303c',
-      'ubuntu' => '598a4282-f14b-4e50-af4c-b3e52749d9f9',
+      'ubuntu' => '0766e5df-d60a-4100-ae8c-07f27ec0148f',
       'centos-5.11' => 'e0748e2d-569f-4ea6-85ad-fe559991db57',
       'centos-5' => 'e0748e2d-569f-4ea6-85ad-fe559991db57',
       'centos' => 'bfa5783c-e40e-4668-adc1-feb0ae3d7a46'
