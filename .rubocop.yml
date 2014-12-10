@@ -1,5 +1,7 @@
 # Allow additional lines until main driver class can be split 
 # into smaller classes.
 
-Metrics/ClassLength:
+ClassLength:
   Max: 120
+AbcSize:
+  Max: 17
