@@ -1,4 +1,4 @@
-# ?.?.? / ????-??-??
+# 0.14.0 / 2014-12-09
 
 * PR [#45][] - Add Ubuntu 14.10 and Fedora 21
 * PR [#44][] - Update all image IDs, add CentOS/Red Hat 5.11 and Red Hat 6.6,
