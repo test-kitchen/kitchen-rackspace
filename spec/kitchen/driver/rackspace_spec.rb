@@ -41,13 +41,11 @@ describe Kitchen::Driver::Rackspace do
     )
   end
 
-  let(:driver) do
-    d = Kitchen::Driver::Rackspace.new(config)
-    d.instance = instance
-    d
-  end
+  let(:driver) { described_class.new(config) }
 
   before(:each) do
+    allow_any_instance_of(described_class).to receive(:instance)
+      .and_return(instance)
     ENV['RACKSPACE_USERNAME'] = 'user'
     ENV['RACKSPACE_API_KEY'] = 'key'
   end
@@ -184,19 +182,21 @@ describe Kitchen::Driver::Rackspace do
   end
 
   describe '#create' do
+    let(:config) { super().merge(wait_for: '1200') }
     let(:server) do
       double(id: 'test123',
              wait_for: true,
              public_ip_address: '1.2.3.4')
     end
-    let(:driver) do
-      config[:wait_for] = '1200'
-      d = Kitchen::Driver::Rackspace.new(config)
-      d.instance = instance
-      allow(d).to receive(:default_name).and_return('a_monkey!')
-      allow(d).to receive(:create_server).and_return(server)
-      allow(d).to receive(:tcp_check).and_return(true)
-      d
+
+    before(:each) do
+      {
+        default_name: 'a_monkey!',
+        create_server: server,
+        tcp_check: true
+      }.each do |k, v|
+        allow_any_instance_of(described_class).to receive(k).and_return(v)
+      end
     end
 
     context 'username and API key only provided' do
@@ -230,11 +230,9 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'a Fog error' do
-      let(:driver) do
-        d = Kitchen::Driver::Rackspace.new(config)
-        allow(d).to receive(:create_server).and_raise(Fog::Errors::Error,
-                                                      'Uhoh')
-        d
+      before(:each) do
+        allow_any_instance_of(described_class).to receive(:create_server)
+          .and_raise(Fog::Errors::Error, 'Uhoh')
       end
 
       it 're-raises the error' do
@@ -252,13 +250,15 @@ describe Kitchen::Driver::Rackspace do
              private_ip_address: '10.9.8.7',
              update: nil)
     end
-    let(:driver) do
-      d = Kitchen::Driver::Rackspace.new(config)
-      d.instance = instance
-      allow(d).to receive(:default_name).and_return('a_monkey!')
-      allow(d).to receive(:create_server).and_return(server)
-      allow(d).to receive(:tcp_check).and_return(true)
-      d
+
+    before(:each) do
+      {
+        default_name: 'a_monkey!',
+        create_server: server,
+        tcp_check: true
+      }.each do |k, v|
+        allow_any_instance_of(described_class).to receive(k).and_return(v)
+      end
     end
 
     context 'username and API key only provided' do
@@ -310,13 +310,15 @@ describe Kitchen::Driver::Rackspace do
              public_ip_address: '1.2.3.4',
              private_ip_address: '10.9.8.7')
     end
-    let(:driver) do
-      d = Kitchen::Driver::Rackspace.new(config)
-      d.instance = instance
-      allow(d).to receive(:default_name).and_return('a_monkey!')
-      allow(d).to receive(:create_server).and_return(server)
-      allow(d).to receive(:tcp_check).and_return(true)
-      d
+
+    before(:each) do
+      {
+        default_name: 'a_monkey!',
+        create_server: server,
+        tcp_check: true
+      }.each do |k, v|
+        allow_any_instance_of(described_class).to receive(k).and_return(v)
+      end
     end
 
     context 'username and API key only provided' do
@@ -354,11 +356,9 @@ describe Kitchen::Driver::Rackspace do
     let(:servers) { double(get: server) }
     let(:compute) { double(servers: servers) }
 
-    let(:driver) do
-      d = Kitchen::Driver::Rackspace.new(config)
-      d.instance = instance
-      allow(d).to receive(:compute).and_return(compute)
-      d
+    before(:each) do
+      allow_any_instance_of(described_class).to receive(:compute)
+        .and_return(compute)
     end
 
     context 'a live server that needs to be destroyed' do
@@ -387,11 +387,10 @@ describe Kitchen::Driver::Rackspace do
         s
       end
       let(:compute) { double(servers: servers) }
-      let(:driver) do
-        d = Kitchen::Driver::Rackspace.new(config)
-        d.instance = instance
-        allow(d).to receive(:compute).and_return(compute)
-        d
+
+      before(:each) do
+        allow_any_instance_of(described_class).to receive(:compute)
+          .and_return(compute)
       end
 
       it 'does not try to destroy the server again' do
@@ -461,11 +460,10 @@ describe Kitchen::Driver::Rackspace do
       s
     end
     let(:compute) { double(servers: servers) }
-    let(:driver) do
-      d = Kitchen::Driver::Rackspace.new(config)
-      d.instance = instance
-      allow(d).to receive(:compute).and_return(compute)
-      d
+
+    before(:each) do
+      allow_any_instance_of(described_class).to receive(:compute)
+        .and_return(compute)
     end
 
     it 'creates the server using a compute connection' do
@@ -479,16 +477,9 @@ describe Kitchen::Driver::Rackspace do
                public_ip_address: '1.2.3.4')
       end
       let(:hostname) { 'example.com' }
-      let(:servers_double) { double('servers', bootstrap: server) }
-      let(:compute_double) { double(Fog::Compute, servers: servers_double) }
+      let(:servers) { double('servers', bootstrap: server) }
+      let(:compute) { double(Fog::Compute, servers: servers) }
       let(:state) { { server_id: server_id, hostname: hostname } }
-      let(:driver) do
-        d = Kitchen::Driver::Rackspace.new(config)
-        allow(d).to receive(:wait_for_sshd).with('1.2.3.4').and_return(true)
-        d.instance = instance
-        allow(Fog::Compute).to receive(:new).and_return(compute_double)
-        d
-      end
       let(:user_specified_network) { 'bob_dole' }
       let(:config) do
         {
@@ -498,9 +489,16 @@ describe Kitchen::Driver::Rackspace do
           networks: [user_specified_network]
         }
       end
+
+      before(:each) do
+        { wait_for_sshd: true, compute: compute }.each do |k, v|
+          allow_any_instance_of(described_class).to receive(k).and_return(v)
+        end
+      end
+
       it 'has the user specified network, plus default Rackspace networks' do
-        driver.create(state)
-        expect(servers_double).to have_received(:bootstrap) do |arg|
+        driver.send(:create_server)
+        expect(servers).to have_received(:bootstrap) do |arg|
           expect(arg[:networks][2]).to eq user_specified_network
         end
       end
