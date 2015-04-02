@@ -8,16 +8,16 @@ Gem::Specification.new do |spec|
   spec.name          = 'kitchen-rackspace'
   spec.version       = Kitchen::Driver::RACKSPACE_VERSION
   spec.authors       = ['Jonathan Hartman']
-  spec.email         = ['j@p4nt5.com']
-  spec.description   = %q{A Test Kitchen Rackspace driver}
+  spec.email         = %w(j@p4nt5.com)
+  spec.description   = 'A Test Kitchen Rackspace driver'
   spec.summary       = spec.description
   spec.homepage      = 'https://github.com/test-kitchen/kitchen-rackspace'
   spec.license       = 'Apache'
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ['lib']
+  spec.files         = `git ls-files`.split("\x0")
+  spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
+  spec.require_paths = %w(lib)
 
   spec.required_ruby_version = '>= 1.9.3'
 
