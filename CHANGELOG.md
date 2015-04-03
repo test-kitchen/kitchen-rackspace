@@ -1,3 +1,5 @@
+# ?.?.? / ????-??-??
+
 # 0.15.1 / 2015-04-03
 
 * PR [#49][] - Update image IDs, re-add CentOS point release numbers; via
