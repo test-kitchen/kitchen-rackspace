@@ -1,5 +1,9 @@
 # ?.?.? / ????-??-??
 
+* PR [#48][] - Drop references to retired Ubuntu 10.04 image
+* PR [#46][] - Update all image IDs, add Scientific 7, remove references to
+point releases that Rackspace no longer uses in image names; via [@martinb3][]
+
 # 0.14.0 / 2014-12-09
 
 * PR [#45][] - Add Ubuntu 14.10 and Fedora 21
@@ -120,6 +124,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#48]: https://github.com/test-kitchen/kitchen-rackspace/pull/48
+[#46]: https://github.com/test-kitchen/kitchen-rackspace/pull/46
 [#45]: https://github.com/test-kitchen/kitchen-rackspace/pull/45
 [#44]: https://github.com/test-kitchen/kitchen-rackspace/pull/44
 [#43]: https://github.com/test-kitchen/kitchen-rackspace/pull/43
