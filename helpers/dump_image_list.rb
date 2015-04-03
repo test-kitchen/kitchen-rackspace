@@ -36,6 +36,13 @@ i_care_about = {
                                      windows-2008R2SP1)
 }
 
+names_to_clean = {
+  'com.microsoft.server' => 'windows',
+  'org.fedoraproject' => 'fedora',
+  'org.archlinux' => 'arch',
+  'org.scientificlinux' => 'scientific'
+}
+
 compute = Fog::Compute.new(provider: 'Rackspace',
                            rackspace_username: ENV['RACKSPACE_USERNAME'],
                            rackspace_api_key: ENV['RACKSPACE_API_KEY'],
@@ -49,6 +56,24 @@ res = aliases.each_with_object({}) do |a, hsh|
 end
 
 compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
+  image_metadata = img.metadata
+
+  if image_metadata['org.openstack__1__os_distro'] &&
+     image_metadata['org.openstack__1__os_version']
+
+    distro_id = image_metadata['org.openstack__1__os_distro']
+    version = image_metadata['org.openstack__1__os_version']
+
+    if names_to_clean.include?(distro_id)
+      distro = names_to_clean[distro_id]
+    else
+      distro = distro_id.split('.').last
+    end
+
+    alternate_name = "#{distro}-#{version}"
+    res[alternate_name] = img.id
+  end
+
   i_care_about[img.name].each { |a| res[a] = img.id }
   i_care_about.delete(img.name)
 end
@@ -57,4 +82,5 @@ unless i_care_about.empty?
   fail "Couldn't find some images we expected: #{i_care_about.keys}"
 end
 
-puts JSON.pretty_generate(res)
+# sort these to make them pretty
+puts JSON.pretty_generate(res.sort.to_h)
