@@ -29,7 +29,6 @@ i_care_about = {
   'Ubuntu 14.10 (Utopic Unicorn) (PVHVM)' => %w(ubuntu ubuntu-14 ubuntu-14.10),
   'Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)' => %w(ubuntu-14.04),
   'Ubuntu 12.04 LTS (Precise Pangolin) (PVHVM)' => %w(ubuntu-12 ubuntu-12.04),
-  'Ubuntu 10.04 LTS (Lucid Lynx) (PV)' => %w(ubuntu-10 ubuntu-10.04),
   'Vyatta Network OS 6.7R6' => %w(vyatta vyatta-6 vyatta-6.7 vyatta-6.7R6),
   'Windows Server 2012 R2' => %w(windows windows-2012 windows-2012R2),
   'Windows Server 2008 R2 SP1' => %w(windows-2008
