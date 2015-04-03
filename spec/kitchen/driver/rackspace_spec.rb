@@ -1,6 +1,7 @@
 # Encoding: UTF-8
 
 require_relative '../../spec_helper'
+require_relative '../../../lib/kitchen/driver/rackspace'
 
 require 'logger'
 require 'stringio'

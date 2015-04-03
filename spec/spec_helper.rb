@@ -11,6 +11,6 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::Console
 ]
 SimpleCov.minimum_coverage 90
-SimpleCov.start
-
-require_relative '../lib/kitchen/driver/rackspace'
+SimpleCov.start do
+  add_filter '/vendor/'
+end
