@@ -4,6 +4,10 @@
 require 'fog'
 require 'json'
 
+def whole?(x)
+  (x - x.floor) < 1e-6
+end
+
 i_care_about = {
   'Arch 2015.3 (PVHVM)' => %w(arch arch-2015 arch-2015.3),
   'CentOS 7 (PVHVM)' => %w(centos centos-7),
@@ -70,8 +74,13 @@ compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
       distro = distro_id.split('.').last
     end
 
-    alternate_name = "#{distro}-#{version}"
-    res[alternate_name] = img.id
+    res["#{distro}-#{version}"] = img.id
+
+    # if it's a whole number non-zero version, also add
+    # a dot-zero (centos-7 vs centos-7.0)
+    if version != '0' && version =~ /^\s*\d+\s*$/
+      res["#{distro}-#{version}.0"] = img.id
+    end
   end
 
   i_care_about[img.name].each { |a| res[a] = img.id }
