@@ -1,4 +1,7 @@
-# ?.?.? / ????-??-??
+# 0.16.0 / 2015-04-15
+
+* PR [#50][] - Update image IDs, support 'centos-7.0' in addition to
+'centos-7'; via [@martinb3][]
 
 # 0.15.1 / 2015-04-03
 
@@ -131,6 +134,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#50]: https://github.com/test-kitchen/kitchen-rackspace/pull/50
+[#49]: https://github.com/test-kitchen/kitchen-rackspace/pull/49
 [#48]: https://github.com/test-kitchen/kitchen-rackspace/pull/48
 [#46]: https://github.com/test-kitchen/kitchen-rackspace/pull/46
 [#45]: https://github.com/test-kitchen/kitchen-rackspace/pull/45
