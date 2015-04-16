@@ -9,7 +9,7 @@ def whole?(x)
 end
 
 i_care_about = {
-  'Arch 2015.3 (PVHVM)' => %w(arch arch-2015 arch-2015.3),
+  'Arch 2015.4 (PVHVM)' => %w(arch arch-2015 arch-2015.4),
   'CentOS 7 (PVHVM)' => %w(centos centos-7),
   'CentOS 6 (PVHVM)' => %w(centos-6),
   'CentOS 5 (PV)' => %w(centos-5),
@@ -23,7 +23,7 @@ i_care_about = {
   'Fedora 21 (PVHVM)' => %w(fedora fedora-21),
   'Fedora 20 (Heisenbug) (PVHVM)' => %w(fedora-20),
   'FreeBSD 10 (PVHVM)' => %w(freebsd freebsd-10),
-  'Gentoo 15.1 (PVHVM)' => %w(gentoo gentoo-15 gentoo-15.1),
+  'Gentoo 15.2 (PVHVM)' => %w(gentoo gentoo-15 gentoo-15.2),
   'OpenSUSE 13.2 (PVHVM)' => %w(opensuse opensuse-13 opensuse-13.2),
   'Red Hat Enterprise Linux 7 (PVHVM)' => %w(redhat redhat-7),
   'Red Hat Enterprise Linux 6 (PVHVM)' => %w(redhat-6),
