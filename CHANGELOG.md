@@ -1,3 +1,5 @@
+# ?.?.? / ????-??-??
+
 # 0.16.0 / 2015-04-15
 
 * PR [#50][] - Update image IDs, support 'centos-7.0' in addition to
