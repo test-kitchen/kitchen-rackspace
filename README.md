@@ -1,17 +1,25 @@
-[![Gem Version](https://badge.fury.io/rb/kitchen-rackspace.png)](http://badge.fury.io/rb/kitchen-rackspace)
-[![Build Status](https://travis-ci.org/test-kitchen/kitchen-rackspace.png?branch=master)](https://travis-ci.org/test-kitchen/kitchen-rackspace)
-[![Code Climate](https://codeclimate.com/github/test-kitchen/kitchen-rackspace.png)](https://codeclimate.com/github/test-kitchen/kitchen-rackspace)
-[![Coverage Status](https://coveralls.io/repos/test-kitchen/kitchen-rackspace/badge.png)](https://coveralls.io/r/test-kitchen/kitchen-rackspace)
-[![Dependency Status](https://gemnasium.com/test-kitchen/kitchen-rackspace.png)](https://gemnasium.com/test-kitchen/kitchen-rackspace)
+[![Gem Version](https://img.shields.io/gem/v/kitchen-rackspace.svg)][gem]
+[![Build Status](https://img.shields.io/travis/test-kitchen/kitchen-rackspace.svg)][travis]
+[![Code Climate](https://img.shields.io/codeclimate/github/test-kitchen/kitchen-rackspace.svg)][codeclimate]
+[![Coverage Status](https://img.shields.io/coveralls/test-kitchen/kitchen-rackspace.svg)][coveralls]
+[![Dependency Status](https://img.shields.io/gemnasium/test-kitchen/kitchen-rackspace.svg)][gemnasium]
 
-# Kitchen::Rackspace
+[gem]: https://rubygems.org/gems/kitchen-rackspace
+[travis]: https://travis-ci.org/test-kitchen/kitchen-rackspace
+[codeclimate]: https://codeclimate.com/github/test-kitchen/kitchen-rackspace
+[coveralls]: https://coveralls.io/r/test-kitchen/kitchen-rackspace
+[gemnasium]: https://gemnasium.com/test-kitchen/kitchen-rackspace
+
+Kitchen::Rackspace
+==================
 
 A Rackspace Cloud Servers driver for Test Kitchen!
 
 Shamelessly copied from [Fletcher Nichol](https://github.com/fnichol)'s
 awesome work on an [EC2 driver](https://github.com/opscode/kitchen-ec2).
 
-## Installation
+Installation
+------------
 
 Add this line to your application's Gemfile:
 
@@ -25,7 +33,8 @@ Or install it yourself as:
 
     $ gem install kitchen-rackspace
 
-## Usage
+Usage
+-----
 
 Provide, at a minimum, the required driver options in your `.kitchen.yml` file:
 
@@ -64,7 +73,8 @@ Some configs are also derived based on your .ssh directory, specifically the
 - `~/.ssh/identity.pub`
 - `~/.ssh/id_ecdsa.pub`
 
-## Contributing
+Contributing
+------------
 
 1. Fork it
 2. `bundle install`
