@@ -1,5 +1,8 @@
 # ?.?.? / ????-??-??
 
+* PR [#51][] - Update image IDS--add Debian 8, drop Debian 6, add Ubuntu 15.04,
+drop Ubuntu 14.10
+
 # 0.16.0 / 2015-04-15
 
 * PR [#50][] - Update image IDs, support 'centos-7.0' in addition to
@@ -136,6 +139,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#51]: https://github.com/test-kitchen/kitchen-rackspace/pull/51
 [#50]: https://github.com/test-kitchen/kitchen-rackspace/pull/50
 [#49]: https://github.com/test-kitchen/kitchen-rackspace/pull/49
 [#48]: https://github.com/test-kitchen/kitchen-rackspace/pull/48
