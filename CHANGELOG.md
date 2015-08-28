@@ -1,3 +1,5 @@
+# ?.?.? / ????-??-??
+
 # 0.18.0 / 2015-08-28
 
 * PR [#53][] - Update image IDs, update Arch to 2015.7, drop Fedora 20, add
