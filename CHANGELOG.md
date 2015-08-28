@@ -1,4 +1,7 @@
-# ?.?.? / ????-??-??
+# 0.18.0 / 2015-08-28
+
+* PR [#53][] - Update image IDs, update Arch to 2015.7, drop Fedora 20, add
+Fedora 22, update Gentoo to 15.3, update Vyatta to 6.7R9; via [@martinb3][]
 
 # 0.17.0 / 2015-05-15
 
@@ -141,6 +144,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#53]: https://github.com/test-kitchen/kitchen-rackspace/pull/53
 [#51]: https://github.com/test-kitchen/kitchen-rackspace/pull/51
 [#50]: https://github.com/test-kitchen/kitchen-rackspace/pull/50
 [#49]: https://github.com/test-kitchen/kitchen-rackspace/pull/49
