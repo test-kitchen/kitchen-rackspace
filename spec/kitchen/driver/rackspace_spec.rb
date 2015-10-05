@@ -499,6 +499,7 @@ describe Kitchen::Driver::Rackspace do
         image_id: 'there',
         flavor_id: 'captain',
         public_key_path: 'tarpals',
+        no_passwd_lock: false,
         networks: default_networks
       }
     end
