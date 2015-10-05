@@ -133,7 +133,8 @@ module Kitchen
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect
-        server_def[:no_passwd_lock] = true if config[:rackconnect_wait] || config[:servicelevel_wait]
+        no_passwd_lock = config[:rackconnect_wait] || config[:servicelevel_wait]
+        server_def[:no_passwd_lock] = no_passwd_lock if no_passwd_lock
         compute.servers.bootstrap(server_def)
       end
 
