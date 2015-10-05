@@ -37,9 +37,10 @@ module Kitchen
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
       default_config :rackconnect_wait, false
+      default_config :no_passwd_lock, false
       default_config :servicenet, false
-      default_config(:image_id) { |driver| driver.default_image }
-      default_config(:server_name) { |driver| driver.default_name }
+      default_config(:image_id, &:default_image)
+      default_config(:server_name, &:default_name)
       default_config :networks, nil
 
       default_config :public_key_path do
@@ -127,7 +128,7 @@ module Kitchen
 
       def create_server
         server_def = { name: config[:server_name], networks: networks }
-        [:image_id, :flavor_id, :public_key_path].each do |opt|
+        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock].each do |opt|
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect

@@ -100,6 +100,10 @@ describe Kitchen::Driver::Rackspace do
       it 'defaults to the public ip address' do
         expect(driver[:servicenet]).to eq(false)
       end
+
+      it 'defaults to no_passwd_lock as false' do
+        expect(driver[:no_passwd_lock]).to eq(false)
+      end
     end
 
     platforms = {
@@ -429,6 +433,7 @@ describe Kitchen::Driver::Rackspace do
         image_id: 'there',
         flavor_id: 'captain',
         public_key_path: 'tarpals',
+        no_passwd_lock: false,
         networks: default_networks
       }
     end
