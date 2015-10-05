@@ -97,6 +97,10 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:rackconnect_wait]).to eq(false)
       end
 
+      it 'defaults to not waiting for managed service level' do
+        expect(driver[:servicelevel_wait]).to eq(false)
+      end
+
       it 'defaults to the public ip address' do
         expect(driver[:servicenet]).to eq(false)
       end
@@ -130,6 +134,7 @@ describe Kitchen::Driver::Rackspace do
         rackspace_region: 'ord',
         wait_for: 1200,
         rackconnect_wait: true,
+        servicelevel_wait: true,
         use_private_ip_address: true
       }
 
@@ -286,6 +291,68 @@ describe Kitchen::Driver::Rackspace do
       end
     end
   end
+
+  describe '#create and servicelevel_wait' do
+    let(:server) do
+      double(id: 'test123',
+             wait_for: true,
+             public_ip_address: '1.2.3.4',
+             private_ip_address: '10.9.8.7',
+             update: nil)
+    end
+
+    before(:each) do
+      {
+        default_name: 'a_monkey!',
+        create_server: server,
+        tcp_check: true
+      }.each do |k, v|
+        allow_any_instance_of(described_class).to receive(k).and_return(v)
+      end
+    end
+
+    context 'username and API key only provided' do
+      let(:config) do
+        {
+          rackspace_username: 'hello',
+          rackspace_api_key: 'world',
+          wait_for: 1200,
+          servicelevel_wait: true
+        }
+      end
+
+      it 'generates a server name in the absence of one' do
+        driver.create(state)
+        expect(driver[:server_name]).to eq('a_monkey!')
+      end
+
+      it 'gets a proper server ID' do
+        driver.create(state)
+        expect(state[:server_id]).to eq('test123')
+      end
+
+      it 'gets a proper hostname (IP)' do
+        driver.create(state)
+        expect(state[:hostname]).to eq('1.2.3.4')
+      end
+
+      it 'calls tcp_check' do
+        expect(driver).to receive(:tcp_check)
+        driver.create(state)
+      end
+
+      it 'calls servicelevel_check ' do
+        expect(driver).to receive(:servicelevel_check)
+        driver.create(state)
+      end
+
+      it 'servicelevel_check waits for managed service level automation' do
+        expect(server).to receive(:wait_for)
+        driver.send(:servicelevel_check, server)
+      end
+    end
+  end
+
 
   describe '#create and use_private_ip_address' do
     let(:server) do

@@ -37,6 +37,7 @@ module Kitchen
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
       default_config :rackconnect_wait, false
+      default_config :servicelevel_wait, false
       default_config :servicenet, false
       default_config(:image_id) { |driver| driver.default_image }
       default_config(:server_name) { |driver| driver.default_name }
@@ -76,6 +77,7 @@ module Kitchen
         server.wait_for { ready? }
         puts '(server ready)'
         rackconnect_check(server) if config[:rackconnect_wait]
+        servicelevel_check(server) if config[:servicelevel_wait]
         state[:hostname] = hostname(server)
         tcp_check(state)
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
@@ -131,7 +133,7 @@ module Kitchen
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect
-        server_def[:no_passwd_lock] = true if config[:rackconnect_wait]
+        server_def[:no_passwd_lock] = true if config[:rackconnect_wait] || config[:servicelevel_wait]
         compute.servers.bootstrap(server_def)
       end
 
@@ -155,6 +157,12 @@ module Kitchen
           { metadata.all['rackconnect_automation_status'] == 'DEPLOYED' }
         puts '(rackconnect automation complete)'
         server.update # refresh accessIPv4 with new IP
+      end
+
+      def servicelevel_check(server)
+        server.wait_for \
+          { metadata.all['rax_service_level_automation'] == 'Complete' }
+        puts '(service level automation complete)'
       end
 
       def hostname(server)
