@@ -39,8 +39,8 @@ module Kitchen
       default_config :rackconnect_wait, false
       default_config :servicelevel_wait, false
       default_config :servicenet, false
-      default_config(:image_id) { |driver| driver.default_image }
-      default_config(:server_name) { |driver| driver.default_name }
+      default_config(:image_id, &:default_image)
+      default_config(:server_name, &:default_name)
       default_config :networks, nil
 
       default_config :public_key_path do

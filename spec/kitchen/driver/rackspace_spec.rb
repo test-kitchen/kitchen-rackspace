@@ -353,7 +353,6 @@ describe Kitchen::Driver::Rackspace do
     end
   end
 
-
   describe '#create and use_private_ip_address' do
     let(:server) do
       double(id: 'test123',
