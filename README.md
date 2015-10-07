@@ -60,6 +60,7 @@ for your specified platform. Additional, optional overrides can be provided:
     networks: [LIST OF RACKSPACE NETWORK UUIDS, DEFAULT PUBLICNET AND SERVICE NET]
     rackconnect_wait: ['true' IF USING RACKCONNECT TO WAIT FOR IT TO COMPLETE]
     servicelevel_wait: ['true' IF USING MANAGED SERVICE LEVEL AUTOMATION TO WAIT FOR IT TO COMPLETE]
+    no_passwd_lock: ['true' IF FOG LIBRARY SHOULD NOT LOCK ROOT ACCOUNT]
     servicenet: ['true' IF USING THE SERVICENET IP ADDRESS TO CONNECT]
 
 You also have the option of providing some configs via environment variables:

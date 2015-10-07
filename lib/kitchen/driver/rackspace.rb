@@ -38,6 +38,7 @@ module Kitchen
       default_config :no_ssh_tcp_check_sleep, 120
       default_config :rackconnect_wait, false
       default_config :servicelevel_wait, false
+      default_config :no_passwd_lock, false
       default_config :servicenet, false
       default_config(:image_id, &:default_image)
       default_config(:server_name, &:default_name)
@@ -129,7 +130,7 @@ module Kitchen
 
       def create_server
         server_def = { name: config[:server_name], networks: networks }
-        [:image_id, :flavor_id, :public_key_path].each do |opt|
+        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock].each do |opt|
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect

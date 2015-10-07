@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rubocop', '~> 0.29'
   spec.add_development_dependency 'cane', '~> 2.6'
-  spec.add_development_dependency 'countloc', '~> 0.4'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov', '~> 0.9'
   spec.add_development_dependency 'simplecov-console', '~> 0.2'

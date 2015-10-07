@@ -9,12 +9,6 @@ Cane::RakeTask.new
 
 RuboCop::RakeTask.new
 
-desc 'Display LOC stats'
-task :loc do
-  puts "\n## LOC Stats"
-  sh 'countloc -r lib/kitchen'
-end
-
 RSpec::Core::RakeTask.new(:spec)
 
-task default: [:cane, :rubocop, :loc, :spec]
+task default: [:cane, :rubocop, :spec]

@@ -1,5 +1,8 @@
 # ?.?.? / ????-??-??
 
+* PR [#57][] - Add `servicelevel_wait` option; via [@martinb3][]
+* PR [#56][] - Add `no_passwd_lock` option; via [@martinb3][]
+
 # 0.18.0 / 2015-08-28
 
 * PR [#53][] - Update image IDs, update Arch to 2015.7, drop Fedora 20, add
@@ -146,6 +149,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#57]: https://github.com/test-kitchen/kitchen-rackspace/pull/57
+[#56]: https://github.com/test-kitchen/kitchen-rackspace/pull/56
 [#53]: https://github.com/test-kitchen/kitchen-rackspace/pull/53
 [#51]: https://github.com/test-kitchen/kitchen-rackspace/pull/51
 [#50]: https://github.com/test-kitchen/kitchen-rackspace/pull/50
