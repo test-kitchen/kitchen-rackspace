@@ -1,4 +1,4 @@
-# ?.?.? / ????-??-??
+# 0.19.0 / 2015-10-06
 
 * PR [#60][] - Update to latest image IDs
 * PR [#57][] - Add `servicelevel_wait` option; via [@martinb3][]
