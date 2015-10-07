@@ -1,5 +1,6 @@
 # ?.?.? / ????-??-??
 
+* PR [#60][] - Update to latest image IDs
 * PR [#57][] - Add `servicelevel_wait` option; via [@martinb3][]
 * PR [#56][] - Add `no_passwd_lock` option; via [@martinb3][]
 
