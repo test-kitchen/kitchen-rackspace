@@ -508,7 +508,9 @@ describe Kitchen::Driver::Rackspace do
         flavor_id: 'captain',
         public_key_path: 'tarpals',
         no_passwd_lock: false,
-        networks: default_networks
+        networks: default_networks,
+        user_data: nil,
+        config_drive: false
       }
     end
     before(:each) do
