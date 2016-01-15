@@ -1,4 +1,5 @@
 # Encoding: UTF-8
+# frozen_string_literal: true
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -21,6 +22,6 @@ module Kitchen
   #
   # @author Jonathan Hartman <j@p4nt5.com>
   module Driver
-    RACKSPACE_VERSION = '0.19.1.dev'
+    RACKSPACE_VERSION = '0.19.1.dev'.freeze
   end
 end

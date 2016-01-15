@@ -55,7 +55,7 @@ compute = Fog::Compute.new(provider: 'Rackspace',
 aliases = i_care_about.values.flatten
 res = aliases.each_with_object({}) do |a, hsh|
   fail "Alias '#{a}' was listed twice" if hsh.include?(a)
-  hsh.merge!(a => nil)
+  hsh[a] = nil
   hsh
 end
 
@@ -68,11 +68,11 @@ compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
     distro_id = image_metadata['org.openstack__1__os_distro']
     version = image_metadata['org.openstack__1__os_version']
 
-    if names_to_clean.include?(distro_id)
-      distro = names_to_clean[distro_id]
-    else
-      distro = distro_id.split('.').last
-    end
+    distro = if names_to_clean.include?(distro_id)
+               names_to_clean[distro_id]
+             else
+               distro_id.split('.').last
+             end
 
     res["#{distro}-#{version}"] = img.id
 
