@@ -1,4 +1,4 @@
-# ?.?.? / ????-??-??
+# 0.20.0 / 2016-01-15
 
 * PR [#63][] - Update image IDs, add Ubuntu 15.10, drop Ubuntu 15.04; via
 [@martinb3][]
