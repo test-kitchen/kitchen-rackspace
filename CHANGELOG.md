@@ -1,5 +1,8 @@
 # ?.?.? / ????-??-??
 
+* PR [#63][] - Update image IDs, add Ubuntu 15.10, drop Ubuntu 15.04; via
+[@martinb3][]
+
 # 0.19.0 / 2015-10-06
 
 * PR [#60][] - Update to latest image IDs
@@ -152,6 +155,7 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#63]: https://github.com/test-kitchen/kitchen-rackspace/pull/63
 [#57]: https://github.com/test-kitchen/kitchen-rackspace/pull/57
 [#56]: https://github.com/test-kitchen/kitchen-rackspace/pull/56
 [#53]: https://github.com/test-kitchen/kitchen-rackspace/pull/53
