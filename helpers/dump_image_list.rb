@@ -30,6 +30,7 @@ i_care_about = {
   'Red Hat Enterprise Linux 5 (PV)' => %w(redhat-5),
   'Scientific Linux 7 (PVHVM)' => %w(scientific scientific-7),
   'Scientific Linux 6 (PVHVM)' => %w(scientific-6),
+  'Ubuntu 16.04 LTS (Xenial Xerus) (PVHVM)' => %w(ubuntu-16 ubuntu-16.04),
   'Ubuntu 15.10 (Wily Werewolf) (PVHVM)' => %w(ubuntu ubuntu-15 ubuntu-15.10),
   'Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)' => %w(ubuntu-14 ubuntu-14.04),
   'Ubuntu 12.04 LTS (Precise Pangolin) (PVHVM)' => %w(ubuntu-12 ubuntu-12.04),

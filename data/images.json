@@ -54,6 +54,8 @@
   "ubuntu-14.04": "8e7bdecd-380a-43d7-af9a-ec4f4df51dbd",
   "ubuntu-15": "7a412a16-c9da-4c30-be5e-225633bde788",
   "ubuntu-15.10": "7a412a16-c9da-4c30-be5e-225633bde788",
+  "ubuntu-16": "5cf469a9-c4f3-4455-ab1b-7f07ed2b9dec",
+  "ubuntu-16.04": "5cf469a9-c4f3-4455-ab1b-7f07ed2b9dec",
   "vyatta": "65b7c683-19ef-4a24-a934-335c9eeef2d0",
   "vyatta-6": "65b7c683-19ef-4a24-a934-335c9eeef2d0",
   "vyatta-6.7": "65b7c683-19ef-4a24-a934-335c9eeef2d0",
