@@ -1,5 +1,10 @@
 # Unreleased
 
+# 0.21.0 / 2016-05-31
+
+* PR [#67][] - Update image IDS; via [@martinb3][]
+* PR [#65][] - Add Ubuntu 16.04; via [@coderanger][]
+
 # 0.20.0 / 2016-01-15
 
 * PR [#63][] - Update image IDs, add Ubuntu 15.10, drop Ubuntu 15.04; via
@@ -157,6 +162,8 @@ boot times, via [@coderanger][]
 
 * Initial release! Woo!
 
+[#67]: https://github.com/test-kitchen/kitchen-rackspace/pull/67
+[#65]: https://github.com/test-kitchen/kitchen-rackspace/pull/65
 [#63]: https://github.com/test-kitchen/kitchen-rackspace/pull/63
 [#57]: https://github.com/test-kitchen/kitchen-rackspace/pull/57
 [#56]: https://github.com/test-kitchen/kitchen-rackspace/pull/56
