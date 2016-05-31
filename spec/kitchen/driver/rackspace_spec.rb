@@ -35,7 +35,7 @@ describe Kitchen::Driver::Rackspace do
     ENV['RACKSPACE_API_KEY'] = 'key'
   end
 
-  describe '#initialize'do
+  describe '#initialize' do
     before(:each) do
       allow(Fog).to receive(:timeout=)
     end

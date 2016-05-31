@@ -54,7 +54,7 @@ compute = Fog::Compute.new(provider: 'Rackspace',
 
 aliases = i_care_about.values.flatten
 res = aliases.each_with_object({}) do |a, hsh|
-  fail "Alias '#{a}' was listed twice" if hsh.include?(a)
+  raise "Alias '#{a}' was listed twice" if hsh.include?(a)
   hsh[a] = nil
   hsh
 end
@@ -88,7 +88,7 @@ compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
 end
 
 unless i_care_about.empty?
-  fail "Couldn't find some images we expected: #{i_care_about.keys}"
+  raise "Couldn't find some images we expected: #{i_care_about.keys}"
 end
 
 # sort these to make them pretty
