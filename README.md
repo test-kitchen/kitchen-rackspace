@@ -62,6 +62,8 @@ for your specified platform. Additional, optional overrides can be provided:
     servicelevel_wait: ['true' IF USING MANAGED SERVICE LEVEL AUTOMATION TO WAIT FOR IT TO COMPLETE]
     no_passwd_lock: ['true' IF FOG LIBRARY SHOULD NOT LOCK ROOT ACCOUNT]
     servicenet: ['true' IF USING THE SERVICENET IP ADDRESS TO CONNECT]
+    config_drive: [DEFAULTS TO true, ENABLES READ-ONLY METADATA DRIVE]
+    user_data: [EXTRA CONFIGURATION DATA FOR THE SERVER]
 
 You also have the option of providing some configs via environment variables:
 
