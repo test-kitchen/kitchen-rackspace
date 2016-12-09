@@ -42,7 +42,9 @@ module Kitchen
       default_config :servicenet, false
       default_config(:image_id, &:default_image)
       default_config(:server_name, &:default_name)
-      default_config :networks, nil
+      default_config :additional_networks, nil
+      default_config :connect_public_net, true
+      default_config :ssh_network_name, nil
 
       default_config :public_key_path do
         [
@@ -79,6 +81,9 @@ module Kitchen
         puts '(server ready)'
         rackconnect_check(server) if config[:rackconnect_wait]
         servicelevel_check(server) if config[:servicelevel_wait]
+        # If any custom network setup is being done, the server needs to
+        # be updated.
+        server.update
         state[:hostname] = hostname(server)
         tcp_check(state)
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
@@ -136,7 +141,18 @@ module Kitchen
         # see @note on bootstrap def about rackconnect
         no_passwd_lock = config[:rackconnect_wait] || config[:servicelevel_wait]
         server_def[:no_passwd_lock] = no_passwd_lock if no_passwd_lock
-        compute.servers.bootstrap(server_def)
+        server_def[:ssh_ip_address] = Proc.new {|server| hostname(server) }
+        server = compute.servers.new(server_def)
+        server.save(networks: server_def[:networks])
+        print 'Waiting for server build to complete:'
+        server.wait_for do
+          print '.'
+          ready?
+        end
+        # This needs to happen before any ssh connections are attempted in order
+        # to install the root user ssh keys.
+        server.setup(:password => server.password)
+        server
       end
 
       def images
@@ -168,19 +184,34 @@ module Kitchen
       end
 
       def hostname(server)
-        if config[:servicenet] == false
+        if config[:ssh_network_name]
+          server.addresses[config[:ssh_network_name]].first['addr']
+        elsif config[:connect_public_net] && config[:servicenet] == false
           server.public_ip_address
         else
           server.private_ip_address
         end
       end
 
+      private def public_network
+        # Returns nil if no public ip address should be provisioned
+        '00000000-0000-0000-0000-000000000000' if config[:connect_public_net]
+      end
+
+      private def service_network
+        '11111111-1111-1111-1111-111111111111'
+      end
+
+      private def additional_networks
+        # If only one additional network is specified as a string in the yaml
+        # instead of as an array, convert it to an array.
+        (config[:additional_networks] || []).to_a
+      end
+
       def networks
-        base_nets = %w(
-          00000000-0000-0000-0000-000000000000
-          11111111-1111-1111-1111-111111111111
-        )
-        config[:networks] ? base_nets + config[:networks] : nil
+        # The .compact call gets rid of nil public_network or
+        # additional_networks.
+        [service_network, public_network].concat(additional_networks).compact
       end
     end
   end
