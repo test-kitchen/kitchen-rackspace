@@ -179,7 +179,10 @@ describe Kitchen::Driver::Rackspace do
     let(:server) do
       double(id: 'test123',
              wait_for: true,
-             public_ip_address: '1.2.3.4')
+             public_ip_address: '1.2.3.4',
+             save: nil,
+             setup: nil,
+             update: nil)
     end
 
     before(:each) do
@@ -241,6 +244,8 @@ describe Kitchen::Driver::Rackspace do
              wait_for: true,
              public_ip_address: '1.2.3.4',
              private_ip_address: '10.9.8.7',
+             save: nil,
+             setup: nil,
              update: nil)
     end
 
@@ -302,6 +307,8 @@ describe Kitchen::Driver::Rackspace do
              wait_for: true,
              public_ip_address: '1.2.3.4',
              private_ip_address: '10.9.8.7',
+             save: nil,
+             setup: nil,
              update: nil)
     end
 
@@ -362,7 +369,10 @@ describe Kitchen::Driver::Rackspace do
       double(id: 'test123',
              wait_for: true,
              public_ip_address: '1.2.3.4',
-             private_ip_address: '10.9.8.7')
+             private_ip_address: '10.9.8.7',
+             save: nil,
+             setup: nil,
+             update: nil)
     end
 
     before(:each) do
@@ -503,36 +513,41 @@ describe Kitchen::Driver::Rackspace do
         networks: default_networks
       }
     end
+
     before(:each) do
       @expected = config.merge(name: config[:server_name])
       @expected.delete_if do |k, _|
         k == :server_name
       end
     end
-    let(:servers) do
-      s = double('servers')
-      allow(s).to receive(:bootstrap) { |arg| arg }
-      s
+
+    let(:server) do
+      double(id: 'test123',
+             wait_for: true,
+             public_ip_address: '1.2.3.4',
+             private_ip_address: '10.9.8.7',
+             password: 'password',
+             save: nil,
+             setup: nil,
+             update: nil)
     end
+
+    let(:servers) { double('servers') }
     let(:compute) { double(servers: servers) }
 
     before(:each) do
       allow_any_instance_of(described_class).to receive(:compute)
         .and_return(compute)
+      allow(servers).to receive(:new) { server }
     end
 
     it 'creates the server using a compute connection' do
-      expect(driver.send(:create_server)).to eq(@expected)
+      expect(driver.send(:create_server)).to eq(server)
     end
 
     context 'additional networks specified' do
       let(:server_id) { '12345' }
-      let(:server) do
-        double(id: 'test123', wait_for: true,
-               public_ip_address: '1.2.3.4')
-      end
       let(:hostname) { 'example.com' }
-      let(:servers) { double('servers', bootstrap: server) }
       let(:compute) { double(Fog::Compute, servers: servers) }
       let(:state) { { server_id: server_id, hostname: hostname } }
       let(:user_specified_network) { 'bob_dole' }
@@ -541,7 +556,7 @@ describe Kitchen::Driver::Rackspace do
           rackspace_username: 'monkey',
           rackspace_api_key: 'potato',
           rackspace_region: 'ord',
-          networks: [user_specified_network]
+          additional_networks: [user_specified_network]
         }
       end
 
@@ -553,8 +568,13 @@ describe Kitchen::Driver::Rackspace do
 
       it 'has the user specified network, plus default Rackspace networks' do
         driver.send(:create_server)
-        expect(servers).to have_received(:bootstrap) do |arg|
-          expect(arg[:networks][2]).to eq user_specified_network
+        expect(servers).to have_received(:new) do |arg|
+          expected = [
+            '00000000-0000-0000-0000-000000000000',
+            '11111111-1111-1111-1111-111111111111',
+            user_specified_network
+          ]
+          expect(arg[:networks]).to match_array(expected)
         end
       end
     end
@@ -642,12 +662,16 @@ describe Kitchen::Driver::Rackspace do
   describe '#networks' do
     context 'the default Rackspace networks' do
       it 'returns nil so Fog will use the defaults' do
-        expect(driver.send(:networks)).to eq(nil)
+        expected = %w(
+          00000000-0000-0000-0000-000000000000
+          11111111-1111-1111-1111-111111111111
+        )
+        expect(driver.send(:networks)).to match_array(expected)
       end
     end
 
     context 'a custom Rackspace network' do
-      let(:config) { { networks: %w(abcdefg) } }
+      let(:config) { { additional_networks: %w(abcdefg) } }
 
       it 'returns the base networks plus the custom one' do
         expected = %w(
@@ -655,7 +679,7 @@ describe Kitchen::Driver::Rackspace do
           11111111-1111-1111-1111-111111111111
           abcdefg
         )
-        expect(driver.send(:networks)).to eq(expected)
+        expect(driver.send(:networks)).to match_array(expected)
       end
     end
   end
