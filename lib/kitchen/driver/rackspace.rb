@@ -33,6 +33,7 @@ module Kitchen
       default_config :username, 'root'
       default_config :port, '22'
       default_config :rackspace_region, 'dfw'
+      default_config :rackspace_newtork, '00000000-0000-0000-0000-000000000000'
       default_config :wait_for, 600
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
@@ -43,6 +44,7 @@ module Kitchen
       default_config(:image_id, &:default_image)
       default_config(:server_name, &:default_name)
       default_config :networks, nil
+      default_config :use_ipv6, false
 
       default_config :public_key_path do
         [
@@ -169,9 +171,22 @@ module Kitchen
 
       def hostname(server)
         if config[:servicenet] == false
-          server.public_ip_address
+          if config[:rackspace_newtork] == '00000000-0000-0000-0000-000000000000'
+            server.public_ip_address
+          else
+            debug "Using configured net: #{config[:rackspace_newtork]}"
+            filter_ips(server.addresses[config[:rackspace_newtork]]).first['addr']
+          end
         else
           server.private_ip_address
+        end
+      end
+
+      def filter_ips(addresses)
+        if config[:use_ipv6]
+          addresses.select { |i| IPAddr.new(i['addr']).ipv6? }
+        else
+          addresses.select { |i| IPAddr.new(i['addr']).ipv4? }
         end
       end
 
