@@ -101,8 +101,8 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:servicelevel_wait]).to eq(false)
       end
 
-      it 'defaults to the public ip address' do
-        expect(driver[:servicenet]).to eq(false)
+      it 'defaults to installed ServiceNet network' do
+        expect(driver[:servicenet]).to eq(true)
       end
 
       it 'defaults to no_passwd_lock as false' do
@@ -391,7 +391,8 @@ describe Kitchen::Driver::Rackspace do
           rackspace_username: 'hello',
           rackspace_api_key: 'world',
           wait_for: 1200,
-          servicenet: true
+          servicenet: true,
+          connect_public_net: false
         }
       end
 
@@ -556,7 +557,7 @@ describe Kitchen::Driver::Rackspace do
           rackspace_username: 'monkey',
           rackspace_api_key: 'potato',
           rackspace_region: 'ord',
-          additional_networks: [user_specified_network]
+          networks: [user_specified_network]
         }
       end
 
@@ -671,7 +672,7 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'a custom Rackspace network' do
-      let(:config) { { additional_networks: %w(abcdefg) } }
+      let(:config) { { networks: %w(abcdefg) } }
 
       it 'returns the base networks plus the custom one' do
         expected = %w(

@@ -21,6 +21,7 @@ require 'fog'
 require 'kitchen'
 require 'etc'
 require 'socket'
+require 'buff/extensions'
 
 module Kitchen
   module Driver
@@ -39,10 +40,10 @@ module Kitchen
       default_config :rackconnect_wait, false
       default_config :servicelevel_wait, false
       default_config :no_passwd_lock, false
-      default_config :servicenet, false
+      default_config :servicenet, true
       default_config(:image_id, &:default_image)
       default_config(:server_name, &:default_name)
-      default_config :additional_networks, nil
+      default_config :networks, nil
       default_config :connect_public_net, true
       default_config :ssh_network_name, nil
 
@@ -182,7 +183,7 @@ module Kitchen
       private def hostname(server)
         if config[:ssh_network_name]
           server.addresses[config[:ssh_network_name]].first['addr']
-        elsif config[:connect_public_net] && config[:servicenet] == false
+        elsif config[:connect_public_net] || config[:servicenet] == false
           server.public_ip_address
         else
           server.private_ip_address
@@ -195,13 +196,13 @@ module Kitchen
       end
 
       private def service_network
-        '11111111-1111-1111-1111-111111111111'
+        '11111111-1111-1111-1111-111111111111' if config[:servicenet]
       end
 
       private def additional_networks
         # If only one additional network is specified as a string in the yaml
         # instead of as an array, convert it to an array.
-        (config[:additional_networks] || []).to_a
+        (config[:networks] || []).to_a
       end
 
       private def networks
