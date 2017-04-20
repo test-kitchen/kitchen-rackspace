@@ -19,13 +19,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = %w(lib)
 
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = '>= 2.2.0'
 
   spec.add_dependency 'test-kitchen', '~> 1.1'
   spec.add_dependency 'fog', '~> 1.18'
   # breaking changes ahead, see https://github.com/fog/fog-rackspace/commit/e41257fcb5aff3ef6fba72be70dec6614c4eafe8
   spec.add_dependency 'fog-rackspace', '<= 0.1.1'
-  spec.add_dependency 'buff-extensions'
+  spec.add_dependency 'buff-extensions', '~> 2.0.0'
 
   spec.add_development_dependency 'bundler', '~> 1.0'
   spec.add_development_dependency 'rake', '~> 10.0'
