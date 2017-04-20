@@ -1,5 +1,5 @@
 # Encoding: UTF-8
-#
+
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
 # Copyright (C) 2013-2015, Jonathan Hartman

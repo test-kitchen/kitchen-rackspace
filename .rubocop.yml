@@ -7,3 +7,13 @@ AbcSize:
   Max: 20
 MethodLength:
   Max: 15
+BlockLength:
+  Max: 600
+TooManyLines:
+  Max: 120
+Style/PercentLiteralDelimiters:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/EmptyLiteral:
+  Enabled: false
