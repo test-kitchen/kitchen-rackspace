@@ -9,3 +9,5 @@ MethodLength:
   Max: 15
 Metrics/BlockLength:
   Max: 600
+Metrics/LineLength:
+  Max: 100
