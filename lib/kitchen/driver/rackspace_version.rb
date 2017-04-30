@@ -1,5 +1,6 @@
 # Encoding: UTF-8
 # frozen_string_literal: true
+
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #

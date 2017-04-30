@@ -7,3 +7,5 @@ AbcSize:
   Max: 20
 MethodLength:
   Max: 15
+Metrics/BlockLength:
+  Max: 600

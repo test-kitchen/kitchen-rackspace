@@ -11,8 +11,8 @@ require 'kitchen'
 describe Kitchen::Driver::Rackspace do
   let(:logged_output) { StringIO.new }
   let(:logger) { Logger.new(logged_output) }
-  let(:config) { Hash.new }
-  let(:state) { Hash.new }
+  let(:config) { {} }
+  let(:state) { {} }
   let(:platform_name) { 'ubuntu' }
   let(:default_networks) { nil }
   let(:instance_name) { 'potatoes' }
@@ -424,7 +424,7 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'no server ID present' do
-      let(:state) { Hash.new }
+      let(:state) { {} }
 
       it 'does nothing' do
         allow(driver).to receive(:compute)
@@ -647,14 +647,14 @@ describe Kitchen::Driver::Rackspace do
     end
 
     context 'a custom Rackspace network' do
-      let(:config) { { networks: %w(abcdefg) } }
+      let(:config) { { networks: %w[abcdefg] } }
 
       it 'returns the base networks plus the custom one' do
-        expected = %w(
+        expected = %w[
           00000000-0000-0000-0000-000000000000
           11111111-1111-1111-1111-111111111111
           abcdefg
-        )
+        ]
         expect(driver.send(:networks)).to eq(expected)
       end
     end
