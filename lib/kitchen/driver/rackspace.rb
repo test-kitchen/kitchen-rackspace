@@ -1,4 +1,5 @@
 # Encoding: UTF-8
+
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -120,8 +121,8 @@ module Kitchen
 
       def compute
         server_def = { provider: 'Rackspace' }
-        opts = [:version, :rackspace_username, :rackspace_api_key,
-                :rackspace_region]
+        opts = %i[version rackspace_username rackspace_api_key
+                  rackspace_region]
         opts.each do |opt|
           server_def[opt] = config[opt]
         end
@@ -130,7 +131,7 @@ module Kitchen
 
       def create_server
         server_def = { name: config[:server_name], networks: networks }
-        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock].each do |opt|
+        %i[image_id flavor_id public_key_path no_passwd_lock].each do |opt|
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect
@@ -142,7 +143,7 @@ module Kitchen
       def images
         @images ||= begin
           json_file = File.expand_path('../../../../data/images.json', __FILE__)
-          JSON.load(IO.read(json_file))
+          JSON.parse(IO.read(json_file))
         end
       end
 
@@ -176,10 +177,10 @@ module Kitchen
       end
 
       def networks
-        base_nets = %w(
+        base_nets = %w[
           00000000-0000-0000-0000-000000000000
           11111111-1111-1111-1111-111111111111
-        )
+        ]
         config[:networks] ? base_nets + config[:networks] : nil
       end
     end
