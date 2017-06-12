@@ -43,6 +43,8 @@ module Kitchen
       default_config(:image_id, &:default_image)
       default_config(:server_name, &:default_name)
       default_config :networks, nil
+      default_config :user_data, nil
+      default_config :config_drive, true
 
       default_config :public_key_path do
         [
@@ -134,7 +136,7 @@ module Kitchen
 
       def create_server
         server_def = { name: config[:server_name], networks: networks }
-        %i[image_id flavor_id public_key_path no_passwd_lock].each do |opt|
+        %i[image_id flavor_id public_key_path no_passwd_lock user_data config_drive].each do |opt|
           server_def[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect
