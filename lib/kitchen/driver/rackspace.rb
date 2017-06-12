@@ -33,7 +33,6 @@ module Kitchen
       default_config :flavor_id, 'performance1-1'
       default_config :username, 'root'
       default_config :port, '22'
-      default_config :rackspace_region, 'dfw'
       default_config :wait_for, 600
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
@@ -60,6 +59,10 @@ module Kitchen
 
       default_config :rackspace_api_key do
         ENV['RACKSPACE_API_KEY'] || ENV['OS_PASSWORD']
+      end
+
+      default_config :rackspace_region do
+        ENV['RACKSPACE_REGION'] || ENV['OS_REGION_NAME'] || 'dfw'
       end
 
       required_config :rackspace_username

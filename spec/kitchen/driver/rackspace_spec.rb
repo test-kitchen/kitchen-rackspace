@@ -162,8 +162,10 @@ describe Kitchen::Driver::Rackspace do
       before(:each) do
         ENV.delete('RACKSPACE_USERNAME')
         ENV.delete('RACKSPACE_API_KEY')
+        ENV.delete('RACKSPACE_REGION')
         ENV['OS_USERNAME'] = 'os_user'
         ENV['OS_PASSWORD'] = 'os_pass'
+        ENV['OS_REGION_NAME'] = 'os_region'
       end
 
       it 'gets to username from $OS_USERNAME' do
@@ -172,6 +174,10 @@ describe Kitchen::Driver::Rackspace do
 
       it 'gets to API key from $OS_PASSWORD' do
         expect(driver[:rackspace_api_key]).to eq('os_pass')
+      end
+
+      it 'gets to region from $OS_REGION_NAME' do
+        expect(driver[:rackspace_region]).to eq('os_region')
       end
     end
   end

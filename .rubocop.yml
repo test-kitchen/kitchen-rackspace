@@ -2,7 +2,7 @@
 # into smaller classes.
 
 ClassLength:
-  Max: 125
+  Max: 131
 AbcSize:
   Max: 20
 MethodLength:
