@@ -127,7 +127,8 @@ module Kitchen
       private def server_config
         return @server_config if defined?(@server_config)
         @server_config = { name: config[:server_name], networks: networks }
-        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock, :user_data, :config_drive].each do |opt|
+        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock, :user_data,
+         :config_drive].each do |opt|
           @server_config[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect

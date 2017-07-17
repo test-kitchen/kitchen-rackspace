@@ -421,6 +421,47 @@ describe Kitchen::Driver::Rackspace do
     end
   end
 
+  describe '#create and use_ssh_network_name' do
+    let(:server) do
+      double(id: 'test123',
+             wait_for: true,
+             public_ip_address: '1.2.3.4',
+             private_ip_address: '10.9.8.7',
+             addresses: { 'rcv3_custom_network' => [{ 'addr' => '10.8.7.6' }] },
+             save: nil,
+             setup: nil,
+             update: nil)
+    end
+
+    before(:each) do
+      {
+        default_name: 'a_monkey!',
+        create_server: server,
+        tcp_check: true
+      }.each do |k, v|
+        allow_any_instance_of(described_class).to receive(k).and_return(v)
+      end
+    end
+
+    context 'ssh_network_name only provided' do
+      let(:config) do
+        {
+          rackspace_username: 'hello',
+          rackspace_api_key: 'world',
+          wait_for: 1200,
+          servicenet: true,
+          connect_public_net: false,
+          ssh_network_name: 'rcv3_custom_network'
+        }
+      end
+
+      it 'gets a ip from ssh_network_name as the hostname' do
+        driver.create(state)
+        expect(state[:hostname]).to eq('10.8.7.6')
+      end
+    end
+  end
+
   describe '#destroy' do
     let(:server_id) { '12345' }
     let(:hostname) { 'example.com' }
