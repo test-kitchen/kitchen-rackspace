@@ -8,14 +8,6 @@ AbcSize:
 MethodLength:
   Max: 15
 Metrics/BlockLength:
-  Max: 600
+  Max: 700
 Metrics/LineLength:
   Max: 100
-TooManyLines:
-  Max: 120
-Style/PercentLiteralDelimiters:
-  Enabled: false
-Style/SymbolArray:
-  Enabled: false
-Style/EmptyLiteral:
-  Enabled: false

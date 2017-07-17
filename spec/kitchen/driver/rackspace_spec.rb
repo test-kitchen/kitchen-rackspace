@@ -714,10 +714,10 @@ describe Kitchen::Driver::Rackspace do
   describe '#networks' do
     context 'the default Rackspace networks' do
       it 'returns nil so Fog will use the defaults' do
-        expected = %w(
+        expected = %w[
           00000000-0000-0000-0000-000000000000
           11111111-1111-1111-1111-111111111111
-        )
+        ]
         expect(driver.send(:networks)).to match_array(expected)
       end
     end
