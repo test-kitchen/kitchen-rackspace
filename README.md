@@ -61,9 +61,11 @@ for your specified platform. Additional, optional overrides can be provided:
     rackconnect_wait: ['true' IF USING RACKCONNECT TO WAIT FOR IT TO COMPLETE]
     servicelevel_wait: ['true' IF USING MANAGED SERVICE LEVEL AUTOMATION TO WAIT FOR IT TO COMPLETE]
     no_passwd_lock: ['true' IF FOG LIBRARY SHOULD NOT LOCK ROOT ACCOUNT]
-    servicenet: [DEFAULTS TO 'true''false' IF THE SERVICENET SHOULD NOT BE INSTALLED]
+    servicenet: [DEFAULTS TO 'true', SET TO'false' IF THE SERVICENET SHOULD NOT BE INSTALLED]
     ssh_network_name: [IF SET, WILL USE THE SPECIFIED NETWORK NAME! TO CONNECT]
     connect_public_net: [DEFAULTS TO 'true', SET TO 'false' TO PROVISION NO PUBLIC IP]
+    config_drive: [DEFAULTS TO true, ENABLES READ-ONLY METADATA DRIVE]
+    user_data: [EXTRA CONFIGURATION DATA FOR THE SERVER]
 
 Specifying ssh_network_name doesn't make sense unless you also provide at least
 one value for additional_networks. While additional_networks takes the 
@@ -75,6 +77,7 @@ You also have the option of providing some configs via environment variables:
 
     export RACKSPACE_USERNAME="user"   # (or OS_USERNAME)
     export RACKSPACE_API_KEY="api_key" # (or OS_PASSWORD)
+    export RACKSPACE_REGION="dfw"      # (or OS_REGION_NAME)
 
 Some configs are also derived based on your .ssh directory, specifically the
 `public_key_path` setting is derived by searching for:

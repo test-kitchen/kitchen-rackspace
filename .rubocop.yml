@@ -7,8 +7,10 @@ AbcSize:
   Max: 20
 MethodLength:
   Max: 15
-BlockLength:
+Metrics/BlockLength:
   Max: 600
+Metrics/LineLength:
+  Max: 100
 TooManyLines:
   Max: 120
 Style/PercentLiteralDelimiters:

@@ -1,5 +1,6 @@
 # Encoding: UTF-8
 
+#
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
 # Copyright (C) 2013-2015, Jonathan Hartman
@@ -33,7 +34,6 @@ module Kitchen
       default_config :flavor_id, 'performance1-1'
       default_config :username, 'root'
       default_config :port, '22'
-      default_config :rackspace_region, 'dfw'
       default_config :wait_for, 600
       default_config :no_ssh_tcp_check, false
       default_config :no_ssh_tcp_check_sleep, 120
@@ -46,6 +46,8 @@ module Kitchen
       default_config :networks, nil
       default_config :connect_public_net, true
       default_config :ssh_network_name, nil
+      default_config :user_data, nil
+      default_config :config_drive, true
 
       default_config :public_key_path do
         [
@@ -62,6 +64,10 @@ module Kitchen
 
       default_config :rackspace_api_key do
         ENV['RACKSPACE_API_KEY'] || ENV['OS_PASSWORD']
+      end
+
+      default_config :rackspace_region do
+        ENV['RACKSPACE_REGION'] || ENV['OS_REGION_NAME'] || 'dfw'
       end
 
       required_config :rackspace_username
@@ -121,7 +127,7 @@ module Kitchen
       private def server_config
         return @server_config if defined?(@server_config)
         @server_config = { name: config[:server_name], networks: networks }
-        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock].each do |opt|
+        [:image_id, :flavor_id, :public_key_path, :no_passwd_lock, :user_data, :config_drive].each do |opt|
           @server_config[opt] = config[opt]
         end
         # see @note on bootstrap def about rackconnect
@@ -140,11 +146,7 @@ module Kitchen
       private def create_server
         compute.servers.new(server_config).tap do |server|
           server.save(networks: server_config[:networks])
-          puts 'Waiting for server build to complete:'
-          server.wait_for do
-            print '.'
-            ready?
-          end
+          server.wait_for { ready? }
           # This needs to happen before any ssh connections are attempted in
           # order to install the root user ssh keys.
           puts '(starting server auth setup)'

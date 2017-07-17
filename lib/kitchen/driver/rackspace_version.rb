@@ -1,6 +1,7 @@
 # Encoding: UTF-8
 # frozen_string_literal: true
 
+#
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
 # Copyright (C) 2013-2015, Jonathan Hartman
