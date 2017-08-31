@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # Encoding: UTF-8
 
-require 'fog'
+require 'fog/rackspace'
 require 'json'
 
 def whole?(x)

@@ -18,7 +18,7 @@
 # limitations under the License.
 
 require 'benchmark'
-require 'fog'
+require 'fog/rackspace'
 require 'kitchen'
 require 'etc'
 require 'socket'
