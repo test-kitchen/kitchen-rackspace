@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 #
 # Author:: Jonathan Hartman (<j@p4nt5.com>)
 #
@@ -147,7 +145,7 @@ module Kitchen
 
       def images
         @images ||= begin
-          json_file = File.expand_path('../../../../data/images.json', __FILE__)
+          json_file = File.expand_path('../../../data/images.json', __dir__)
           JSON.parse(IO.read(json_file))
         end
       end
