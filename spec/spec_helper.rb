@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 require 'rspec'
 require 'simplecov'
 require 'simplecov-console'

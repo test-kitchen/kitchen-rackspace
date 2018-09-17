@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
-
-require 'fog'
+require 'fog/rackspace'
 require 'json'
 
-def whole?(x)
+def whole?(x) # rubocop:disable Naming/UncommunicativeMethodParamName
   (x - x.floor) < 1e-6
 end
 
@@ -56,7 +54,7 @@ res = aliases.each_with_object({}) do |a, hsh|
   hsh
 end
 
-compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
+compute.images.select { |i| i_care_about.key?(i.name) }.each do |img|
   image_metadata = img.metadata
 
   if image_metadata['org.openstack__1__os_distro'] &&
@@ -75,18 +73,14 @@ compute.images.select { |i| i_care_about.keys.include?(i.name) }.each do |img|
 
     # if it's a whole number non-zero version, also add
     # a dot-zero (centos-7 vs centos-7.0)
-    if version != '0' && version =~ /^\s*\d+\s*$/
-      res["#{distro}-#{version}.0"] = img.id
-    end
+    res["#{distro}-#{version}.0"] = img.id if version != '0' && version =~ /^\s*\d+\s*$/
   end
 
   i_care_about[img.name].each { |a| res[a] = img.id }
   i_care_about.delete(img.name)
 end
 
-unless i_care_about.empty?
-  raise "Couldn't find some images we expected: #{i_care_about.keys}"
-end
+raise "Couldn't find some images we expected: #{i_care_about.keys}" unless i_care_about.empty?
 
 # sort these to make them pretty
 puts JSON.pretty_generate(res.sort.to_h)
