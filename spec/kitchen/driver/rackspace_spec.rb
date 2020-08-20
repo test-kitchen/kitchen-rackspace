@@ -2,7 +2,7 @@ require_relative '../../spec_helper'
 require_relative '../../../lib/kitchen/driver/rackspace'
 
 require 'logger'
-require 'stringio'
+require 'stringio' unless defined?(StringIO)
 require 'rspec'
 require 'kitchen'
 

@@ -120,7 +120,7 @@ servers might fail the TCP; via [@martinb3][]
 
 * PR [#23][] - Switch to PVHVM images, where available
 * PR [#22][] - Update all the images with new IDs
-* PR [#21][] - Add Ubunutu 14.04 to the list of known images; via [@pezholio][]
+* PR [#21][] - Add Ubuntu 14.04 to the list of known images; via [@pezholio][]
 
 # 0.4.0 / 2014-01-27
 

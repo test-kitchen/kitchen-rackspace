@@ -15,11 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'benchmark'
+require 'benchmark' unless defined?(Benchmark)
 require 'fog/rackspace'
 require 'kitchen'
-require 'etc'
-require 'socket'
+require 'etc' unless defined?(Etc)
+require 'socket' unless defined?(Socket)
 
 module Kitchen
   module Driver
