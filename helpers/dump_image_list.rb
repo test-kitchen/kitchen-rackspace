@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'fog/rackspace'
-require 'json'
+require 'json' unless defined?(JSON)
 
 def whole?(x) # rubocop:disable Naming/UncommunicativeMethodParamName
   (x - x.floor) < 1e-6
