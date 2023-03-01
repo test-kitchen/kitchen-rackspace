@@ -17,9 +17,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = %w[lib]
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.add_dependency 'fog-rackspace', '~> 0.1'
+  # there is a bug in 2.3.0 which is causing the fog/rackspace gem to fail.
+  # We can remove this once https://github.com/fog/fog-core/issues/279 is fixed.
+  spec.add_dependency 'fog-core', '~> 2.2.0'
   spec.add_dependency 'test-kitchen', '>= 1.1', '< 4.0'
 
   spec.add_development_dependency 'coveralls', '~> 0.8'

@@ -1,4 +1,17 @@
-# Unreleased
+# Change Log
+
+# 1.0.0 / 2023-03-02
+
+* Support for Ruby 3.0 and 3.1
+* PR [#86](https://github.com/test-kitchen/kitchen-rackspace/pull/86) - Support for Test Kitchen 3.0; via [@tas50](https://github.com/tas50)
+* PR [#84](https://github.com/test-kitchen/kitchen-rackspace/pull/84) - Optimize our requires; via [@tas50](https://github.com/tas50)
+* PR [#82](https://github.com/test-kitchen/kitchen-rackspace/pull/82) - Unpin the bundler dev dep; via [@tas50](https://github.com/tas50)
+* PR [#76](https://github.com/test-kitchen/kitchen-rackspace/pull/76) - Remove gemnasium badge; via [@tas50](https://github.com/tas50)
+* PR [#77](https://github.com/test-kitchen/kitchen-rackspace/pull/77) - Use fog-rackspace instead of the monolithic fog gem ; via [@tas50](https://github.com/tas50)
+* PR [#62](https://github.com/test-kitchen/kitchen-rackspace/pull/62) - Add support for setting region via ENV; via [@DavidWittman](https://github.com/DavidWittman)
+* PR [#75](https://github.com/test-kitchen/kitchen-rackspace/pull/75) - Add support for user_data and config_drive options; via [@hartmantis](https://github.com/hartmantis)
+* PR [#72](https://github.com/test-kitchen/kitchen-rackspace/pull/72) - Image data update and script fixes; via [@martinb3](https://github.com/martinb3)
+
 
 # 0.21.0 / 2016-05-31
 
