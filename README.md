@@ -1,12 +1,8 @@
 [![Gem Version](https://img.shields.io/gem/v/kitchen-rackspace.svg)][gem]
 [![Build Status](https://img.shields.io/travis/test-kitchen/kitchen-rackspace.svg)][travis]
-[![Code Climate](https://img.shields.io/codeclimate/github/test-kitchen/kitchen-rackspace.svg)][codeclimate]
-[![Coverage Status](https://img.shields.io/coveralls/test-kitchen/kitchen-rackspace.svg)][coveralls]
 
 [gem]: https://rubygems.org/gems/kitchen-rackspace
 [travis]: https://travis-ci.org/test-kitchen/kitchen-rackspace
-[codeclimate]: https://codeclimate.com/github/test-kitchen/kitchen-rackspace
-[coveralls]: https://coveralls.io/r/test-kitchen/kitchen-rackspace
 
 Kitchen::Rackspace
 ==================
