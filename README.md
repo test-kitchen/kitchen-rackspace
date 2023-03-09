@@ -1,8 +1,6 @@
 [![Gem Version](https://img.shields.io/gem/v/kitchen-rackspace.svg)][gem]
-[![Build Status](https://img.shields.io/travis/test-kitchen/kitchen-rackspace.svg)][travis]
 
 [gem]: https://rubygems.org/gems/kitchen-rackspace
-[travis]: https://travis-ci.org/test-kitchen/kitchen-rackspace
 
 Kitchen::Rackspace
 ==================
