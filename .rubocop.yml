@@ -1,13 +1,11 @@
-# Allow additional lines until main driver class can be split
-# into smaller classes.
+---
+require:
+  - chefstyle
 
-ClassLength:
-  Max: 131
-AbcSize:
-  Max: 20
-MethodLength:
-  Max: 15
-Metrics/BlockLength:
-  Max: 600
-Metrics/LineLength:
-  Max: 100
+AllCops:
+  TargetRubyVersion: 3.1
+  Include:
+    - "**/*.rb"
+  Exclude:
+    - "vendor/**/*"
+    - "spec/**/*"
