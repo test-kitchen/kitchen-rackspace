@@ -1,16 +1,12 @@
-require 'rspec'
-require 'simplecov'
-require 'simplecov-console'
-require 'coveralls'
+require "rake"
+require "rspec"
+require "logger"
+require "stringio" unless defined?(StringIO)
+require "kitchen"
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
-  [
-    Coveralls::SimpleCov::Formatter,
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Console
-  ]
-)
-SimpleCov.minimum_coverage(90)
-SimpleCov.start do
-  add_filter '/vendor/'
+require_relative "../lib/kitchen/driver/rackspace"
+RSpec.configure do |config|
+  config.run_all_when_everything_filtered = true
+  config.filter_run(:focus)
+  config.order = "random"
 end
