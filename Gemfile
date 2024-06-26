@@ -11,3 +11,7 @@ end
 group :chefstyle do
   gem "chefstyle"
 end
+
+group :development do
+  gem "fog-rackspace"
+end
