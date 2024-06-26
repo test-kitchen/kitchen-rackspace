@@ -1,4 +1,5 @@
 require_relative "../../spec_helper"
+require "fog/rackspace"
 
 describe Kitchen::Driver::Rackspace do
   let(:logged_output) { StringIO.new }
