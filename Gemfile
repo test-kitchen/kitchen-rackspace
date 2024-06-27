@@ -9,9 +9,5 @@ group :test do
 end
 
 group :chefstyle do
-  gem "chefstyle"
-end
-
-group :development do
-  gem "fog-rackspace"
+  gem "chefstyle", "2.2.3"
 end
