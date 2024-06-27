@@ -1,5 +1,5 @@
 require "benchmark" unless defined?(Benchmark)
-require "fog"
+require "fog/rackspace"
 require "kitchen"
 require "etc" unless defined?(Etc)
 require "socket" unless defined?(Socket)
