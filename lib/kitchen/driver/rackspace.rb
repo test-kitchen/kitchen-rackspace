@@ -3,6 +3,7 @@ require "fog/rackspace"
 require "kitchen"
 require "etc" unless defined?(Etc)
 require "socket" unless defined?(Socket)
+require "json" unless defined?(JSON)
 
 module Kitchen
   module Driver
