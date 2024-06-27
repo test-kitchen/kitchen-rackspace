@@ -102,7 +102,6 @@ describe Kitchen::Driver::Rackspace do
       end
     end
 
-    # TODO: fix test
     platforms = {
       "ubuntu-12.04" => "f2d30a56-bc2b-4906-8027-92f8a45bbb10",
       "ubuntu-12" => "f2d30a56-bc2b-4906-8027-92f8a45bbb10",
@@ -554,7 +553,6 @@ describe Kitchen::Driver::Rackspace do
         end
       end
 
-      # TODO: fix test
       it "has the user specified network, plus default Rackspace networks" do
         driver.send(:create_server)
         expect(servers).to have_received(:bootstrap) do |arg|
