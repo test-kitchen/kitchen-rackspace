@@ -1,5 +1,17 @@
 # Kitchen-rackspace Changelog
 
+## [0.21.1](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.0...v0.21.1) (2024-07-01)
+
+
+### Features
+
+* Add Workflows ([#105](https://github.com/test-kitchen/kitchen-rackspace/issues/105)) ([1a4f418](https://github.com/test-kitchen/kitchen-rackspace/commit/1a4f4181845c4da9d79748c0f4cfa03c8653d8f3))
+
+
+### Bug Fixes
+
+* release please configs ([#108](https://github.com/test-kitchen/kitchen-rackspace/issues/108)) ([e8773c1](https://github.com/test-kitchen/kitchen-rackspace/commit/e8773c18e89d8dde724bfa06028678fb43da18a0))
+
 ## 0.21.0 / 2016-05-31
 
 * PR [#67] - Update image IDS; via [@martinb3]
