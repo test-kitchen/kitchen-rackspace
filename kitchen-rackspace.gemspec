@@ -21,5 +21,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "fog-rackspace", "~> 0.1.6"
   spec.add_dependency "fog-core", ">= 1.35" ,"< 2.1.1"
-  spec.add_dependency "test-kitchen", ">= 1.1", "< 4.0"
+  spec.add_dependency "test-kitchen", ">= 1.1", "< 5.0"
 end
