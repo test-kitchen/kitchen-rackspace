@@ -1,5 +1,12 @@
 # Kitchen-rackspace Changelog
 
+## [0.21.2](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.1...v0.21.2) (2026-01-22)
+
+
+### Bug Fixes
+
+* bump tk dep to allow tk 4 ([#115](https://github.com/test-kitchen/kitchen-rackspace/issues/115)) ([c6bc76c](https://github.com/test-kitchen/kitchen-rackspace/commit/c6bc76c10f4b4cd66c8b429ae50a713ff63dbe46))
+
 ## [0.21.1](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.0...v0.21.1) (2024-07-01)
 
 
