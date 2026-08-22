@@ -7,7 +7,7 @@ require "json" unless defined?(JSON)
 
 module Kitchen
   module Driver
-    class Rackspace < Kitchen::Driver::SSHBase
+    class Rackspace < Kitchen::Driver::Base
       default_config :version, "v2"
       default_config :flavor_id, "performance1-1"
       default_config :username, "root"
@@ -65,6 +65,8 @@ module Kitchen
         rackconnect_check(server) if config[:rackconnect_wait]
         servicelevel_check(server) if config[:servicelevel_wait]
         state[:hostname] = hostname(server)
+        state[:username] = config[:username]
+        state[:port] = config[:port] if config[:port]
         tcp_check(state)
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
@@ -134,9 +136,15 @@ module Kitchen
       def tcp_check(state)
         # allow driver config to bypass SSH tcp check -- because
         # it doesn't respect ssh_config values that might be required
-        wait_for_sshd(state[:hostname]) unless config[:no_ssh_tcp_check]
+        wait_for_sshd(state) unless config[:no_ssh_tcp_check]
         sleep(config[:no_ssh_tcp_check_sleep]) if config[:no_ssh_tcp_check]
         puts "(ssh ready)"
+      end
+
+      # Kitchen::Driver::SSHBase used to supply this; the configured transport
+      # knows how to wait for the instance to accept connections.
+      def wait_for_sshd(state)
+        instance.transport.connection(state, &:wait_until_ready)
       end
 
       def rackconnect_check(server)
