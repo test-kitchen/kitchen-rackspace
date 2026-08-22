@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A Test Kitchen Rackspace driver"
   spec.summary       = "A Test Kitchen Rackspace driver built on Fog"
   spec.homepage      = "https://github.com/test-kitchen/kitchen-rackspace"
-  spec.license       = "Apache"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
