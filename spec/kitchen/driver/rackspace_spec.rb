@@ -160,6 +160,12 @@ describe Kitchen::Driver::Rackspace do
         ENV["OS_REGION_NAME"] = "os_region"
       end
 
+      after(:each) do
+        ENV.delete("OS_USERNAME")
+        ENV.delete("OS_PASSWORD")
+        ENV.delete("OS_REGION_NAME")
+      end
+
       it "gets to username from $OS_USERNAME" do
         expect(driver[:rackspace_username]).to eq("os_user")
       end

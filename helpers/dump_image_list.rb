@@ -42,9 +42,9 @@ names_to_clean = {
 }
 
 compute = Fog::Compute.new(provider: "Rackspace",
-                           rackspace_username: ENV["RACKSPACE_USERNAME"],
-                           rackspace_api_key: ENV["RACKSPACE_API_KEY"],
-                           rackspace_region: "ORD")
+  rackspace_username: ENV["RACKSPACE_USERNAME"],
+  rackspace_api_key: ENV["RACKSPACE_API_KEY"],
+  rackspace_region: "ORD")
 
 aliases = i_care_about.values.flatten
 res = aliases.each_with_object({}) do |a, hsh|

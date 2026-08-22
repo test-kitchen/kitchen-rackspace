@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A Test Kitchen Rackspace driver"
   spec.summary       = "A Test Kitchen Rackspace driver built on Fog"
   spec.homepage      = "https://github.com/test-kitchen/kitchen-rackspace"
-  spec.license       = "Apache"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -20,6 +20,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.1"
 
   spec.add_dependency "fog-rackspace", "~> 0.1.6"
-  spec.add_dependency "fog-core", ">= 1.35", "< 2.6.1"
+  # fog-rackspace 0.1.6 registers a service literally named "CDN v2"; fog-core
+  # 2.3.0+ passes that through const_defined?, which rejects it as an invalid
+  # constant name, so `require "fog/rackspace"` raises NameError.
+  spec.add_dependency "fog-core", ">= 1.35", "< 2.3"
   spec.add_dependency "test-kitchen", ">= 1.1", "< 5.0"
 end
