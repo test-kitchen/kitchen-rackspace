@@ -10,6 +10,8 @@ A [Test Kitchen](https://kitchen.ci/) driver that creates and destroys [Rackspac
 > in maintaining it, come and talk to us in `#test-kitchen` on
 > [Chef Community Slack](https://community-slack.chef.io/).
 
+<!-- -->
+
 > This documentation uses [Cinc Workstation](https://cinc.sh/) and the `cinc` commands throughout. Everything here works identically with Chef Workstation — see [Using with Chef](#using-with-chef).
 
 ## Requirements
