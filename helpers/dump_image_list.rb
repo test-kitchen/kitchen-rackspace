@@ -65,7 +65,7 @@ end
 # @param version [String] an OS version
 # @return [Array<Integer>] a comparable key
 def version_key(version)
-  version.split(".").map { |part| part.to_i }
+  version.split(".").map(&:to_i)
 end
 
 compute = Fog::Compute.new(
