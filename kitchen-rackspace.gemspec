@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
   # 2.3.0+ passes that through const_defined?, which rejects it as an invalid
   # constant name, so `require "fog/rackspace"` raises NameError.
   spec.add_dependency "fog-core", ">= 1.35", "< 2.3"
-  spec.add_dependency "test-kitchen", ">= 1.1", "< 5.0"
+  spec.add_dependency "test-kitchen", ">= 3.0", "< 5.0"
 end
