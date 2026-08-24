@@ -32,7 +32,7 @@ module Kitchen
       LIVE_STATES = %w{ACTIVE}.freeze
 
       default_config :version, "v2"
-      default_config :flavor_id, "performance1-1"
+      default_config :flavor_id, "general1-2"
       default_config :username, "root"
       default_config :port, "22"
       default_config :wait_for, 600
