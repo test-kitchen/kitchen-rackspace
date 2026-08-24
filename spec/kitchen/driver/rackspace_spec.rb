@@ -27,6 +27,121 @@ describe Kitchen::Driver::Rackspace do
     ENV["RACKSPACE_API_KEY"] = "key"
   end
 
+  describe "plugin metadata" do
+    it "declares the driver API version" do
+      expect(described_class.instance_variable_get(:@api_version)).to eq(2)
+    end
+
+    it "reports its own gem version to kitchen diagnose" do
+      expect(driver.diagnose_plugin[:version])
+        .to eq(Kitchen::Driver::RACKSPACE_VERSION)
+    end
+  end
+
+  describe "#status" do
+    let(:server) { double(state: "ACTIVE") }
+    let(:servers) { double }
+
+    before(:each) do
+      allow(driver).to receive(:compute).and_return(double(servers:))
+    end
+
+    context "with no server in state" do
+      it "reports an unknown status" do
+        expect(driver.status({})).to include(live: nil, state: "unknown")
+      end
+    end
+
+    context "with a server Rackspace does not know" do
+      it "reports an unknown status" do
+        expect(servers).to receive(:get).with("gone").and_return(nil)
+
+        expect(driver.status(server_id: "gone")).to include(state: "unknown")
+      end
+    end
+
+    context "with a live server" do
+      before(:each) do
+        allow(servers).to receive(:get).with("s-1").and_return(server)
+      end
+
+      it "reports the server as live" do
+        expect(driver.status(server_id: "s-1")).to include(
+          live: true, state: "ACTIVE", source: "driver", resource_id: "s-1"
+        )
+      end
+
+      it "stamps when the check happened" do
+        expect(driver.status(server_id: "s-1")[:checked_at])
+          .to match(/\A\d{4}-\d{2}-\d{2}T/)
+      end
+    end
+
+    context "with a server that is not active" do
+      it "reports the server as not live" do
+        allow(servers).to receive(:get)
+          .with("s-1").and_return(double(state: "ERROR"))
+
+        expect(driver.status(server_id: "s-1"))
+          .to include(live: false, state: "ERROR")
+      end
+    end
+
+    context "when Rackspace cannot be reached" do
+      it "reports an unknown status rather than raising" do
+        allow(servers).to receive(:get)
+          .and_raise(Fog::Errors::Error.new("boom"))
+
+        expect(driver.status(server_id: "s-1")).to include(state: "unknown")
+      end
+    end
+  end
+
+  describe "#doctor" do
+    let(:config) do
+      { image_id: "img-1", public_key_path: "/home/user/.ssh/id_rsa.pub" }
+    end
+
+    before(:each) do
+      allow(driver).to receive(:compute)
+        .and_return(double(servers: double(summary: [])))
+    end
+
+    it "reports no problem when the configuration is complete" do
+      expect(driver.doctor(state)).to eq(false)
+    end
+
+    context "with no resolvable image" do
+      let(:config) { { public_key_path: "/key.pub" } }
+
+      it "reports a problem" do
+        allow(driver).to receive(:default_image).and_return(nil)
+
+        expect(driver.doctor(state)).to eq(true)
+        expect(logged_output.string).to match(/No image_id is set/)
+      end
+    end
+
+    context "with no public key" do
+      let(:config) { { image_id: "img-1", public_key_path: nil } }
+
+      it "reports a problem" do
+        expect(driver.doctor(state)).to eq(true)
+        expect(logged_output.string).to match(/No public key was found/)
+      end
+    end
+
+    context "with credentials Rackspace rejects" do
+      it "reports a problem" do
+        allow(driver).to receive(:compute)
+          .and_raise(Fog::Errors::Error.new("unauthorized"))
+
+        expect(driver.doctor(state)).to eq(true)
+        expect(logged_output.string).to match(/rejected the configured credentials/)
+      end
+    end
+  end
+
   describe "#initialize" do
     before(:each) do
       allow(Fog).to receive(:timeout=)

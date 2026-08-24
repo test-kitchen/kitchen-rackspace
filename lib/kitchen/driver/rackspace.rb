@@ -4,6 +4,8 @@ require "kitchen"
 require "etc" unless defined?(Etc)
 require "socket" unless defined?(Socket)
 require "json" unless defined?(JSON)
+require "time" unless defined?(Time.now.iso8601)
+require_relative "rackspace_version"
 
 module Kitchen
   # Test Kitchen's driver plugins.
@@ -22,6 +24,13 @@ module Kitchen
     # handing the server over, or the transport will connect to an address
     # that is about to change.
     class Rackspace < Kitchen::Driver::Base
+      kitchen_driver_api_version 2
+
+      plugin_version Kitchen::Driver::RACKSPACE_VERSION
+
+      # Server states Rackspace reports for a server that is up and reachable.
+      LIVE_STATES = %w{ACTIVE}.freeze
+
       default_config :version, "v2"
       default_config :flavor_id, "performance1-1"
       default_config :username, "root"
@@ -139,7 +148,75 @@ module Kitchen
         ].join("-")
       end
 
+      # Reports what Rackspace currently thinks of the server.
+      #
+      # @param state [Hash] instance state naming the server
+      # @return [Hash] a Test Kitchen status hash, or the base implementation's
+      #   answer when there is no server or Rackspace does not know it
+      def status(state)
+        return super unless state[:server_id]
+
+        server = lookup_server(state[:server_id])
+        return super unless server
+
+        {
+          live: LIVE_STATES.include?(server.state),
+          state: server.state,
+          source: "driver",
+          resource_id: state[:server_id],
+          message: "Rackspace reports the server as #{server.state}",
+          checked_at: Time.now.utc.iso8601,
+        }
+      end
+
+      # Checks the configuration for the mistakes that only show up as a
+      # confusing failure part way through +create+.
+      #
+      # @param state [Hash] mutable instance and driver state
+      # @return [Boolean] true when a problem was reported
+      def doctor(state) # rubocop:disable Lint/UnusedMethodArgument
+        problems = []
+
+        if config[:image_id].nil?
+          problems << "No image_id is set and #{instance.platform.name} is not " \
+                      "in the bundled image list. Set image_id explicitly."
+        end
+
+        if config[:public_key_path].nil?
+          problems << "No public key was found in ~/.ssh. Set public_key_path " \
+                      "to the key Rackspace should install on the server."
+        end
+
+        problems.concat(credential_problems)
+
+        problems.each { |problem| warn(problem) }
+        !problems.empty?
+      end
+
       private
+
+      # Confirms the configured credentials can actually talk to Rackspace,
+      # which is cheaper to learn here than half way through a converge.
+      #
+      # @return [Array<String>] a problem description, or an empty array
+      def credential_problems
+        compute.servers.summary
+        []
+      rescue Fog::Errors::Error, Excon::Errors::Error => e
+        ["Rackspace rejected the configured credentials for region " \
+         "#{config[:rackspace_region]}: #{e.message}"]
+      end
+
+      # Looks a server up without turning a missing one into a failure.
+      #
+      # @param server_id [String] the Rackspace server ID
+      # @return [Fog::Compute::RackspaceV2::Server, nil] the server, or nil
+      #   when Rackspace does not know it or cannot be reached
+      def lookup_server(server_id)
+        compute.servers.get(server_id)
+      rescue Fog::Errors::Error, Excon::Errors::Error
+        nil
+      end
 
       # Builds the fog compute connection from the configured credentials.
       #
