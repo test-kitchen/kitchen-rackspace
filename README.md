@@ -152,9 +152,8 @@ bundle exec ruby helpers/dump_image_list.rb
 That prints every image the account can see, with its ID and the platform names
 it would answer to. Copy the ID you want into `image_id`.
 
-To regenerate the bundled table wholesale, run the same helper with `--json`
-and write the result to `data/images.json`. Contributions that refresh it are
-welcome.
+Refreshing the bundled table is contributor work — see
+[Maintaining the bundled data](CONTRIBUTING.md#maintaining-the-bundled-data).
 
 ## Choosing a flavor
 
@@ -331,14 +330,8 @@ top before opening an issue. Pull requests are still welcome on
 tests.
 
 The most useful contribution right now is a refresh of `data/images.json`,
-which has not been regenerated since 2016. It needs a Rackspace account:
-
-```sh
-bundle exec ruby helpers/dump_image_list.rb --json > data/images.json
-```
-
-`helpers/dump_flavor_list.rb` does the same for flavors, for checking the
-tables above against a live account.
+which has not been regenerated since 2016 — see
+[Maintaining the bundled data](CONTRIBUTING.md#maintaining-the-bundled-data).
 
 ## Acknowledgements
 
