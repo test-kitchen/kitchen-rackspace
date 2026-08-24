@@ -12,6 +12,26 @@ A [Test Kitchen](https://kitchen.ci/) driver that creates and destroys [Rackspac
 
 <!-- -->
 
+> **This driver targets Legacy Rackspace Cloud, not OpenStack Flex.** It
+> authenticates against Rackspace Cloud Identity v2.0, which is the API of the
+> original Rackspace Public Cloud.
+>
+> In 2025 Rackspace launched [Rackspace OpenStack Flex][flex] — now branded
+> simply "Rackspace Cloud" — built on vanilla OpenStack with Keystone v3. That
+> platform is **not** supported by this driver. Use
+> [kitchen-openstack][kitchen-openstack] instead, with `openstack_auth_url` set
+> to `https://keystone.api.<region>.rackspacecloud.com/v3` (regions include
+> `sjc3`, `iad3`, and `dfw3`).
+>
+> Rackspace continues to operate and maintain the legacy platform, so this
+> driver still works against it, but Rackspace has said that new development is
+> focused on Flex.
+
+[flex]: https://docs.rackspace.com/docs/rackspace-openstack-flex-vs-rackspace-cloud
+[kitchen-openstack]: https://github.com/test-kitchen/kitchen-openstack
+
+<!-- -->
+
 > This documentation uses [Cinc Workstation](https://cinc.sh/) and the `cinc` commands throughout. Everything here works identically with Chef Workstation — see [Using with Chef](#using-with-chef).
 
 ## Requirements
