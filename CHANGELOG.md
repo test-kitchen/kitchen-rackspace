@@ -9,6 +9,19 @@
 * Docs: rewrite README for new users and split contributor docs ([#121](https://github.com/test-kitchen/kitchen-rackspace/pull/121)) ([638440a](https://github.com/test-kitchen/kitchen-rackspace/commit/638440a))
 * Remove dependabot config in favor of renovate ([#122](https://github.com/test-kitchen/kitchen-rackspace/pull/122)) ([92dcec9](https://github.com/test-kitchen/kitchen-rackspace/commit/92dcec9))
 
+## [0.22.0](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.2...v0.22.0) (2026-08-24)
+
+
+### Features
+
+* implement the driver api version, plugin version, status, and doctor hooks ([#128](https://github.com/test-kitchen/kitchen-rackspace/issues/128)) ([5dcd484](https://github.com/test-kitchen/kitchen-rackspace/commit/5dcd484b352f0394feea9a634525a50d5e15b01c))
+
+
+### Bug Fixes
+
+* default to the general1-2 flavor instead of the retired performance1-1 ([#130](https://github.com/test-kitchen/kitchen-rackspace/issues/130)) ([5228814](https://github.com/test-kitchen/kitchen-rackspace/commit/52288148a5d177c67be1cdeb98d06aef94a5bf97))
+* require test-kitchen 3.0 or newer ([#125](https://github.com/test-kitchen/kitchen-rackspace/issues/125)) ([37c1753](https://github.com/test-kitchen/kitchen-rackspace/commit/37c1753de5e63d5d2bb3772c19912b443328a41b))
+
 ## [0.21.2](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.1...v0.21.2) (2026-01-22)
 
 ### Bug Fixes
