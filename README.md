@@ -77,6 +77,7 @@ If `RACKSPACE_REGION` is unset, the driver defaults to `dfw`.
 ---
 driver:
   name: rackspace
+  image_id: 09de0a66-3156-48b4-90a5-1cf25a905207  # see Choosing an image
 
 provisioner:
   name: cinc_infra
@@ -93,9 +94,14 @@ suites:
       - recipe[my_cookbook::default]
 ```
 
-With credentials in the environment, that is enough: the driver picks a base
-image for the platform, a 2 GB General Purpose flavor, and an SSH key from your
+With credentials in the environment, that is enough: the driver builds the
+image you named on a 2 GB General Purpose flavor, using an SSH key from your
 `~/.ssh` directory.
+
+> **Set `image_id` yourself.** The driver ships a table that maps platform
+> names like `ubuntu-22.04` to image IDs, but it has not been refreshed since
+> 2016, so most modern platform names are not in it and the build fails with
+> `image_id` missing. See [Choosing an image](#choosing-an-image).
 
 Then run the full test cycle:
 
@@ -110,6 +116,90 @@ cinc kitchen create    # build the Rackspace server
 cinc kitchen converge  # apply your cookbook
 cinc kitchen verify    # run your tests
 cinc kitchen destroy   # delete the server
+```
+
+## Choosing an image
+
+`image_id` is a Rackspace image UUID, and it is the one option most people have
+to set by hand.
+
+The driver ships `data/images.json`, a table mapping Test Kitchen platform
+names to image IDs so that a platform like `centos-7` resolves on its own.
+**That table was last generated in 2016.** Its newest entries are Ubuntu 16.04,
+CentOS 7, Debian 8, and Fedora 25. A modern platform name is not in it:
+
+| Platform name | Resolves? |
+| --- | --- |
+| `ubuntu-16.04`, `centos-7`, `debian-8` | yes, to a 2016-era image |
+| `ubuntu` (bare distro name) | yes, to Ubuntu 16.04 |
+| `ubuntu-22.04`, `ubuntu-24.04`, `debian-12`, `rocky-9` | **no** |
+
+When the platform name is not in the table, `image_id` has no default and
+Test Kitchen fails validation. Set it explicitly.
+
+### Finding an image ID
+
+Image IDs differ per region, so look them up in the region you build in:
+
+```sh
+export RACKSPACE_USERNAME="myuser"
+export RACKSPACE_API_KEY="myapikey"
+export RACKSPACE_REGION="ord"
+
+bundle exec ruby helpers/dump_image_list.rb
+```
+
+That prints every image the account can see, with its ID and the platform names
+it would answer to. Copy the ID you want into `image_id`.
+
+To regenerate the bundled table wholesale, run the same helper with `--json`
+and write the result to `data/images.json`. Contributions that refresh it are
+welcome.
+
+## Choosing a flavor
+
+`flavor_id` selects CPU, memory, and disk. The default is `general1-2`.
+
+### General Purpose v1
+
+The right class for almost every test workload:
+
+| Flavor | RAM | vCPUs | Disk |
+| --- | --- | --- | --- |
+| `general1-1` | 1 GB | 1 | 20 GB |
+| `general1-2` *(default)* | 2 GB | 2 | 40 GB |
+| `general1-4` | 4 GB | 4 | 80 GB |
+| `general1-8` | 8 GB | 8 | 160 GB |
+
+### Other current classes
+
+| Class | Flavors | Shape |
+| --- | --- | --- |
+| I/O v1 | `io1-15`, `io1-30`, `io1-60`, `io1-90`, `io1-120` | 15–120 GB RAM, 4–32 vCPUs, 40 GB SSD |
+| Compute v1 | `compute1-4`, `compute1-8`, `compute1-15`, `compute1-30`, `compute1-60` | CPU-weighted, no local data disk |
+| Memory v1 | `memory1-15`, `memory1-30`, `memory1-60`, `memory1-120`, `memory1-240` | RAM-weighted, no local data disk |
+| OnMetal | `onmetal-compute1`, `onmetal-io1`, `onmetal-memory1` | Single-tenant bare metal |
+
+Compute v1 and Memory v1 flavors have no local data disk, so they need a Cloud
+Block Storage volume to boot from. That is outside what this driver sets up.
+
+### Retired classes
+
+Do not use these. Rackspace removed them from the Control Panel and has said
+they will be discontinued; some are still visible in the API.
+
+| Class | Flavors | Replaced by |
+| --- | --- | --- |
+| Standard | numeric IDs `2` through `8` | General Purpose v1 |
+| Performance 1 | `performance1-1`, `performance1-2`, `performance1-4`, `performance1-8` | General Purpose v1 |
+| Performance 2 | `performance2-15` … `performance2-120` | I/O v1 |
+
+### Listing what your account offers
+
+Flavor availability varies by account and region:
+
+```sh
+bundle exec ruby helpers/dump_flavor_list.rb
 ```
 
 ## Configuration
@@ -129,8 +219,8 @@ All options below are set under the `driver:` key in `kitchen.yml`.
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `image_id` | *base image for the platform* | Image ID to build from. Required if the platform name is not one the driver knows. |
-| `flavor_id` | `"general1-2"` | Flavor ID, which determines CPU and memory. |
+| `image_id` | *looked up from the platform name* | Image UUID to build from. The bundled lookup table is stale, so in practice set this yourself — see [Choosing an image](#choosing-an-image). |
+| `flavor_id` | `"general1-2"` | Flavor, which determines CPU, memory, and disk — see [Choosing a flavor](#choosing-a-flavor). |
 | `server_name` | *generated* | Name for the server. If unset, a unique name of at most 63 characters is generated from the base name, your username, the hostname, and a random string. |
 | `user_data` | `nil` | Extra configuration data passed to the server at build time. |
 | `config_drive` | `true` | Attach the read-only metadata config drive. |
@@ -163,7 +253,7 @@ All options below are set under the `driver:` key in `kitchen.yml`.
 
 ## Examples
 
-### Pinning the image and flavor
+### A bigger instance in a specific region
 
 ```yaml
 driver:
@@ -172,6 +262,8 @@ driver:
   image_id: 09de0a66-3156-48b4-90a5-1cf25a905207
   flavor_id: general1-4
 ```
+
+Image IDs are per-region, so `image_id` and `rackspace_region` travel together.
 
 ### Connecting over ServiceNet
 
@@ -237,6 +329,16 @@ top before opening an issue. Pull requests are still welcome on
 [GitHub](https://github.com/test-kitchen/kitchen-rackspace). See
 [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and how to run the
 tests.
+
+The most useful contribution right now is a refresh of `data/images.json`,
+which has not been regenerated since 2016. It needs a Rackspace account:
+
+```sh
+bundle exec ruby helpers/dump_image_list.rb --json > data/images.json
+```
+
+`helpers/dump_flavor_list.rb` does the same for flavors, for checking the
+tables above against a live account.
 
 ## Acknowledgements
 
