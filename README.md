@@ -74,7 +74,7 @@ suites:
 ```
 
 With credentials in the environment, that is enough: the driver picks a base
-image for the platform, a 1 GB Performance flavor, and an SSH key from your
+image for the platform, a 2 GB General Purpose flavor, and an SSH key from your
 `~/.ssh` directory.
 
 Then run the full test cycle:
@@ -110,7 +110,7 @@ All options below are set under the `driver:` key in `kitchen.yml`.
 | Option | Default | Description |
 | --- | --- | --- |
 | `image_id` | *base image for the platform* | Image ID to build from. Required if the platform name is not one the driver knows. |
-| `flavor_id` | `"performance1-1"` | Flavor ID, which determines CPU and memory. |
+| `flavor_id` | `"general1-2"` | Flavor ID, which determines CPU and memory. |
 | `server_name` | *generated* | Name for the server. If unset, a unique name of at most 63 characters is generated from the base name, your username, the hostname, and a random string. |
 | `user_data` | `nil` | Extra configuration data passed to the server at build time. |
 | `config_drive` | `true` | Attach the read-only metadata config drive. |
@@ -150,7 +150,7 @@ driver:
   name: rackspace
   rackspace_region: ord
   image_id: 09de0a66-3156-48b4-90a5-1cf25a905207
-  flavor_id: general1-2
+  flavor_id: general1-4
 ```
 
 ### Connecting over ServiceNet

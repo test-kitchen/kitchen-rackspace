@@ -152,8 +152,8 @@ describe Kitchen::Driver::Rackspace do
         expect(driver[:version]).to eq("v2")
       end
 
-      it "defaults to the smallest flavor size" do
-        expect(driver[:flavor_id]).to eq("performance1-1")
+      it "defaults to a 2 GB general purpose flavor" do
+        expect(driver[:flavor_id]).to eq("general1-2")
       end
 
       it "defaults to local user's SSH public key" do
