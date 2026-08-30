@@ -9,6 +9,13 @@
 * Docs: rewrite README for new users and split contributor docs ([#121](https://github.com/test-kitchen/kitchen-rackspace/pull/121)) ([638440a](https://github.com/test-kitchen/kitchen-rackspace/commit/638440a))
 * Remove dependabot config in favor of renovate ([#122](https://github.com/test-kitchen/kitchen-rackspace/pull/122)) ([92dcec9](https://github.com/test-kitchen/kitchen-rackspace/commit/92dcec9))
 
+## [0.22.1](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.22.0...v0.22.1) (2026-08-30)
+
+
+### Bug Fixes
+
+* check credentials with a call fog-rackspace actually implements ([#133](https://github.com/test-kitchen/kitchen-rackspace/issues/133)) ([a3b35fb](https://github.com/test-kitchen/kitchen-rackspace/commit/a3b35fb72290a2372d32f9b2e1156d49742ebaef))
+
 ## [0.22.0](https://github.com/test-kitchen/kitchen-rackspace/compare/v0.21.2...v0.22.0) (2026-08-24)
 
 
