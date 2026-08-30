@@ -4,6 +4,6 @@ module Kitchen
   # Test Kitchen's driver plugins.
   module Driver
     # The version of the kitchen-rackspace gem.
-    RACKSPACE_VERSION = "0.22.0"
+    RACKSPACE_VERSION = "0.22.1"
   end
 end
