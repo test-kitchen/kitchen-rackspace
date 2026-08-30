@@ -204,9 +204,14 @@ module Kitchen
       # Confirms the configured credentials can actually talk to Rackspace,
       # which is cheaper to learn here than half way through a converge.
       #
+      # Listing servers is the cheapest authenticated call fog-rackspace
+      # offers: +GET /servers+ returns only an ID and a name per server, and
+      # it exercises the compute endpoint for the configured region rather
+      # than just the identity endpoint.
+      #
       # @return [Array<String>] a problem description, or an empty array
       def credential_problems
-        compute.servers.summary
+        compute.servers.all
         []
       rescue Fog::Errors::Error, Excon::Errors::Error => e
         ["Rackspace rejected the configured credentials for region " \

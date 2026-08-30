@@ -49,6 +49,38 @@ bundle exec cookstyle --chefstyle
 back to stock RuboCop defaults, disagrees with this codebase about string
 quoting, and reports over a hundred offenses that are not real.
 
+### How the specs are laid out
+
+There is one spec file per area of the driver, so the file you need to open is
+the one named after the thing you changed:
+
+| File | Covers |
+| --- | --- |
+| `spec/kitchen/driver/rackspace/plugin_spec.rb` | API version and plugin version |
+| `spec/kitchen/driver/rackspace/configuration_spec.rb` | `default_config` values, overrides, credentials from the environment |
+| `spec/kitchen/driver/rackspace/image_spec.rb` | platform-name to image-ID resolution and the bundled `data/images.json` |
+| `spec/kitchen/driver/rackspace/server_name_spec.rb` | the generated server name |
+| `spec/kitchen/driver/rackspace/create_spec.rb` | `#create`, the RackConnect and service level waits, ServiceNet |
+| `spec/kitchen/driver/rackspace/tcp_check_spec.rb` | waiting for the instance to accept a login |
+| `spec/kitchen/driver/rackspace/destroy_spec.rb` | `#destroy` |
+| `spec/kitchen/driver/rackspace/status_spec.rb` | `#status` and `#doctor` |
+| `spec/kitchen/driver/rackspace/compute_spec.rb` | the fog connection, `#create_server`, and the network list |
+
+`spec/support/` holds the shared setup:
+
+- `driver_context.rb` — the `"a driver for an instance"` shared context, which
+  gives an example group a logger, a fake Test Kitchen instance, and a driver
+  built from `config`. Nearly every group includes it. `"a built server"` adds
+  a server double that has finished building.
+- `rackspace_environment.rb` — clears `RACKSPACE_*` and `OS_*` out of the
+  environment around every example and puts your own back afterwards, so
+  credentials in your shell cannot make a spec pass or fail.
+
+When you stub a fog object, reach for `instance_double` rather than `double`.
+A plain double will happily answer a method fog does not have, which is how a
+`kitchen doctor` that called a nonexistent `servers.summary` shipped with a
+green test suite.
+
 Many style offenses can be corrected automatically:
 
 ```sh
@@ -79,7 +111,7 @@ leave one running.
 1. Fork the repository.
 2. Create a feature branch off `main`.
 3. Make your change, adding or updating tests to cover it.
-4. Make sure `bundle exec rspec` and `bundle exec cookstyle` pass.
+4. Make sure `bundle exec rake test` and `bundle exec cookstyle --chefstyle` pass.
 5. Push the branch to your fork and open a pull request.
 
 Please keep pull requests focused on a single change — it makes review much
