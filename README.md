@@ -223,16 +223,28 @@ All options below are set under the `driver:` key in `kitchen.yml`.
 | `server_name` | *generated* | Name for the server. If unset, a unique name of at most 63 characters is generated from the base name, your username, the hostname, and a random string. |
 | `user_data` | `nil` | Extra configuration data passed to the server at build time. |
 | `config_drive` | `true` | Attach the read-only metadata config drive. |
-| `no_passwd_lock` | `false` | Do not let the underlying fog library lock the root account. |
+| `no_passwd_lock` | `false` | Do not let the underlying fog library lock the root account. Forced on when `rackconnect_wait` or `servicelevel_wait` is set — see [Networking](#networking). |
 
 ### Networking
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `networks` | PublicNet and ServiceNet | Array of Rackspace network UUIDs to attach. |
+| `networks` | *PublicNet and ServiceNet* | **Additional** Rackspace network UUIDs to attach. PublicNet and ServiceNet are always attached too — see below. |
 | `servicenet` | `false` | Connect over the ServiceNet address rather than the public one. |
-| `rackconnect_wait` | `false` | Wait for RackConnect to finish before continuing. Enable this if the account uses RackConnect. |
-| `servicelevel_wait` | `false` | Wait for Managed Service Level automation to finish before continuing. |
+| `rackconnect_wait` | `false` | Wait for RackConnect to finish before continuing. Enable this if the account uses RackConnect. Forces `no_passwd_lock` on. |
+| `servicelevel_wait` | `false` | Wait for Managed Service Level automation to finish before continuing. Forces `no_passwd_lock` on. |
+
+`networks` adds to the standard networks rather than replacing them. Whatever
+you list, the driver puts Rackspace's PublicNet
+(`00000000-0000-0000-0000-000000000000`) and ServiceNet
+(`11111111-1111-1111-1111-111111111111`) at the front of the list first, so
+there is no way to build a server without a public interface. Do not list
+either of those UUIDs yourself — you will just send Rackspace a duplicate.
+
+`rackconnect_wait` and `servicelevel_wait` both turn `no_passwd_lock` on
+regardless of how you set it, because RackConnect and Managed Service Level
+each log in as root to do their work and a locked root account leaves them
+stuck.
 
 ### SSH
 
@@ -246,7 +258,7 @@ All options below are set under the `driver:` key in `kitchen.yml`.
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `wait_for` | `600` | Seconds to wait for the server to become available before timing out. |
+| `wait_for` | `600` | Seconds any single wait may take before timing out. This is fog's global timeout, so it applies to the build wait and to the `rackconnect_wait` and `servicelevel_wait` polls individually, not to `kitchen create` as a whole. |
 | `no_ssh_tcp_check` | `false` | Skip the TCP check on the SSH port. Use when a firewall makes the check unreliable. |
 | `no_ssh_tcp_check_sleep` | `120` | Seconds to sleep instead of checking, when `no_ssh_tcp_check` is enabled. |
 
@@ -270,8 +282,18 @@ Image IDs are per-region, so `image_id` and `rackspace_region` travel together.
 driver:
   name: rackspace
   servicenet: true
+```
+
+`servicenet` is all you need — ServiceNet is attached either way, and this
+tells the driver to hand the transport the private address instead of the
+public one. Use `networks` only to attach an *extra* network of your own:
+
+```yaml
+driver:
+  name: rackspace
+  servicenet: true
   networks:
-    - 11111111-1111-1111-1111-111111111111
+    - 4b1c1b3a-8f0f-4a1e-9d33-6f3c7ab2e5d9  # your isolated cloud network
 ```
 
 ### RackConnect accounts
