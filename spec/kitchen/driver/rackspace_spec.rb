@@ -102,13 +102,23 @@ describe Kitchen::Driver::Rackspace do
       { image_id: "img-1", public_key_path: "/home/user/.ssh/id_rsa.pub" }
     end
 
+    let(:servers) do
+      instance_double(Fog::Compute::RackspaceV2::Servers, all: [])
+    end
+
     before(:each) do
       allow(driver).to receive(:compute)
-        .and_return(double(servers: double(summary: [])))
+        .and_return(double("compute", servers:))
     end
 
     it "reports no problem when the configuration is complete" do
       expect(driver.doctor(state)).to eq(false)
+    end
+
+    it "asks Rackspace for something fog actually implements" do
+      driver.doctor(state)
+
+      expect(servers).to have_received(:all)
     end
 
     context "with no resolvable image" do
