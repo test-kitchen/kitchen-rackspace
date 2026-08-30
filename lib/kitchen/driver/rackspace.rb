@@ -74,6 +74,11 @@ module Kitchen
       required_config :image_id
       required_config :public_key_path
 
+      # Sets up the driver and applies +wait_for+ as fog's global timeout.
+      #
+      # +Fog.timeout+ is process-wide, so the last driver constructed wins if
+      # several are in play.
+      #
       # @param config [Hash] the driver configuration
       def initialize(config)
         super
@@ -172,7 +177,8 @@ module Kitchen
       # Checks the configuration for the mistakes that only show up as a
       # confusing failure part way through +create+.
       #
-      # @param state [Hash] mutable instance and driver state
+      # @param state [Hash] instance state; accepted for the Test Kitchen hook
+      #   signature and not read
       # @return [Boolean] true when a problem was reported
       def doctor(state) # rubocop:disable Lint/UnusedMethodArgument
         problems = []
@@ -237,13 +243,19 @@ module Kitchen
       # unlocked to do their work, so +no_passwd_lock+ is forced on whenever
       # either wait is requested, regardless of how it was configured.
       #
+      # @note fog's +bootstrap+ calls +Server#setup+, which rescues
+      #   +Errno::ECONNREFUSED+ and retries forever, one second apart. A server
+      #   that never opens port 22 hangs here rather than failing, and
+      #   +wait_for+ does not bound it.
+      #
       # @return [Fog::Compute::RackspaceV2::Server] the newly built server
       def create_server
         server_def = { name: config[:server_name], networks: }
         %i{image_id flavor_id public_key_path no_passwd_lock user_data config_drive}.each do |opt|
           server_def[opt] = config[opt]
         end
-        # see @note on bootstrap def about rackconnect
+        # RackConnect and Managed Service Level need the root password left
+        # unlocked; see the note above.
         no_passwd_lock = config[:rackconnect_wait] || config[:servicelevel_wait]
         server_def[:no_passwd_lock] = no_passwd_lock if no_passwd_lock
         compute.servers.bootstrap(server_def)
@@ -275,8 +287,13 @@ module Kitchen
         puts "(ssh ready)"
       end
 
+      # Blocks until the configured transport can connect to the instance.
+      #
       # Kitchen::Driver::SSHBase used to supply this; the configured transport
       # knows how to wait for the instance to accept connections.
+      #
+      # @param state [Hash] instance state describing how to connect
+      # @return [void]
       def wait_for_sshd(state)
         instance.transport.connection(state, &:wait_until_ready)
       end
