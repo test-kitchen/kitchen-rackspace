@@ -22,6 +22,6 @@ Gem::Specification.new do |spec|
   # fog-rackspace 0.1.6 registers a service literally named "CDN v2"; fog-core
   # 2.3.0+ passes that through const_defined?, which rejects it as an invalid
   # constant name, so `require "fog/rackspace"` raises NameError.
-  spec.add_dependency "fog-core", ">= 1.35", "< 2.3"
+  spec.add_dependency "fog-core", ">= 1.35", "< 2.6.1"
   spec.add_dependency "test-kitchen", ">= 3.0", "< 5.0"
 end
